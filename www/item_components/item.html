@@ -1,0 +1,6 @@
+<div id="item-container" class="fill-dock">
+    <div class="item col-xs-6 col-md-3 core-flex-box core-flex-all-vertical" ng-repeat="image in Images" style="padding-top: 5px; padding-bottom: 5px;">
+        <div class="core-flex" set-height ng-style="{'background-image':'url({{image.url}})', 'background-repeat':'no-repeat', 'background-size': 'auto', 'background-position':'center center'};"></div>
+        <div class="btm-label" style="text-align: center;">{{image.name}}</div>
+    </div>
+</div>

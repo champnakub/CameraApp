@@ -1,0 +1,22 @@
+<div class="fill-dock core-flex-all-vertical">
+    <div class="core-flex core-flex-box core-flex-center">
+        <img class="img-responsive" ng-src="{{loginImage}}">
+    </div>
+    <div class="cust-row" style="margin-bottom: 10px">
+        <div class="col-xs-12 col-sm-6">	
+            <form autocomplete="off">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input type="text" class="form-control" name="username" placeholder="email address">
+                </div>
+                <span class="help-block"></span>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <button ng-click="authenticate()" style="margin-top: 10px;" class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</div>

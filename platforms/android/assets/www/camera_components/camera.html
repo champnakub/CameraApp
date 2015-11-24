@@ -1,0 +1,42 @@
+<div id="camera-container" class="fill-dock core-flex-all-vertical" style="background: #333;">	
+    <div class="content core-flex-all-vertical" style="padding: 5px;">
+        <div class="col-xs-12 col-md-12 col-lg-12 core-flex-all-vertical">
+<!--            <div class="core-flex"></div>-->
+            <div class="row core-flex-box core-flex-center" style="padding-top: 10px;">
+                <ul rn-carousel rn-carousel-index="carouselIndex1" class="image" style="background-color: wheat; height: 128px; width: 128px;">
+                    <li ng-repeat="image in Images">
+                        <img ng-src="{{image}}" width="128" height="128" style="margin: auto;">
+                    </li>
+                </ul>
+                <div class="ng-scope ng-isolate-scope" rn-carousel-indicators ng-if="Images.length > 1" slides="Images" rn-carousel-index="carouselIndex1">
+                    <div class="rn-carousel-indicator">
+                        <span ng-repeat="slide in slides" ng-class="{active: $index === index}" ng-click="goToSlide($index)" class="ng-scope active">●</span>
+                    </div>
+                </div>
+            </div>
+            <form class="form-horizontal" style="margin-top: 5px;">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="color: white;">Building Name.</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" placeholder="Building Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="color: white;">Room Number.</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" placeholder="Room Number">
+                    </div>
+                </div>
+            </form>
+<!--            <div class="core-flex"></div>-->
+        </div>
+        <div class="btn-group col-xs-12" style="margin-bottom: 5px;">
+            <button style="font-size: 14px;" ng-click="takePicture()" ng-model='takePicture' type="button" class="btn btn-primary btn-lg col-xs-6">
+                <span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Take Picture
+            </button>
+            <button style="font-size: 14px;" ng-click="getPicture()" ng-model='getPicture' type="button" class="btn btn-primary btn-lg col-xs-6">
+                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Browse Picture
+            </button>
+        </div>
+    </div>
+</div>

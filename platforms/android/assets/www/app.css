@@ -1,0 +1,95 @@
+/* app css stylesheet */
+.fill-dock {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.core-flex-box {
+  display: -webkit-box;
+}
+
+.core-flex {
+  -webkit-box-flex: 1;
+}
+
+.core-flex-center {
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+}
+
+.core-flex-vertical {
+  -webkit-box-orient: vertical;
+}
+
+.core-flex-horizontal {
+  -webkit-box-orient: horizontal;
+}
+
+.core-flex-all {
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+}
+
+.core-flex-all-vertical {
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  -webkit-box-orient: vertical;
+}
+
+.core-flex-all-horizontal {
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  -webkit-box-orient: horizontal;
+}
+
+@media (min-width: 768px) {
+    .cust-row div:first-child[class*="col-"] {
+        margin-left: 25%;
+    }
+}
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+/* CAMERA PAGE VIEW */
+
+#camera-container .content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+#camera-container .image {
+    background-image: url('images/blank.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+/* END OF CAMERA PAGE VIEW */
