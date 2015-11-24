@@ -3,6 +3,7 @@
 //git repository
 //https://github.com/champnakub/CameraApp.git
 
+
 // Declare app level module which depends on views, and components
 var App = angular.module('myApp', [
     'ngRoute',
