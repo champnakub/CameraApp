@@ -26,9 +26,9 @@ Item.controller('ItemCtrl', ['$scope', '_', function ($scope, _) {
 
         for (var i = 0; i < 10000; i++)
         {
-            var _imageIdx = _.random(1,5);
+            var _imageIdx = _.random(1,12);
             
-            var _image = 'korkhood'+_imageIdx+'.jpg';
+            var _image = _imageIdx+'.jpg';
             
             $scope.Images.push({
                 name: "champ_" + i,

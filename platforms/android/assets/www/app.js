@@ -6,13 +6,18 @@
 // Declare app level module which depends on views, and components
 var App = angular.module('myApp', [
     'ngRoute',
-    'myApp.version',
+    'myApp.version', 
     'myApp.LoginView',
     'myApp.CameraView',
     'myApp.ItemView',
     'angular-carousel',
     'angular-websql'
 ]);
+
+//contstant
+App.constant('_',
+    window._
+);
 
 App.controller('MainController', ['$scope', '$webSql', function ($scope, $webSql) {
 

@@ -11,24 +11,28 @@ Item.config(['$routeProvider', function ($routeProvider) {
     }]);
 
 //directive
-Item.directive('setHeight', function($window){
-  return{
-    link: function(scope, element, attrs){
-        element.css('height', 150);
-    }
-  };
+Item.directive('setHeight', function ($window) {
+    return{
+        link: function (scope, element, attrs) {
+            element.css('height', 150);
+        }
+    };
 });
 
 //controller
-Item.controller('ItemCtrl', ['$scope', function ($scope) {
+Item.controller('ItemCtrl', ['$scope', '_', function ($scope, _) {
 
         $scope.Images = [];
-        
+
         for (var i = 0; i < 10000; i++)
         {
+            var _imageIdx = _.random(1,12);
+            
+            var _image = _imageIdx+'.jpg';
+            
             $scope.Images.push({
                 name: "champ_" + i,
-                url: 'images/korkhood.jpg'
+                url: 'images/'+_image
             });
         };
     }]);
