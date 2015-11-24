@@ -93,3 +93,14 @@
     background-size: auto;
 }
 /* END OF CAMERA PAGE VIEW */
+
+/* ITEM PAGE VIEW */
+#item-container .btm-label {
+    color: #fff;
+    padding: 0 10px;
+    overflow: hidden;
+    line-height: 30px;
+    text-align: center;
+    background-image: url('images/transparent_bg.png');
+}
+/* END OF ITEM PAGE VIEW */

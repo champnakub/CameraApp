@@ -1,5 +1,8 @@
 'use strict';
 
+//git repository
+//https://github.com/champnakub/CameraApp.git
+
 // Declare app level module which depends on views, and components
 var App = angular.module('myApp', [
     'ngRoute',
@@ -50,35 +53,6 @@ App.controller('MainController', ['$scope', '$webSql', function ($scope, $webSql
         });
     }]);
 
-//directives
-//App.directive('resize', function ($window) {
-//    return function (scope, element) {
-//        
-//        var window = angular.element($window);
-//        
-//        scope.getWindowDimensions = function () {
-//            return {
-//                'h': window.height(),
-//                'w': window.width()
-//            };
-//        };
-//        scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
-//
-//            scope.style = function () {
-//                return {
-//                    'height': (newValue.h) + 'px',
-//                    'width': (newValue.w) + 'px'
-//                };
-//            };
-//
-//        }, true);
-//        
-//        window.bind('resize', function () {
-//            scope.$apply();
-//        });
-//    };
-//});
-
 //routing modules
 App.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.
@@ -86,7 +60,7 @@ App.config(['$routeProvider', function ($routeProvider) {
                     templateUrl: 'camera_components/camera.html',
                     controller: 'CameraCtrl'
                 }).
-                otherwise({redirectTo: '/loginView'});
-        //otherwise({redirectTo: '/dropDownView'});
+                //otherwise({redirectTo: '/loginView'});
+                otherwise({redirectTo: '/itemView'});
     }]);
 

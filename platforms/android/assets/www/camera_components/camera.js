@@ -13,9 +13,9 @@ Camera.controller('CameraCtrl', ['$scope', function ($scope) {
 
         //call sql main controller
         //@insert operation
-        $scope.db.insert('user', {"username": 'pc', "password": '1234', 'age': 22}).then(function (results) {
+        //$scope.db.insert('user', {"username": 'pc', "password": '1234', 'age': 22}).then(function (results) {
 
-        });
+        //});
 
         //@select operation
         $scope.db.selectAll("user").then(function (results) {
