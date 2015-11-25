@@ -6,12 +6,16 @@
 // Declare app level module which depends on views, and components
 var App = angular.module('myApp', [
     'ngRoute',
+    
     'myApp.version', 
     'myApp.LoginView',
     'myApp.CameraView',
     'myApp.ItemView',
+   
     'angular-carousel',
-    'angular-websql'
+    'angular-websql',
+    
+    'cfp.loadingBar'
 ]);
 
 //contstant
@@ -21,12 +25,14 @@ App.constant('_',
 
 App.controller('MainController', ['$scope', '$webSql', function ($scope, $webSql) {
 
-        //get the device onformation
         console.log('-----------------------APP INSTANTIATED-----------------------');
 
         //instantiate web database
         $scope.db = $webSql.openDatabase('CameraApp', '1.0', 'CameraApp DB', 2 * 1024 * 1024);
-
+        
+        //delete table
+        //$scope.db.del("user");  
+        
         //create the web database
         //@param1 = Database Name
         //@param2 = Version Number
@@ -65,7 +71,12 @@ App.config(['$routeProvider', function ($routeProvider) {
                     templateUrl: 'camera_components/camera.html',
                     controller: 'CameraCtrl'
                 }).
-                //otherwise({redirectTo: '/loginView'});
+                        
+                when('/loginView', {
+                    templateUrl: 'login_components/login.html',
+                    controller: 'LoginCtrl'
+                }).
+                        
                 otherwise({redirectTo: '/itemView'});
     }]);
 
