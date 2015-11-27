@@ -8,23 +8,33 @@ var App = angular.module('myApp', [
     'ngRoute',
     
     'myApp.version', 
+    //VIEW SECTION
+    'myApp.ItemView',
     'myApp.LoginView',
     'myApp.CameraView',
-    'myApp.ItemView',
-   
+    'myApp.WSTestView',
+    
+    //ANGULAR LIBRARY SECTION
     'angular-carousel',
     'angular-websql',
-    
     'cfp.loadingBar'
 ]);
 
-//contstant
-App.constant('_',
-    window._
-);
+//constant for underscore.js
+App.factory('_', ['$window', function($window) {
+  return $window._; // assumes underscore has already been loaded on the page
+}]);
 
+//constant for webservice
+App.constant('WebService', {
+   url : 'http://beau888.dyndns.org:222/DataService/' 
+});
+
+//controller
 App.controller('MainController', ['$scope', '$webSql', function ($scope, $webSql) {
-
+        
+        
+        console.log('-----------------------WELCOME TO CHAMP WORLD-----------------------');
         console.log('-----------------------APP INSTANTIATED-----------------------');
 
         //instantiate web database
@@ -77,6 +87,16 @@ App.config(['$routeProvider', function ($routeProvider) {
                     controller: 'LoginCtrl'
                 }).
                         
-                otherwise({redirectTo: '/itemView'});
+                when('/itemView', {
+                    templateUrl: 'item_components/item.html',
+                    controller: 'ItemCtrl'
+                }).       
+                        
+                when('/wsTestView', {
+                    templateUrl: 'webservice_components/ws.html',
+                    controller: 'WSCtrl'
+                }).                
+                        
+                otherwise({redirectTo: '/wsTestView'});
     }]);
 

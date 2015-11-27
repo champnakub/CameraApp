@@ -1,0 +1,25 @@
+<div ng-controller="WSCtrl" class="fill-dock core-flex-all-vertical" style="padding: 10px;">
+    <div class="row">
+       <div class="col-xs-12">
+            <div class="input-group" style="margin-bottom: 10px;">
+              <input ng-model="getUrl" type="text" class="form-control" placeholder="Type here for [GET] service">
+              <span class="input-group-btn">
+                <button ng-click="onGET()" class="btn btn-default" type="button">GET</button>
+              </span>
+            </div>
+        </div>
+        
+        <pre>GET URl = <span ng-bind="WS_URL+getUrl"></span></pre>
+        
+        <div class="col-xs-12">
+            <div class="input-group">
+              <input ng-model="postUrl" type="text" class="form-control" placeholder="Type here for [POST] service">
+              <span class="input-group-btn">
+                <button ng-click="onPOST()" class="btn btn-default" type="button">POST</button>
+              </span>
+            </div>
+        </div>
+        
+        <pre>POST URl = <span ng-bind="WS_URL+postUrl"></span></pre>
+   </div>
+</div>

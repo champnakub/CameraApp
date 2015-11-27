@@ -12,7 +12,7 @@ Login.config(['$routeProvider', function ($routeProvider) {
 Login.controller('LoginCtrl', ['$scope', '$location', function ($scope, $location) {
 
         $scope.loginImage = 'images/instagram.png';
-
+        
         //@ Authentication
         $scope.authenticate = function () {
 

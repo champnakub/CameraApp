@@ -25,40 +25,40 @@ Item.controller('ItemCtrl', ['$scope', '_', 'cfpLoadingBar', function ($scope, _
         $scope.Images = [];
         
         //start the loading bar
-        $scope.start = function() 
+        $scope.onLoading = function ()
         {
             cfpLoadingBar.start();
         };
-        
+
         //hide the loading bar
-        $scope.complete = function () 
+        $scope.onLoaded = function ()
         {
             cfpLoadingBar.complete();
         };
-        
+
         //render images
-        var renderImages = function()
+        var renderImages = function ()
         {
             for (var i = 0; i < 10000; i++)
             {
-                var _imageIdx = _.random(1,12);
+                var _imageIdx = _.random(1, 12);
 
-                var _image = _imageIdx+'.jpg';
+                var _image = _imageIdx + '.jpg';
 
                 $scope.Images.push({
                     name: "champ_" + i,
-                    url: 'images/'+_image
+                    url: 'images/' + _image
                 });
-            };
-            
-            $scope.complete();
+            } ;
+
+            $scope.onLoaded();
         };
-        
+
         //initializer
         $scope.init = function () {
-            
-            $scope.start();
-            
+
+            $scope.onLoading();
+
             renderImages();
         };
     }]);
