@@ -22,4 +22,10 @@
         
         <pre>POST URl = <span ng-bind="WS_URL+postUrl"></span></pre>
    </div>
+    
+   <div ng-repeat="inspector in _inspectorData">
+        <div ng-repeat="(key, value) in inspector">
+            {{key}} : {{value}}
+        </div>
+   </div>
 </div>

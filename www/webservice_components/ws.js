@@ -23,9 +23,14 @@ WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', function ($sco
            
             var _getUrl = $scope.WS_URL + $scope.getUrl;
            
+            $scope._inspectorData = [];
+           
             $http.get(_getUrl)
             .success(function(data) {
-                console.log(data);
+               //parse to JSON format
+               var _inspectorData = JSON.parse(data);           
+               //fill up the data 
+               $scope._inspectorData.push(_inspectorData);
             });
        };
     }]);
