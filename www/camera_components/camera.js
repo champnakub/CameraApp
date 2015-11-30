@@ -18,13 +18,13 @@ Camera.controller('CameraCtrl', ['$scope', function ($scope) {
         //});
 
         //@select operation
-        $scope.db.selectAll("user").then(function (results) {
-            $scope.users = [];
-            for (var i = 0; i < results.rows.length; i++) {
-                $scope.users.push(results.rows.item(i));
-            }
-            console.log($scope.users);
-        });
+//        $scope.db.selectAll("user").then(function (results) {
+//            $scope.users = [];
+//            for (var i = 0; i < results.rows.length; i++) {
+//                $scope.users.push(results.rows.item(i));
+//            }
+//            console.log($scope.users);
+//        });
 
         //array of images taken from CAMERA or GALLERY
         $scope.Images = [];
