@@ -13,9 +13,9 @@ var App = angular.module('myApp', [
     'myApp.CameraView',
     'myApp.WSTestView',
     //ANGULAR LIBRARY SECTION
-    'angular-carousel',
+    'cfp.loadingBar',
     'angular-websql',
-    'cfp.loadingBar'
+    'angular-carousel'
 ]);
 
 //constant for underscore.js
@@ -28,83 +28,50 @@ App.constant('WebService', {
     url: 'http://beau888.dyndns.org:222/DataService/'
 });
 
+//constant for database
+App.factory('AppDB', function () {
+
+    var _self = this;
+    
+    //open database
+    _self.openDataBase = function () {
+        // Cordova is ready
+        var onDeviceReady = function () {
+
+            var _onCreateDBSuccess = function () {};
+
+            var _onCreateDBFailed = function (err) {
+                alert('Open database ERROR: ' + JSON.stringify(err));
+            };
+
+            _self._cameraAppDB = window.sqlitePlugin.openDatabase({name: "CameraApp"}, _onCreateDBSuccess, _onCreateDBFailed);
+        };
+
+        // Wait for Cordova to load
+        document.addEventListener("deviceready", onDeviceReady, false);
+    };
+    
+    //property of TABLE [* PROJECT]
+    //@CREATE
+    _self.createProjectTable = function () {
+        
+        _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS PROJECT (PROJECT_ID integer primary key, ID text, Customer text, Code text, Description text)');
+    };
+    
+    //property of TABLE [* PROJECT]
+    //@DROP
+     _self.dropProjectTable = function () {
+        
+        _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS PROJECT');
+    };
+    
+    return _self;
+});
+
 //controller
 App.controller('MainController', ['$scope', '$webSql', function ($scope, $webSql) {
 
-        console.log('-----------------------WELCOME TO CHAMP WORLD-----------------------');
         console.log('-----------------------APP INSTANTIATED-----------------------');
-
-        //instantiate web database
-        //@param1 = Database Name
-        //@param2 = Version Number
-        //@param3 = Text Description
-        //@param4 = Size of Database
-        $scope.db = $webSql.openDatabase('CameraApp', '1.0', 'CameraApp DB', 2 * 1024 * 1024);
-
-        //create table [* CUSTOMER]
-        //@ method [GetCustomerData()]
-        $scope.db.createTable('CUSTOMER', {
-            "ID": {
-                "type": "INTEGER",
-                "null": "NOT NULL", // default is "NULL" (if not defined)
-                "primary": true, // primary
-                "auto_increment": true // auto increment
-            },
-            "Code": {
-                "type": "TEXT",
-                "null": "NOT NULL"
-            },
-            "Description": {
-                "type": "TEXT",
-                "null": "NOT NULL"
-            }
-        });
-
-        //create table [* Project]
-        //@ method [getProjectData()]
-        $scope.db.createTable('Project', {
-            "ID": {
-                "type": "INTEGER",
-                "null": "NOT NULL", // default is "NULL" (if not defined)
-                "primary": true, // primary
-                "auto_increment": true // auto increment
-            },
-            "Customer": {
-                "type": "TEXT",
-                "null": "NOT NULL"
-            },
-            "Code": {
-                "type": "TEXT",
-                "null": "NOT NULL"
-            },
-            "Description": {
-                "type": "TEXT",
-                "null": "NOT NULL"
-            }
-        });
-
-        //create table [* Building]
-        //@ method [getBuildingData()]
-        $scope.db.createTable('Building', {
-            "ID": {
-                "type": "INTEGER",
-                "null": "NOT NULL", // default is "NULL" (if not defined)
-                "primary": true, // primary
-                "auto_increment": true // auto increment
-            },
-            "Code": {
-                "type": "TEXT",
-                "null": "NOT NULL"
-            },
-            "Project": {
-                "type": "TEXT",
-                "null": "NOT NULL"
-            },
-            "Description": {
-                "type": "TEXT",
-                "null": "NOT NULL"
-            }
-        });
     }]);
 
 //routing modules

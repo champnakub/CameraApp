@@ -6,56 +6,72 @@
 // Declare app level module which depends on views, and components
 var App = angular.module('myApp', [
     'ngRoute',
-    'myApp.version', 
+    'myApp.version',
+    //VIEW SECTION
+    'myApp.ItemView',
     'myApp.LoginView',
     'myApp.CameraView',
-    'myApp.ItemView',
-    'angular-carousel',
-    'angular-websql'
+    'myApp.WSTestView',
+    //ANGULAR LIBRARY SECTION
+    'cfp.loadingBar',
+    'angular-websql',
+    'angular-carousel'
 ]);
 
-//contstant
-App.constant('_',
-    window._
-);
+//constant for underscore.js
+App.factory('_', ['$window', function ($window) {
+        return $window._; // assumes underscore has already been loaded on the page
+    }]);
 
+//constant for webservice
+App.constant('WebService', {
+    url: 'http://beau888.dyndns.org:222/DataService/'
+});
+
+//constant for database
+App.factory('AppDB', function () {
+
+    var _self = this;
+    
+    //open database
+    _self.openDataBase = function () {
+        // Cordova is ready
+        var onDeviceReady = function () {
+
+            var _onCreateDBSuccess = function () {};
+
+            var _onCreateDBFailed = function (err) {
+                alert('Open database ERROR: ' + JSON.stringify(err));
+            };
+
+            _self._cameraAppDB = window.sqlitePlugin.openDatabase({name: "CameraApp"}, _onCreateDBSuccess, _onCreateDBFailed);
+        };
+
+        // Wait for Cordova to load
+        document.addEventListener("deviceready", onDeviceReady, false);
+    };
+    
+    //property of TABLE [* PROJECT]
+    //@CREATE
+    _self.createProjectTable = function () {
+        
+        _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS PROJECT (PROJECT_ID integer primary key, ID text, Customer text, Code text, Description text)');
+    };
+    
+    //property of TABLE [* PROJECT]
+    //@DROP
+     _self.dropProjectTable = function () {
+        
+        _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS PROJECT');
+    };
+    
+    return _self;
+});
+
+//controller
 App.controller('MainController', ['$scope', '$webSql', function ($scope, $webSql) {
 
-        //get the device onformation
         console.log('-----------------------APP INSTANTIATED-----------------------');
-
-        //instantiate web database
-        $scope.db = $webSql.openDatabase('CameraApp', '1.0', 'CameraApp DB', 2 * 1024 * 1024);
-
-        //create the web database
-        //@param1 = Database Name
-        //@param2 = Version Number
-        //@param3 = Text Description
-        //@param4 = Size of Database
-        $scope.db.createTable('user', {
-            "id": {
-                "type": "INTEGER",
-                "null": "NOT NULL", // default is "NULL" (if not defined)
-                "primary": true, // primary
-                "auto_increment": true // auto increment
-            },
-            "created": {
-                "type": "TIMESTAMP",
-                "null": "NOT NULL",
-                "default": "CURRENT_TIMESTAMP" // default value
-            },
-            "username": {
-                "type": "TEXT",
-                "null": "NOT NULL"
-            },
-            "password": {
-                "type": "TEXT",
-                "null": "NOT NULL"
-            },
-            "age": {
-                "type": "INTEGER"
-            }
-        });
     }]);
 
 //routing modules
@@ -65,7 +81,18 @@ App.config(['$routeProvider', function ($routeProvider) {
                     templateUrl: 'camera_components/camera.html',
                     controller: 'CameraCtrl'
                 }).
-                //otherwise({redirectTo: '/loginView'});
-                otherwise({redirectTo: '/itemView'});
+                when('/loginView', {
+                    templateUrl: 'login_components/login.html',
+                    controller: 'LoginCtrl'
+                }).
+                when('/itemView', {
+                    templateUrl: 'item_components/item.html',
+                    controller: 'ItemCtrl'
+                }).
+                when('/wsTestView', {
+                    templateUrl: 'webservice_components/ws.html',
+                    controller: 'WSCtrl'
+                }).
+                otherwise({redirectTo: '/wsTestView'});
     }]);
 

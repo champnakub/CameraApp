@@ -1,4 +1,4 @@
-<div id="camera-container" class="fill-dock core-flex-all-vertical" style="background: #333;">	
+<div ng-controller="CameraCtrl" id="camera-container" class="fill-dock core-flex-all-vertical" style="background: #333;">	
     <div class="content core-flex-all-vertical" style="padding: 5px;">
         <div class="col-xs-12 col-md-12 col-lg-12 core-flex-all-vertical">
 <!--            <div class="core-flex"></div>-->
@@ -14,20 +14,22 @@
                     </div>
                 </div>
             </div>
-            <form class="form-horizontal" style="margin-top: 5px;">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" style="color: white;">Building Name.</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" placeholder="Building Name">
+            <div class="row">
+                <form class="form-horizontal" style="margin-top: 5px;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="color: white;">Building Name.</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" placeholder="Building Name">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" style="color: white;">Room Number.</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" placeholder="Room Number">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="color: white;">Room Number.</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" placeholder="Room Number">
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
 <!--            <div class="core-flex"></div>-->
         </div>
         <div class="btn-group col-xs-12" style="margin-bottom: 5px;">

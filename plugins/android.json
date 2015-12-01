@@ -49,6 +49,9 @@
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.coolappz.CameraApp"
         },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "com.coolappz.CameraApp"
+        },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.coolappz.CameraApp"
         }

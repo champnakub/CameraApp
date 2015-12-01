@@ -10,22 +10,7 @@ Camera.config(['$routeProvider', function ($routeProvider) {
     }]);
 
 Camera.controller('CameraCtrl', ['$scope', function ($scope) {
-
-        //call sql main controller
-        //@insert operation
-        //$scope.db.insert('user', {"username": 'pc', "password": '1234', 'age': 22}).then(function (results) {
-
-        //});
-
-        //@select operation
-//        $scope.db.selectAll("user").then(function (results) {
-//            $scope.users = [];
-//            for (var i = 0; i < results.rows.length; i++) {
-//                $scope.users.push(results.rows.item(i));
-//            }
-//            console.log($scope.users);
-//        });
-
+        
         //array of images taken from CAMERA or GALLERY
         $scope.Images = [];
 
