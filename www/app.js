@@ -35,11 +35,17 @@ App.factory('WebService', ['_', function (_) {
         var _self = this;
 
         _self.url = null;
+        
+        //service port
+        _self.port = 222;
+        
+        //service name
+        _self.name = 'DataService';
 
         //function setUrl
         _self.setUrl = function (url) {
 
-            _self.url = url;
+            _self.url = url+':'+_self.port+'/'+_self.name+'/';
         };
 
         //function getUrl
@@ -178,7 +184,7 @@ App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$locati
                         webService.setUrl(_setupData.NetworkAddr);
 
                         $scope.$apply(function () {
-                            $location.path(_syncViewPath).replace();
+                            $location.path(_syncViewPath);
                         });
                     }
                 };
@@ -194,7 +200,7 @@ App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$locati
 
                     if (results.rows.length > 0) {
 
-                        toastr.success('Inspector data detected!', 'Information', {
+                        toastr.success('Inspector data detected', 'Information', {
                             timeOut: 5000
                         });
 

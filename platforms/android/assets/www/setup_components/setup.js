@@ -37,7 +37,7 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
                         webService.setUrl(_nwAddress);
                         
                         $scope.$apply(function () {
-                            $location.path(_syncViewPath).replace();
+                            $location.path(_syncViewPath);
                         });
                     };
 
@@ -46,7 +46,11 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
                             timeOut: 5000
                         });
                     };
-
+                    
+                    AppDB.dropSetupTable();
+                    
+                    AppDB.createSetupTable();
+                    
                     AppDB._cameraAppDB.executeSql("INSERT INTO SETUP (NetworkAddr, LastSync) VALUES (?, ?)", [_nwAddress, _lastSync.getTime()], _onInsertSucceed, _onInsertFailed);
                 }
             }
