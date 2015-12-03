@@ -1,4 +1,4 @@
-<div on-load ng-controller="ItemCtrl" ng-init="init()" id="item-container" class="fill-dock">
+<div on-load ng-init="init()" id="item-container" class="fill-dock">
     <div class="item col-xs-6 col-md-3 core-flex-box core-flex-all-vertical" ng-repeat="image in Images" style="padding-top: 5px; padding-bottom: 5px;">
         <div class="core-flex" set-height ng-style="{'background-image':'url({{image.url}})', 'background-repeat':'no-repeat', 'background-size': '100%', 'background-position':'center center', 'background-color':'lightgrey'};"></div>
         <div class="btm-label" style="text-align: center;">{{image.name}}</div>

@@ -9,13 +9,14 @@ WebService.config(['$routeProvider', function ($routeProvider) {
         });
     }]);
 
-WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar', '_', 'AppDB', function ($scope, webService, $http, cfpLoadingBar, _, AppDB) {
+WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar', '_', 'AppDB', 'toastr', function ($scope, webService, $http, cfpLoadingBar, _, AppDB, toastr) {
 
         if (!_.isNull(AppDB) && !_.isUndefined(AppDB))
             AppDB.openDataBase();
-       
+
         //web service url
-        $scope.WS_URL = webService.url;
+        $scope.WS_URL = webService.getUrl();
+        //$scope.WS_URL = 'http://beau888.dyndns.org:222/DataService/';
 
         //function for calling POST method
         $scope.onPOST = function () {
@@ -34,7 +35,9 @@ WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar
 
             //callback from web service [* error]
             _response.error(function (data, status, headers, config) {
-                alert("failure message: " + JSON.stringify({data: data}));
+                toastr.error('Could not call web service', 'Error', {
+                    timeOut: 5000
+                });
             });
         };
 
@@ -58,7 +61,10 @@ WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar
 
             //callback from web service [* error]
             _response.error(function (data, status, headers, config) {
-                alert("failure message: " + JSON.stringify({data: data}));
+
+                toastr.error('Could not call web service', 'Error', {
+                    timeOut: 5000
+                });
             });
         };
 
@@ -78,7 +84,7 @@ WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar
 
             //create TABLE [* PROJECT]
             AppDB.createProjectTable();
-                      
+
             //show the loading bar
             cfpLoadingBar.start();
 
@@ -102,20 +108,22 @@ WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar
                     var _syncedData = _syncData[i];
 
                     var Description = _.isNull(_syncedData.Description) ? "" : _syncedData.Description;
-                    
+
                     var Customer = _syncedData.Customer;
-                    
-                    var Code =_syncedData.Code;
-                   
-                    var ID =_syncedData.ID;
+
+                    var Code = _syncedData.Code;
+
+                    var ID = _syncedData.ID;
 
                     AppDB._cameraAppDB.executeSql("INSERT INTO PROJECT (Description, Customer, Code, ID) VALUES (?, ?, ?, ?)", [Description, Customer, Code, ID], function (tx, res) {
-                        console.log("insertId: " + res.insertId + " -- probably 1");
-                        console.log("rowsAffected: " + res.rowsAffected + " -- should be 1");
+                        //insert success
                     }, function (e) {
-                        console.log("ERROR: " + e.message);
+                        toastr.error(e.message, 'Error', {
+                            timeOut: 5000
+                        });
                     });
-                };
+                }
+                ;
 
                 //hide the loading bar
                 cfpLoadingBar.complete();
@@ -126,14 +134,16 @@ WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar
                 //hide the loading bar
                 cfpLoadingBar.complete();
 
-                alert("failure message: " + JSON.stringify({data: data}));
+                toastr.error('Could not call web service', 'Error', {
+                    timeOut: 5000
+                });
             });
         };
 
         //function for render data from TABLE [* PROJECT]
         $scope.onRenderData = function () {
-            
-            
+
+
             //check if database instance is null
             if (_.isNull(AppDB) || _.isUndefined(AppDB))
                 return;
@@ -141,39 +151,42 @@ WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar
             //check if database is null
             if (_.isNull(AppDB._cameraAppDB) || _.isUndefined(AppDB._cameraAppDB))
                 return;
-            
+
             //show the loading bar
             cfpLoadingBar.start();
-            
-            var _onQuerySuccess = function(results) {
-                
+
+            var _onQuerySuccess = function (results) {
+
                 $scope._syncData = [];
-                
+
                 //fill the data
-                for (var i=0; i<results.rows.length; i++) {
+                for (var i = 0; i < results.rows.length; i++) {
                     // Each row is a standard JavaScript array indexed by
                     // column names.
                     var _row = results.rows.item(i);
-                    
+
                     var _insertData = {
-                        
-                        ID : _row.ID,
-                        Code : _row.Code,
-                        Customer : _row.Customer,
-                        Description : _row.Description
+                        ID: _row.ID,
+                        Code: _row.Code,
+                        Customer: _row.Customer,
+                        Description: _row.Description
                     };
 
                     $scope._syncData.push(_insertData);
-                };
-                
+                }
+                ;
+
                 //show the loading bar
                 cfpLoadingBar.complete();
             };
-            
-            var _onQueryFailed = function(error) {
-                alert(error);
+
+            var _onQueryFailed = function (e) {
+
+                toastr.error(e.message, 'Error', {
+                    timeOut: 5000
+                });
             };
-            
+
             AppDB._cameraAppDB.executeSql('SELECT * FROM PROJECT', [], _onQuerySuccess, _onQueryFailed);
         };
     }]);

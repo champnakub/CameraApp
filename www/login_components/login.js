@@ -11,13 +11,11 @@ Login.config(['$routeProvider', function ($routeProvider) {
 
 Login.controller('LoginCtrl', ['$scope', '$location', function ($scope, $location) {
 
-        $scope.loginImage = 'images/instagram.png';
-        
         //@ Authentication
         $scope.authenticate = function () {
 
-            var _cameraViewPath = '/cameraView';
+            //var _cameraViewPath = '/cameraView';
             //change page to camera view page
-            $location.path(_cameraViewPath);
+            //$location.path(_cameraViewPath);
         };
     }]);
