@@ -11,6 +11,7 @@ Sync.config(['$routeProvider', function ($routeProvider) {
 
 Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', '$http', 'cfpLoadingBar', 'toastr', function ($scope, $location, AppDB, webService, _, $http, cfpLoadingBar, toastr) {
 
+        //function on sync data from service
         $scope.onSyncData = function () {
 
             var _webServiceUrl = webService.getUrl();
@@ -95,5 +96,14 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                     });
                 });
             }
+        };
+
+        //function for edit network config
+        $scope.onEditConfig = function () {
+            
+            
+            var _setupViewPath = '/setupView';
+            //change page to login view page
+            $location.path(_setupViewPath).replace();
         };
     }]);

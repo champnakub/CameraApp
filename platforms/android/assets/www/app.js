@@ -184,7 +184,7 @@ App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$locati
                         webService.setUrl(_setupData.NetworkAddr);
 
                         $scope.$apply(function () {
-                            $location.path(_syncViewPath);
+                            $location.path(_syncViewPath).replace();
                         });
                     }
                 };
