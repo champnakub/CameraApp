@@ -45,7 +45,7 @@ App.factory('WebService', ['_', function (_) {
         //function setUrl
         _self.setUrl = function (url) {
 
-            _self.url = url+':'+_self.port+'/'+_self.name+'/';
+            _self.url = 'http://'+url+':'+_self.port+'/'+_self.name+'/';
         };
 
         //function getUrl

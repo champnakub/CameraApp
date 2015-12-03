@@ -13,19 +13,23 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
 
         $scope.onNWSetup = function () {
 
-            //start the loading bar
-            cfpLoadingBar.start();
-
             var _nwAddress = $scope.nwAddress;
 
             var _lastSync = new Date();
 
-            if (_.isNull(_nwAddress) || _.isUndefined(_nwAddress))
+            if (_.isNull(_nwAddress) || _.isUndefined(_nwAddress)) {
                 //network address is blank [* required field]
                 toastr.error('Please input your network address', 'Error', {
                     timeOut: 5000
                 });
-            else {
+
+                return;
+            } else {
+                //start the loading bar
+                cfpLoadingBar.start();
+                
+                //set url in WebService instance
+                webService.setUrl(_nwAddress);
 
                 //insert data into TABLE [* SETUP]
                 var _onInsertSucceed = function (results) {
@@ -49,18 +53,16 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
                 //sync view path
                 var _syncViewPath = '/syncView';
 
-                webService.setUrl(_nwAddress);
-
                 var _isConnectUrl = webService.getUrl() + 'IsConnect';
 
-                var _response = $http.get(_isConnectUrl);
+                var _response = $http.get(_isConnectUrl, {
+                    timeout : 5000
+                });
 
                 //callback from web service [* success]
                 _response.success(function (data) {
                     //parse to JSON format
                     var _connectData = JSON.parse(data);
-
-                    alert(JSON.stringify(_connectData));
 
                     //hide the loading bar
                     cfpLoadingBar.complete();
