@@ -56,7 +56,7 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
                 var _isConnectUrl = webService.getUrl() + 'IsConnect';
 
                 var _response = $http.get(_isConnectUrl, {
-                    timeout : 5000
+                    timeout : 30000
                 });
 
                 //callback from web service [* success]
