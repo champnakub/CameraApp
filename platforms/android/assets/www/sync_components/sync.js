@@ -42,21 +42,25 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                 //sync data from service
                 AppDB.syncData().then(function (result) {
 
+                    toastr.success('Webservice Called Complete!', 'Information', {
+                        timeOut: 10000
+                    });
+
                     //insert data into tables 
-                    AppDB.inserData(result).then(function (res) {
-                        
-                        alert(JSON.stringify(res));
-                        
+                    AppDB.inserData(result).then(function () {
+
                         cfpLoadingBar.complete();
 
                         toastr.success('Synced Complete!', 'Information', {
                             timeOut: 5000
                         });
 
+                        var _loginViewPath = '/loginView';
+                        //change page to login view page
+                        $location.path(_loginViewPath).replace();
+
                     }, function (res) {
-                        
-                        alert(JSON.stringify(res));
-                        
+
                         cfpLoadingBar.complete();
 
                         toastr.error('Synced Falied at TABLE : ' + res.Table, 'Error', {
@@ -65,7 +69,7 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                     });
 
                 }, function (result) {
-                    
+
                     alert(JSON.stringify(result));
 
                     cfpLoadingBar.complete();

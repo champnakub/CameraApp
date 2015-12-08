@@ -136,9 +136,9 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
             }
         };
 
-        //insert data into tables
+        //data into tables
         _self.inserData = function (data) {
-            
+
             //DEFECTED_RESULT TABLE
             var insertDefectedResultData = function () {
                 // Set up the $q deferred object.
@@ -149,7 +149,7 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._defectedResultData) && !_.isUndefined(_self._defectedResultData)) {
 
                     if (_self._defectedResultData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._defectedResultData.length; j++) {
 
                             var _id = _self._defectedResultData[j].ID;
@@ -158,25 +158,27 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                             var _description = _self._defectedResultData[j].Description;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _code, _description], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._defectedResultData[j], IsInserted : true, Table : 'DEFECTED_RESULT', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'DEFECTED_RESULT', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _code, _description], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'DEFECTED_RESULT', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'DEFECTED_RESULT', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'DEFECTED_RESULT', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'DEFECTED_RESULT', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //AREA_CONTRACTOR TABLE
             var insertAreaContractorData = function () {
                 // Set up the $q deferred object.
@@ -187,34 +189,36 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._areaContractorData) && !_.isUndefined(_self._areaContractorData)) {
 
                     if (_self._areaContractorData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._areaContractorData.length; j++) {
 
                             var _id = _self._areaContractorData[j].ID;
 
                             var _comment = _self._areaContractorData[j].Comment;
-                            
+
                             var _contractor = _self._areaContractorData[j].Contractor;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _contractor, _comment], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._areaContractorData[j], IsInserted : true, Table : 'AREA_CONTRACTOR', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'AREA_CONTRACTOR', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _contractor, _comment], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'AREA_CONTRACTOR', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'AREA_CONTRACTOR', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'AREA_CONTRACTOR', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'AREA_CONTRACTOR', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //CONTRACTOR TABLE
             var insertContractorData = function () {
                 // Set up the $q deferred object.
@@ -225,7 +229,7 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._contractorData) && !_.isUndefined(_self._contractorData)) {
 
                     if (_self._contractorData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._contractorData.length; j++) {
 
                             var _id = _self._contractorData[j].ID;
@@ -234,25 +238,27 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                             var _fullName = _self._contractorData[j].FullName;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _code, _fullName], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._contractorData[j], IsInserted : true, Table : 'CONTRACTOR', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'CONTRACTOR', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _code, _fullName], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'CONTRACTOR', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'CONTRACTOR', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'CONTRACTOR', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'CONTRACTOR', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //INSPECTOR TABLE
             var insertInspectorData = function () {
                 // Set up the $q deferred object.
@@ -263,7 +269,7 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._inspectorData) && !_.isUndefined(_self._inspectorData)) {
 
                     if (_self._inspectorData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._inspectorData.length; j++) {
 
                             var _id = _self._inspectorData[j].ID;
@@ -271,30 +277,32 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                             var _code = _self._inspectorData[j].Code;
 
                             var _fullName = _self._inspectorData[j].FullName;
-                            
+
                             var _userName = _self._inspectorData[j].UserName;
-                            
+
                             var _passWord = _self._inspectorData[j].Password;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _code, _fullName, _userName, _passWord], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._inspectorData[j], IsInserted : true, Table : 'INSPECTOR', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'INSPECTOR', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _code, _fullName, _userName, _passWord], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'INSPECTOR', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'INSPECTOR', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'INSPECTOR', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'INSPECTOR', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //CUSTOMER TABLE
             var insertCustomerData = function () {
                 // Set up the $q deferred object.
@@ -305,7 +313,7 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._customerData) && !_.isUndefined(_self._customerData)) {
 
                     if (_self._customerData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._customerData.length; j++) {
 
                             var _id = _self._customerData[j].ID;
@@ -314,25 +322,27 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                             var _description = _self._customerData[j].Description;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _code, _description], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._customerData[j], IsInserted : true, Table : 'CUSTOMER', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'CUSTOMER', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _code, _description], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'CUSTOMER', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'CUSTOMER', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'CUSTOMER', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'CUSTOMER', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //BUILDING TABLE
             var insertBuildingData = function () {
                 // Set up the $q deferred object.
@@ -343,7 +353,7 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._buildingData) && !_.isUndefined(_self._buildingData)) {
 
                     if (_self._buildingData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._buildingData.length; j++) {
 
                             var _id = _self._buildingData[j].ID;
@@ -352,25 +362,27 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                             var _description = _self._buildingData[j].Description;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _project, _description], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._buildingData[j], IsInserted : true, Table : 'BUILDING', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'BUILDING', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _project, _description], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'BUILDING', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'BUILDING', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'BUILDING', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'BUILDING', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //DEFECTED TABLE
             var insertDefectedData = function () {
                 // Set up the $q deferred object.
@@ -381,60 +393,62 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._defectedData) && !_.isUndefined(_self._defectedData)) {
 
                     if (_self._defectedData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._defectedData.length; j++) {
 
                             var _id = _self._defectedData[j].ID;
-                            
+
                             var _code = _self._defectedData[j].Code;
-     
+
                             var _room = _self._defectedData[j].Room;
-                            
-                            var _area = _self._defectedData[j].Area;               
+
+                            var _area = _self._defectedData[j].Area;
 
                             var _imei = _self._defectedData[j].Imei;
-                            
+
                             var _level = _self._defectedData[j].Level;
-                            
+
                             var _status = _self._defectedData[j].Status;
-                            
+
                             var _closed = _self._defectedData[j].Closed;
-                            
+
                             var _project = _self._defectedData[j].Project;
-                            
+
                             var _comment = _self._defectedData[j].Comment;
-                            
-                            var _building = _self._defectedData[j].Building; 
-                            
+
+                            var _building = _self._defectedData[j].Building;
+
                             var _newRecord = _self._defectedData[j].NewRecord;
-                            
+
                             var _inspector = _self._defectedData[j].Inspector;
-                            
+
                             var _contractor = _self._defectedData[j].Contractor;
-                            
+
                             var _dateCreated = _self._defectedData[j].DateCreated;
-                            
+
                             var _defectedImage = _self._defectedData[j].DefectedImage;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _code, _dateCreated, _project, _building, _level, _room, _area, _inspector, _contractor, _imei, _defectedImage, _status, _closed, _comment, _newRecord], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._defectedData[j], IsInserted : true, Table : 'DEFECTED', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'DEFECTED', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _code, _dateCreated, _project, _building, _level, _room, _area, _inspector, _contractor, _imei, _defectedImage, _status, _closed, _comment, _newRecord], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'DEFECTED', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'DEFECTED', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'DEFECTED', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //PROJECT TABLE
             var insertProjectData = function () {
                 // Set up the $q deferred object.
@@ -445,7 +459,7 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._projectData) && !_.isUndefined(_self._projectData)) {
 
                     if (_self._projectData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._projectData.length; j++) {
 
                             var _id = _self._projectData[j].ID;
@@ -453,28 +467,30 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                             var _code = _self._projectData[j].Code;
 
                             var _customer = _self._projectData[j].Customer;
-                            
+
                             var _description = _self._projectData[j].Description;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _customer, _code, _description], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._projectData[j], IsInserted : true, Table : 'PROJECT', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'PROJECT', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _customer, _code, _description], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'PROJECT', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'PROJECT', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'PROJECT', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'PROJECT', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //STATUS TABLE
             var insertStatusData = function () {
                 // Set up the $q deferred object.
@@ -485,32 +501,34 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._statusData) && !_.isUndefined(_self._statusData)) {
 
                     if (_self._statusData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._statusData.length; j++) {
 
                             var _id = _self._statusData[j].ID;
 
                             var _description = _self._statusData[j].Description;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _description], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._statusData[j], IsInserted : true, Table : 'STATUS', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'STATUS', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _description], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'STATUS', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'STATUS', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'STATUS', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'STATUS', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //LEVEL TABLE
             var insertLevelData = function () {
                 // Set up the $q deferred object.
@@ -521,36 +539,38 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._levelData) && !_.isUndefined(_self._levelData)) {
 
                     if (_self._levelData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._levelData.length; j++) {
 
                             var _id = _self._levelData[j].ID;
-                            
+
                             var _code = _self._levelData[j].Code;
-                            
+
                             var _building = _self._levelData[j].Building;
 
                             var _description = _self._levelData[j].Description;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _code, _building, _description], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._levelData[j], IsInserted : true, Table : 'LEVEL', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'LEVEL', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _code, _building, _description], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'LEVEL', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'LEVEL', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'LEVEL', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'LEVEL', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //ROOM TABLE
             var insertRoomData = function () {
                 // Set up the $q deferred object.
@@ -561,36 +581,38 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._roomData) && !_.isUndefined(_self._roomData)) {
 
                     if (_self._roomData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._roomData.length; j++) {
 
                             var _id = _self._roomData[j].ID;
-                            
+
                             var _code = _self._roomData[j].Code;
-                            
+
                             var _level = _self._roomData[j].Level;
 
                             var _description = _self._roomData[j].Description;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _code, _level, _description], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._roomData[j], IsInserted : true, Table : 'ROOM', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'ROOM', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _code, _level, _description], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'ROOM', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'ROOM', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'ROOM', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'ROOM', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //AREA TABLE
             var insertAreaData = function () {
                 // Set up the $q deferred object.
@@ -601,36 +623,38 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._areaData) && !_.isUndefined(_self._areaData)) {
 
                     if (_self._areaData.length > 0) {
-                        
+
                         for (var j = 0; j < _self._areaData.length; j++) {
 
                             var _id = _self._areaData[j].ID;
-                            
+
                             var _code = _self._areaData[j].Code;
-                            
+
                             var _project = _self._areaData[j].Project;
 
                             var _description = _self._areaData[j].Description;
 
-                            _self._cameraAppDB.executeSql(_query, [_id, _code, _project, _description], function () {
-                                // resolve the promise with the results
-                                _deferred.resolve({Data : _self._areaData[j], IsInserted : true, Table : 'AREA', Status : 200});
-                            }, function () {
-                                // reject the promise
-                                _deferred.reject({IsInserted : false, Table : 'AREA', Status : -1000});
+                            _self._cameraAppDB.transaction(function (tx) {
+
+                                tx.executeSql(_query, [_id, _code, _project, _description], function () {
+                                    // resolve the promise with the results
+                                    _deferred.resolve({IsInserted: true, Table: 'AREA', Status: 200});
+                                }, function () {
+                                    // reject the promise
+                                    _deferred.reject({IsInserted: false, Table: 'AREA', Status: -1000});
+                                });
                             });
                         }
                         ;
-                    } 
-                    else {
-                        _deferred.resolve({IsInserted : true, Table : 'AREA', Status : 200});
+                    } else {
+                        _deferred.resolve({IsInserted: true, Table: 'AREA', Status: 200});
                     }
                 }
 
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             _self._defectedResultData = JSON.parse(data[0].data);
 
             _self._areaContractorData = JSON.parse(data[1].data);
@@ -677,7 +701,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
             var onDeviceReady = function () {
 
                 var _onCreateDBSuccess = function () {
-
+                    
+                    _self._cameraAppDB.executeSql("PRAGMA synchronous=OFF");
+                    _self._cameraAppDB.executeSql("PRAGMA journal_mode=MEMORY");
+                    
                     if (_.isFunction(callBack))
                         callBack();
                 };
@@ -714,7 +741,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
             };
 
             if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS SETUP (SETUP_ID integer primary key, NetworkAddr text, LastSync text)', [], _onCreateSuccess, _onCreateFailed);
+
+                _self._cameraAppDB.transaction(function (tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS SETUP (SETUP_ID integer primary key, NetworkAddr text, LastSync text)', [], _onCreateSuccess, _onCreateFailed);
+                });
             }
         };
 
@@ -733,7 +763,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
             };
 
             if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS SETUP', [], _onDropSuccess, _onDropFailed);
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS SETUP', [], _onDropSuccess, _onDropFailed);
+                });
             }
         };
 
@@ -755,7 +789,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
             };
 
             if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS INSPECTOR (INSPECTOR_ID integer primary key, ID text, Code text, FullName text, UserName text, Password text)', [], _onCreateSuccess, _onCreateFailed);
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS INSPECTOR (INSPECTOR_ID integer primary key, ID text, Code text, FullName text, UserName text, Password text)', [], _onCreateSuccess, _onCreateFailed);
+                });
             }
         };
 
@@ -773,8 +811,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS INSPECTOR', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS INSPECTOR', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* PROJECT]
@@ -794,8 +837,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS PROJECT (PROJECT_ID integer primary key, ID text, Customer text, Code text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS PROJECT (PROJECT_ID integer primary key, ID text, Customer text, Code text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* PROJECT]
@@ -812,8 +860,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS PROJECT', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS PROJECT', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* BUILDING]
@@ -833,8 +886,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS BUILDING (BUILD_ID integer primary key, ID text, Code text, Project text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS BUILDING (BUILD_ID integer primary key, ID text, Code text, Project text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* BUILDING]
@@ -851,8 +909,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS BUILDING', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS BUILDING', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* LEVEL]
@@ -872,8 +935,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS LEVEL (LEVEL_ID integer primary key, ID text, Code text, Building text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS LEVEL (LEVEL_ID integer primary key, ID text, Code text, Building text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* LEVEL]
@@ -890,8 +958,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS LEVEL', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS LEVEL', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* ROOM]
@@ -911,8 +984,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS ROOM (ROOM_ID integer primary key, ID text, Code text, Level text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS ROOM (ROOM_ID integer primary key, ID text, Code text, Level text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* ROOM]
@@ -929,8 +1007,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS ROOM', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS ROOM', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* STATUS]
@@ -950,8 +1033,14 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS STATUS (ST_ID integer primary key, ID text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS STATUS (ST_ID integer primary key, ID text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* STATUS]
@@ -968,8 +1057,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS STATUS', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS STATUS', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* CONTRACTOR]
@@ -989,8 +1083,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS CONTRACTOR (CT_ID integer primary key, ID text, Code text, FullName text)', [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS CONTRACTOR (CT_ID integer primary key, ID text, Code text, FullName text)', [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* CONTRACTOR]
@@ -1007,8 +1106,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS CONTRACTOR', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS CONTRACTOR', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* DEFECTED]
@@ -1032,8 +1136,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                     ', Project text, Building text, Level text, Room text, Area text, Inspector text, Contractor text, Imei text' +
                     ', DefectedImage text, Status text, Closed text, Comment text, NewRecord integer)';
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql(_query, [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    _self._cameraAppDB.executeSql(_query, [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* DEFECTED]
@@ -1050,8 +1159,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS DEFECTED', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS DEFECTED', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* AREA]
@@ -1071,8 +1185,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS AREA (AREA_ID integer primary key, ID text, Code text, Project text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS AREA (AREA_ID integer primary key, ID text, Code text, Project text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* AREA]
@@ -1089,8 +1208,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS AREA', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS AREA', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* AREA CONTRACTOR]
@@ -1110,8 +1234,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS AREA_CONTRACTOR (ARCT_ID integer primary key, ID text, Contractor text, Comment text)', [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS AREA_CONTRACTOR (ARCT_ID integer primary key, ID text, Contractor text, Comment text)', [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* AREA CONTRACTOR]
@@ -1128,8 +1257,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS AREA_CONTRACTOR', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS AREA_CONTRACTOR', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* DEFECTED RESULT]
@@ -1152,8 +1286,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
             var _query = 'CREATE TABLE IF NOT EXISTS DEFECTED_RESULT (DR_ID integer primary key, ID text, Code text, Defected text' +
                     ', ResultedBy text, ResultDate text, Result text, Imei text, Comment text, NewRecord integer)';
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql(_query, [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql(_query, [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* DEFECTED RESULT]
@@ -1170,8 +1309,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS DEFECTED_RESULT', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS DEFECTED_RESULT', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //property of TABLE [* CUSTOMER]
@@ -1191,8 +1335,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('CREATE TABLE IF NOT EXISTS CUSTOMER (CUST_ID integer primary key, ID text, Code text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS CUSTOMER (CUST_ID integer primary key, ID text, Code text, Description text)', [], _onCreateSuccess, _onCreateFailed);
+                });
+            }
         };
 
         //property of TABLE [* CUSTOMER]
@@ -1209,8 +1358,13 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 });
             };
 
-            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB))
-                _self._cameraAppDB.executeSql('DROP TABLE IF EXISTS CUSTOMER', [], _onDropSuccess, _onDropFailed);
+            if (!_.isNull(_self._cameraAppDB) && !_.isUndefined(_self._cameraAppDB)) {
+
+                _self._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('DROP TABLE IF EXISTS CUSTOMER', [], _onDropSuccess, _onDropFailed);
+                });
+            }
         };
 
         //@DROP [* ALL TABLE]
@@ -1267,7 +1421,7 @@ App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$locati
             if (!_.isNull(AppDB._cameraAppDB) && !_.isUndefined(AppDB._cameraAppDB))
             {
                 //check if has inspector data
-                var _onSetupSuccess = function (results) {
+                var _onSetupSuccess = function (tx, results) {
 
                     if (results.rows.length === 0) {
 
@@ -1301,7 +1455,7 @@ App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$locati
                     });
                 };
 
-                var _onInspectorSuccess = function (results) {
+                var _onInspectorSuccess = function (tx, results) {
 
                     if (results.rows.length > 0) {
 
@@ -1314,7 +1468,10 @@ App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$locati
                         $location.path(_loginViewPath).replace();
                     } else {
 
-                        AppDB._cameraAppDB.executeSql('SELECT * FROM SETUP', [], _onSetupSuccess, _onSetupFailed);
+                        AppDB._cameraAppDB.transaction(function (tx) {
+
+                            tx.executeSql('SELECT * FROM SETUP', [], _onSetupSuccess, _onSetupFailed);
+                        });
                     }
                 };
 
@@ -1325,7 +1482,10 @@ App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$locati
                     });
                 };
 
-                AppDB._cameraAppDB.executeSql('SELECT * FROM INSPECTOR', [], _onInspectorSuccess, _onInspectorFailed);
+                AppDB._cameraAppDB.transaction(function (tx) {
+
+                    tx.executeSql('SELECT * FROM INSPECTOR', [], _onInspectorSuccess, _onInspectorFailed);
+                });
             }
         };
 

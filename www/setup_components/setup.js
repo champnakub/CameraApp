@@ -27,7 +27,7 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
             } else {
                 //start the loading bar
                 cfpLoadingBar.start();
-                
+
                 //set url in WebService instance
                 webService.setUrl(_nwAddress);
 
@@ -56,7 +56,7 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
                 var _isConnectUrl = webService.getUrl() + 'IsConnect';
 
                 var _response = $http.get(_isConnectUrl, {
-                    timeout : 30000
+                    timeout: 30000
                 });
 
                 //callback from web service [* success]
@@ -73,8 +73,10 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
 
                         AppDB.createSetupTable();
 
-                        AppDB._cameraAppDB.executeSql("INSERT INTO SETUP (NetworkAddr, LastSync) VALUES (?, ?)", [_nwAddress, _lastSync.getTime()], _onInsertSucceed, _onInsertFailed);
-
+                        AppDB._cameraAppDB.transaction(function (tx) {
+                            
+                            tx.executeSql("INSERT INTO SETUP (NetworkAddr, LastSync) VALUES (?, ?)", [_nwAddress, _lastSync.getTime()], _onInsertSucceed, _onInsertFailed);
+                        });
                     } else {
 
                         toastr.error('Web service is not connected', 'Error', {
