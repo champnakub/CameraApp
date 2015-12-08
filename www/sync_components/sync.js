@@ -47,7 +47,7 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                     });
 
                     //insert data into tables 
-                    AppDB.inserData(result).then(function () {
+                    AppDB.insertData(result).then(function () {
 
                         cfpLoadingBar.complete();
 
@@ -69,9 +69,7 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                     });
 
                 }, function (result) {
-
-                    alert(JSON.stringify(result));
-
+                    
                     cfpLoadingBar.complete();
 
                     toastr.error('Could not connect to ' + result.config.url, 'Error', {

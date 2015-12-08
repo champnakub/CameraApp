@@ -108,7 +108,9 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                     var _defectedUrl = webService.getUrl() + 'GetDefectedData';
 
-                    var _projectUrl = webService.getUrl() + 'GetProjectData';
+                    //var _projectUrl = webService.getUrl() + 'GetProjectData';
+
+                    var _projectUrl = webService.getUrl() + 'GetProjectinsertsql3';
 
                     var _statusUrl = webService.getUrl() + 'GetStatusData';
 
@@ -137,7 +139,7 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
         };
 
         //data into tables
-        _self.inserData = function (data) {
+        _self.insertData = function (data) {
 
             //DEFECTED_RESULT TABLE
             var insertDefectedResultData = function () {
@@ -174,6 +176,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                         _deferred.resolve({IsInserted: true, Table: 'DEFECTED_RESULT', Status: 200});
                     }
                 }
+
+                toastr.success('inserted DEFECTED_RESULT data!', 'Information', {
+                    timeOut: 5000
+                });
 
                 // Return the deferred's promise.
                 return _deferred.promise;
@@ -215,6 +221,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                     }
                 }
 
+                toastr.success('inserted AREA_CONTRACTOR data!', 'Information', {
+                    timeOut: 5000
+                });
+
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
@@ -254,6 +264,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                         _deferred.resolve({IsInserted: true, Table: 'CONTRACTOR', Status: 200});
                     }
                 }
+
+                toastr.success('inserted CONTRACTOR data!', 'Information', {
+                    timeOut: 5000
+                });
 
                 // Return the deferred's promise.
                 return _deferred.promise;
@@ -299,6 +313,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                     }
                 }
 
+                toastr.success('inserted INSPECTOR data!', 'Information', {
+                    timeOut: 5000
+                });
+
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
@@ -339,6 +357,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                     }
                 }
 
+                toastr.success('inserted CUSTOMER data!', 'Information', {
+                    timeOut: 5000
+                });
+
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
@@ -378,6 +400,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                         _deferred.resolve({IsInserted: true, Table: 'BUILDING', Status: 200});
                     }
                 }
+
+                toastr.success('inserted BUILDING data!', 'Information', {
+                    timeOut: 5000
+                });
 
                 // Return the deferred's promise.
                 return _deferred.promise;
@@ -445,6 +471,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                     }
                 }
 
+                toastr.success('inserted DEFECTED data!', 'Information', {
+                    timeOut: 5000
+                });
+
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
@@ -454,38 +484,53 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 // Set up the $q deferred object.
                 var _deferred = $q.defer();
 
-                var _query = "INSERT INTO PROJECT (ID, Customer, Code, Description) VALUES (?, ?, ?, ?)";
+                //var _query = "INSERT INTO PROJECT (ID, Customer, Code, Description) VALUES (?, ?, ?, ?)";
 
                 if (!_.isNull(_self._projectData) && !_.isUndefined(_self._projectData)) {
 
-                    if (_self._projectData.length > 0) {
+                    var _query = _self._projectData.SQL;
 
-                        for (var j = 0; j < _self._projectData.length; j++) {
+                    _self._cameraAppDB.transaction(function (tx) {
 
-                            var _id = _self._projectData[j].ID;
+                        tx.executeSql(_query, [], function () {
+                            // resolve the promise with the results
+                            _deferred.resolve({IsInserted: true, Table: 'PROJECT', Status: 200});
+                        }, function () {
+                            // reject the promise
+                            _deferred.reject({IsInserted: false, Table: 'PROJECT', Status: -1000});
+                        });
+                    });
 
-                            var _code = _self._projectData[j].Code;
+//                        for (var j = 0; j < _self._projectData.length; j++) {
+//
+//                            var _id = _self._projectData[j].ID;
+//
+//                            var _code = _self._projectData[j].Code;
+//
+//                            var _customer = _self._projectData[j].Customer;
+//
+//                            var _description = _self._projectData[j].Description;
+//
+//                            _self._cameraAppDB.transaction(function (tx) {
+//
+//                                tx.executeSql(_query, [_id, _customer, _code, _description], function () {
+//                                    // resolve the promise with the results
+//                                    _deferred.resolve({IsInserted: true, Table: 'PROJECT', Status: 200});
+//                                }, function () {
+//                                    // reject the promise
+//                                    _deferred.reject({IsInserted: false, Table: 'PROJECT', Status: -1000});
+//                                });
+//                            });
+//                        }
+//                        ;
 
-                            var _customer = _self._projectData[j].Customer;
-
-                            var _description = _self._projectData[j].Description;
-
-                            _self._cameraAppDB.transaction(function (tx) {
-
-                                tx.executeSql(_query, [_id, _customer, _code, _description], function () {
-                                    // resolve the promise with the results
-                                    _deferred.resolve({IsInserted: true, Table: 'PROJECT', Status: 200});
-                                }, function () {
-                                    // reject the promise
-                                    _deferred.reject({IsInserted: false, Table: 'PROJECT', Status: -1000});
-                                });
-                            });
-                        }
-                        ;
-                    } else {
-                        _deferred.resolve({IsInserted: true, Table: 'PROJECT', Status: 200});
-                    }
+                } else {
+                    _deferred.resolve({IsInserted: true, Table: 'PROJECT', Status: 200});
                 }
+
+                toastr.success('inserted PROJECT data!', 'Information', {
+                    timeOut: 5000
+                });
 
                 // Return the deferred's promise.
                 return _deferred.promise;
@@ -524,6 +569,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                         _deferred.resolve({IsInserted: true, Table: 'STATUS', Status: 200});
                     }
                 }
+
+                toastr.success('inserted STATUS data!', 'Information', {
+                    timeOut: 5000
+                });
 
                 // Return the deferred's promise.
                 return _deferred.promise;
@@ -567,6 +616,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                     }
                 }
 
+                toastr.success('inserted LEVEL data!', 'Information', {
+                    timeOut: 5000
+                });
+
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
@@ -609,6 +662,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                     }
                 }
 
+                toastr.success('inserted ROOM data!', 'Information', {
+                    timeOut: 5000
+                });
+
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
@@ -650,6 +707,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                         _deferred.resolve({IsInserted: true, Table: 'AREA', Status: 200});
                     }
                 }
+
+                toastr.success('inserted AREA data!', 'Information', {
+                    timeOut: 5000
+                });
 
                 // Return the deferred's promise.
                 return _deferred.promise;
@@ -701,10 +762,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
             var onDeviceReady = function () {
 
                 var _onCreateDBSuccess = function () {
-                    
+
                     _self._cameraAppDB.executeSql("PRAGMA synchronous=OFF");
                     _self._cameraAppDB.executeSql("PRAGMA journal_mode=MEMORY");
-                    
+
                     if (_.isFunction(callBack))
                         callBack();
                 };

@@ -47,7 +47,7 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                     });
 
                     //insert data into tables 
-                    AppDB.inserData(result).then(function () {
+                    AppDB.insertData(result).then(function () {
 
                         cfpLoadingBar.complete();
 
