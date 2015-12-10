@@ -69,10 +69,11 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                     });
 
                 }, function (result) {
-
-                    alert(JSON.stringify(result));
-
+                    
                     cfpLoadingBar.complete();
+                    
+                    //drop ALL TABLES 
+                    AppDB.dropAllTables();
 
                     toastr.error('Could not connect to ' + result.config.url, 'Error', {
                         timeOut: 5000

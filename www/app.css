@@ -1,4 +1,8 @@
 /* app css stylesheet */
+.fright {
+    float: right;
+}
+
 .fill-dock {
     position: absolute;
     height: 100%;
@@ -6,11 +10,11 @@
 }
 
 .core-flex-box {
-  display: -webkit-box;
+    display: -webkit-box;
 }
 
 .core-flex {
-  -webkit-box-flex: 1;
+    -webkit-box-flex: 1;
 }
 
 .core-flex-center {
@@ -19,28 +23,28 @@
 }
 
 .core-flex-vertical {
-  -webkit-box-orient: vertical;
+    -webkit-box-orient: vertical;
 }
 
 .core-flex-horizontal {
-  -webkit-box-orient: horizontal;
+    -webkit-box-orient: horizontal;
 }
 
 .core-flex-all {
-  display: -webkit-box;
-  -webkit-box-flex: 1;
+    display: -webkit-box;
+    -webkit-box-flex: 1;
 }
 
 .core-flex-all-vertical {
-  display: -webkit-box;
-  -webkit-box-flex: 1;
-  -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    -webkit-box-orient: vertical;
 }
 
 .core-flex-all-horizontal {
-  display: -webkit-box;
-  -webkit-box-flex: 1;
-  -webkit-box-orient: horizontal;
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    -webkit-box-orient: horizontal;
 }
 
 @media (min-width: 768px) {
@@ -50,40 +54,62 @@
 }
 
 .menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+    list-style: none;
+    border-bottom: 0.1em solid black;
+    margin-bottom: 2em;
+    padding: 0 0 0.5em;
 }
 
 .menu:before {
-  content: "[";
+    content: "[";
 }
 
 .menu:after {
-  content: "]";
+    content: "]";
 }
 
 .menu > li {
-  display: inline;
+    display: inline;
 }
 
 .menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
+    content: "|";
+    padding-right: 0.3em;
 }
 
 .menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+    content: "";
+    padding: 0;
 }
+
+/* LOGIN PAGE VIEW */
+#login-view .setting {
+    top : 5px;
+    left : 5px;
+    position: absolute;
+}
+/* END OF LOGIN PAGE VIEW */
+
+/* ACTIVITY PAGE VIEW */
+
+#activity-view .defected-img-container {
+    background-image: url('images/blank.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: solid 2px #337ab7;
+    background-size: auto;
+    height: 150px;
+    width: 100%;
+}
+
+/* END OF ACTIVITY PAGE VIEW */
 
 /* CAMERA PAGE VIEW */
 
 #camera-container .content {
-  position: relative;
-  height: 100%;
-  width: 100%;
+    position: relative;
+    height: 100%;
+    width: 100%;
 }
 
 #camera-container .image {
@@ -93,6 +119,14 @@
     background-size: auto;
 }
 /* END OF CAMERA PAGE VIEW */
+
+/* PROJECT VIEW */
+#project-view .project-item:active {
+    color: #fff;
+    border-color: #337ab7;
+    background-color: #337ab7;
+}
+/* END OF PROJECT VIEW */
 
 /* ITEM PAGE VIEW */
 #item-container .btm-label {

@@ -9,13 +9,14 @@ Login.config(['$routeProvider', function ($routeProvider) {
         });
     }]);
 
-Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', function ($scope, $location, AppDB, toastr) {
+Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User', function ($scope, $location, AppDB, toastr, User) {
 
+        //for test case scenrario
         $scope.getProjectData = function () {
 
             var _onQuerySuccess = function (tx, results) {
-                
-                toastr.success('Length : ' + results.rows.length,  'Information', {
+
+                toastr.success('Length : ' + results.rows.length, 'Information', {
                     timeOut: 8000
                 });
             };
@@ -36,8 +37,42 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', functio
         //@ Authentication
         $scope.authenticate = function () {
 
-            //var _cameraViewPath = '/cameraView';
-            //change page to camera view page
-            //$location.path(_cameraViewPath);
+            var _userName = $scope.username;
+
+            var _password = $scope.password;
+            
+            //login success
+            var _onQuerySuccess = function (tx, results) {
+
+                var _inspectorDatas = results;
+
+                if (_inspectorDatas.rows.length >= 1) {
+
+                    var _inspectorData = _inspectorDatas.rows.item(0);
+                    
+                    User.setFullName(_inspectorData.FullName);
+
+                    User.setID(_inspectorData.ID);
+
+                    var _projectViewPath = '/projectView';
+                    //change page to project view page
+                    $scope.$apply(function () {
+                        $location.path(_projectViewPath);
+                    });
+                }
+            };
+
+            //login failed
+            var _onQueryFailed = function () {
+
+                toastr.error('Authorize failed', 'Error', {
+                    timeOut: 5000
+                });
+            };
+
+            AppDB._cameraAppDB.transaction(function (tx) {
+
+                tx.executeSql('SELECT ID , FULLNAME FROM INSPECTOR Where UserName = ? And Password = ?;', [_userName, _password], _onQuerySuccess, _onQueryFailed);
+            });
         };
     }]);

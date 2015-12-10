@@ -1,0 +1,114 @@
+<div id="activity-view" class="fill-dock core-flex-all-vertical" style="padding: 10px;">
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a showtab="" href="#defected">Defected</a></li>
+        <li><a showtab="" href="#defected-result">Defected Result</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- DEFECTED TAB -->
+        <div id="defected" class="tab-pane fade in active">
+            <h1>Defected</h1>
+            <!-- BUILDING -->
+            <p>
+                <span> Building : </span> 
+                <select>
+                    <option>Building A</option>
+                </select>  
+            </p>
+            <!-- BUILDING -->
+
+            <!-- LEVEL -->
+            <p>
+                <span> Level : </span> 
+                <select>
+                    <option>Level 1</option>
+                </select>  
+            </p>
+            <!-- LEVEL -->
+
+            <!-- ROOM -->
+            <p>
+                <span> Room/Area : </span> 
+                <select>
+                    <option>Room 49</option>
+                </select>  
+            </p>
+            <!-- ROOM -->
+
+            <!-- LOCATION -->
+            <p>
+                <span> Location : </span> 
+                <select>
+                    <option>Wall</option>
+                </select>  
+            </p>
+            <!-- LOCATION -->
+
+            <!-- CONTRACTOR -->
+            <p>
+                <span> Contractor : </span> 
+                <select>
+                    <option>Contractor A</option>
+                </select>  
+            </p>
+            <!-- CONTRACTOR -->
+
+            <div class="defected-img-container"></div>
+
+            <textarea style="width: 100%; margin-top: 5px; height: 55px;" placeholder="Comment"></textarea>
+
+            <div class="btn-group col-xs-12">
+                <button style="font-size: 14px;" ng-click="takePicture()" ng-model='takePicture' type="button" class="btn btn-info btn-lg col-xs-6">
+                    <span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Take Picture
+                </button>
+                <button style="font-size: 14px;" ng-click="getPicture()" ng-model='getPicture' type="button" class="btn btn-info btn-lg col-xs-6">
+                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Browse Picture
+                </button>
+            </div>
+            
+            <div class="btn-group col-xs-12 navbar-fixed-bottom" style="margin-top: 5px; padding: 0px;">
+                <button style="font-size: 14px;"  ng-click="back()" type="button" class="btn btn-lg btn-primary col-xs-6">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back
+                </button> 
+                <button style="font-size: 14px;" type="button" class="btn btn-lg btn-primary col-xs-6">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+                </button>
+            </div>
+        </div>
+        <!-- DEFECTED TAB -->
+
+        <!-- DEFECTED RESULT -->
+        <div id="defected-result" class="tab-pane fade">
+            <h1>Defected Result</h1>
+            <!-- BUILDING -->
+            <p>
+                <span> Building : </span> 
+                <select>
+                    <option>Building A</option>
+                </select>  
+            </p>
+            <!-- BUILDING -->
+
+            <!-- LEVEL -->
+            <p>
+                <span> Level : </span> 
+                <select>
+                    <option>Level 1</option>
+                </select>  
+            </p>
+            <!-- LEVEL -->
+
+            <!-- ROOM -->
+            <p>
+                <span> Room/Area : </span> 
+                <select>
+                    <option>Room 49</option>
+                </select>  
+            </p>
+            <!-- ROOM -->
+        </div>
+        <!-- DEFECTED RESULT -->
+    </div> 
+</div>
