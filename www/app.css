@@ -93,9 +93,9 @@
 /* ACTIVITY PAGE VIEW */
 
 #activity-view .defected-img-container {
-    background-image: url('images/blank.png');
+/*    background-image: url('images/blank.png');
     background-position: center center;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;*/
     border: solid 2px #337ab7;
     background-size: auto;
     height: 150px;

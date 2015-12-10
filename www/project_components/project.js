@@ -9,7 +9,7 @@ Project.config(['$routeProvider', function ($routeProvider) {
         });
     }]);
 
-Project.directive('projectItem', ['$location',
+Project.directive('projectClick', ['$location',
         function ($location) {
             return {
                 link: function (scope, element, attrs) {
@@ -27,22 +27,23 @@ Project.directive('projectItem', ['$location',
 
 Project.controller('ProjectCtrl', ['$scope', '$location', 'AppDB', 'toastr', function ($scope, $location, AppDB, toastr) {
 
-        $scope._projectDatas = [];
+        $scope._projectResults = [];
 
         var _onQuerySuccess = function (tx, results) {
 
             var _projectDatas = results;
-
+            
             for (var i = 0; i < _projectDatas.rows.length; i++) {
-
+                
                 var _projectData = {
                     ID: _projectDatas.rows.item(i).ID,
                     Description: _projectDatas.rows.item(i).Description
                 };
 
-                $scope._projectDatas.push(_projectData);
+                $scope._projectResults.push(_projectData);
             }
             ;
+            $scope.$apply();
         };
 
         var _onQueryFailed = function () {
@@ -56,5 +57,4 @@ Project.controller('ProjectCtrl', ['$scope', '$location', 'AppDB', 'toastr', fun
 
             tx.executeSql('SELECT * FROM PROJECT', [], _onQuerySuccess, _onQueryFailed);
         });
-
     }]);

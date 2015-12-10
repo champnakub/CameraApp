@@ -5,6 +5,6 @@
       </div>
 
     <ul class="list-group">
-        <li project-item ng-repeat="projectData in _projectDatas" class="project-item list-group-item">{{projectData.Description}}<span><i class="fa fa-2x fa-folder fright"></i></span></li>
+        <li ng-repeat="projectData in _projectResults" project-click class="project-item list-group-item">{{projectData.Description}}<span><i class="fa fa-2x fa-folder fright"></i></span></li>
     </ul>
 </div>

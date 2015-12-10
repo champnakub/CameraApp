@@ -20,7 +20,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', f
         };
 
         //array of images taken from CAMERA or GALLERY
-        $scope.Images = null;
+        $scope.image = "";
 
         //@ Take Picture
         $scope.takePicture = function () {
@@ -32,7 +32,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', f
             var success = function (data) {
                 $scope.$apply(function () {
                     var pic = "data:image/jpeg;base64," + data;
-                    $scope.Images = pic;
+                    $scope.image = pic;
                 });
             };
             var failure = function (message) {
@@ -53,7 +53,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', f
             var success = function (data) {
                 $scope.$apply(function () {
                     var pic = "data:image/jpeg;base64," + data;
-                    $scope.Images = pic;
+                    $scope.image = pic;
                 });
             };
             var failure = function (message) {
