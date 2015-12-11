@@ -19,8 +19,8 @@
                         <label class="col-xs-2 control-label">Building</label>
 
                         <div class="col-xs-10">
-                            <select ng-options="defectedBuilding.Code for defectedBuilding in _defectedBuildings " ng-model="defectedBuilding" ng-change="defectedBuilding()" class="form-control">
-                                
+                            <select class="form-control" ng-model="defectedBuildingSelected" ng-change="onDefectedBuilding(defectedBuildingSelected)" 
+                                ng-options="defectedBuilding as defectedBuilding.Code for defectedBuilding in _defectedBuildings">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -96,16 +96,16 @@
 
                 <div class="form-group has-success label-floating is-empty">
                     <label for="defected-comment" class="control-label">Defected Comment</label>
-                    <input type="text" class="form-control" id="defected-comment">
+                    <textarea class="form-control" id="defected-comment"></textarea>
                     <span class="material-input"></span>
                 </div>
 
                 <div class="row" style="margin: 0;">
-                    <button style="font-size: 1.2em; background: #F62459; color: white;"  ng-click="back()" type="button" class="btn btn-raised btn-lg col-xs-12">
-                        <span class="glyphicon glyphicon-chevron-left"></span> Back
-                    </button> 
                     <button style="font-size: 1.2em; background: #F62459; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
                         Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                    </button> 
+                    <button style="font-size: 1.2em; background: #F62459; color: white;"  ng-click="back()" type="button" class="btn btn-raised btn-lg col-xs-12">
+                        <span class="glyphicon glyphicon-chevron-left"></span> Back
                     </button> 
                 </div>
             </div>

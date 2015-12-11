@@ -65,7 +65,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', f
         };
 
         //@ Event on choosing defected builing
-        $scope.defectedBuilding = function () {
+        $scope.onDefectedBuilding = function (defectedBuilding) {
             
             alert(JSON.stringify(defectedBuilding));
         };
