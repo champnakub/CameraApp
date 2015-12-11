@@ -9,115 +9,153 @@
 
         <!-- DEFECTED TAB -->
         <div id="defected" class="tab-pane fade in active core-flex-all-vertical">
-            <div class="core-flex-all-vertical">
-                <h1>Defected</h1>
+
+            <h1 class="header">Defected</h1>
+            
+            <form class="form-horizontal">
                 <!-- BUILDING -->
-                <p>
-                    <span> Building : </span> 
-                    <select>
-                        <option>Building A</option>
-                    </select>  
-                </p>
-                <!-- BUILDING -->
+                <div class="form-group" style="margin: 0;">
+                    <label class="col-xs-2 control-label">Building</label>
 
-                <!-- LEVEL -->
-                <p>
-                    <span> Level : </span> 
-                    <select>
-                        <option>Level 1</option>
-                    </select>  
-                </p>
-                <!-- LEVEL -->
-
-                <!-- ROOM -->
-                <p>
-                    <span> Room/Area : </span> 
-                    <select>
-                        <option>Room 49</option>
-                    </select>  
-                </p>
-                <!-- ROOM -->
-
-                <!-- LOCATION -->
-                <p>
-                    <span> Location : </span> 
-                    <select>
-                        <option>Wall</option>
-                    </select>  
-                </p>
-                <!-- LOCATION -->
-
-                <!-- CONTRACTOR -->
-                <p>
-                    <span> Contractor : </span> 
-                    <select>
-                        <option>Contractor A</option>
-                    </select>  
-                </p>
-                <!-- CONTRACTOR -->
-
-                <div class="defected-img-container core-flex-all-horizontal">
-                    <div style="width:25%"></div>
-                    <img  ng-src="{{image}}" width="50%" height="295px" style="margin: 0 auto; width: 50%">
-                    <div style="width:25%"></div>  
-                </div>       
-
-                <div class="btn-group col-xs-12">
-                    <button style="font-size: 14px;" ng-click="takePicture()" ng-model='takePicture' type="button" class="btn btn-info btn-lg col-xs-6">
-                        <span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Take Picture
-                    </button>
-                    <button style="font-size: 14px;" ng-click="getPicture()" ng-model='getPicture' type="button" class="btn btn-info btn-lg col-xs-6">
-                        <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Browse Picture
-                    </button>
+                    <div class="col-xs-10">
+                        <select class="form-control">
+                            <option>Building A</option>
+                            <option>Building B</option>
+                        </select>
+                    </div>
+                    <span class="material-input"></span>
                 </div>
+                <!-- BUILDING -->
 
-                <textarea style="width: 100%; margin-top: 5px; height: 100px;" placeholder="Comment"></textarea>
+                <!-- LEVEL -->
+                <div class="form-group" style="margin: 0;">
+                    <label class="col-xs-2 control-label">Level</label>
+
+                    <div class="col-xs-10">
+                        <select class="form-control">
+                            <option>Level 1</option>
+                        </select>
+                    </div>
+                    <span class="material-input"></span>
+                </div>
+                <!-- LEVEL -->
+
+                <!-- ROOM -->
+                <div class="form-group" style="margin: 0;">
+                    <label class="col-xs-2 control-label">Room</label>
+
+                    <div class="col-xs-10">
+                        <select class="form-control">
+                            <option>Room A</option>
+                        </select>
+                    </div>
+                    <span class="material-input"></span>
+                </div>
+                <!-- ROOM -->
+
+                <!-- LOCATION -->
+                <div class="form-group" style="margin: 0;">
+                    <label class="col-xs-2 control-label">Location</label>
+
+                    <div class="col-xs-10">
+                        <select class="form-control">
+                            <option>Wall</option>
+                        </select>
+                    </div>
+                    <span class="material-input"></span>
+                </div>
+                <!-- LOCATION -->
+
+                <!-- CONTRACTOR -->
+                <div class="form-group" style="margin: 0;">
+                    <label class="col-xs-2 control-label">Contractor</label>
+
+                    <div class="col-xs-10">
+                        <select class="form-control">
+                            <option>Contractor A</option>
+                        </select>
+                    </div>
+                    <span class="material-input"></span>
+                </div>
+                <!-- CONTRACTOR -->
+            </form>
+
+            <div class="defected-img-container">
+                <div class="image"><span></span><img ng-src="{{image}}"></div>
+            </div>
+            
+            <div class="row" style="margin: 0;">
+                <button style="font-size: 1.2em; background : #3f51b5; color: white;" ng-click="takePicture()" ng-model='takePicture' type="button" class="btn btn-raised btn-lg col-xs-12">
+                    <span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Take Picture
+                </button>
+                <button style="font-size: 1.2em; background : #3f51b5; color: white;" ng-click="getPicture()" ng-model='getPicture' type="button" class="btn btn-raised btn-lg col-xs-12">
+                    Browse Picture <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                </button>
+            </div>
+            
+            <div class="form-group has-success label-floating is-empty">
+                <label for="defected-comment" class="control-label">Defected Comment</label>
+                <input type="text" class="form-control" id="defected-comment">
+              <span class="material-input"></span>
+            </div>
+            
+            <div class="row" style="margin: 0;">
+                <button style="font-size: 1.2em; background: #F62459; color: white;"  ng-click="back()" type="button" class="btn btn-raised btn-lg col-xs-12">
+                    <span class="glyphicon glyphicon-chevron-left"></span> Back
+                </button> 
+                <button style="font-size: 1.2em; background: #F62459; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
+                    Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                </button> 
             </div>
         </div>
         <!-- DEFECTED TAB -->
 
         <!-- DEFECTED RESULT -->
         <div id="defected-result" class="tab-pane fade core-flex-all-vertical">
-            <div class="core-flex-all-vertical">
-
-                <h1>Defected Result</h1>
+            
+            <h1 class="header">Defected Result</h1>
+            
+            <form class="form-horizontal">
                 <!-- BUILDING -->
-                <p>
-                    <span> Building : </span> 
-                    <select>
-                        <option>Building A</option>
-                    </select>  
-                </p>
+                <div class="form-group" style="margin: 0;">
+                    <label class="col-xs-2 control-label">Building</label>
+
+                    <div class="col-xs-10">
+                        <select class="form-control">
+                            <option>Building A</option>
+                            <option>Building B</option>
+                        </select>
+                    </div>
+                    <span class="material-input"></span>
+                </div>
                 <!-- BUILDING -->
 
                 <!-- LEVEL -->
-                <p>
-                    <span> Level : </span> 
-                    <select>
-                        <option>Level 1</option>
-                    </select>  
-                </p>
+                <div class="form-group" style="margin: 0;">
+                    <label class="col-xs-2 control-label">Level</label>
+
+                    <div class="col-xs-10">
+                        <select class="form-control">
+                            <option>Level 1</option>
+                        </select>
+                    </div>
+                    <span class="material-input"></span>
+                </div>
                 <!-- LEVEL -->
 
                 <!-- ROOM -->
-                <p>
-                    <span> Room/Area : </span> 
-                    <select>
-                        <option>Room 49</option>
-                    </select>  
-                </p>
-                <!-- ROOM -->
-            </div>
-        </div>
-        <!-- DEFECTED RESULT -->
+                <div class="form-group" style="margin: 0;">
+                    <label class="col-xs-2 control-label">Room</label>
 
-        <div class="btn-group col-xs-12" style="margin-top: 5px; padding: 0px;">
-            <button style="font-size: 14px;"  ng-click="back()" type="button" class="btn btn-lg btn-primary col-xs-6">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back
-            </button> 
-            <button style="font-size: 14px;" type="button" class="btn btn-lg btn-primary col-xs-6">
-                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
-            </button>
-        </div>  
+                    <div class="col-xs-10">
+                        <select class="form-control">
+                            <option>Room A</option>
+                        </select>
+                    </div>
+                    <span class="material-input"></span>
+                </div>
+                <!-- ROOM -->
+            </form>
+        </div>    
     </div> 
 </div>

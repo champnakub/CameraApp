@@ -186,8 +186,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._defectedResultData) && !_.isUndefined(_self._defectedResultData)) {
 
-                    if (_self._defectedResultData.ErrorCode === _self.errorCode)
+                    if (_self._defectedResultData.ErrorCode === _self.errorCode) {
+
+                        _deferred.reject({IsInserted: false, Table: 'DEFECTED_RESULT', Status: -1000});
                         return;
+                    }
 
                     var _query = _self._defectedResultData.SQL;
 
@@ -220,8 +223,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._areaContractorData) && !_.isUndefined(_self._areaContractorData)) {
 
-                    if (_self._areaContractorData.ErrorCode === _self.errorCode)
+                    if (_self._areaContractorData.ErrorCode === _self.errorCode) {
+
+                        _deferred.reject({IsInserted: false, Table: 'AREA_CONTRACTOR', Status: -1000});
                         return;
+                    }
 
                     var _query = _self._areaContractorData.SQL;
 
@@ -254,8 +260,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._contractorData) && !_.isUndefined(_self._contractorData)) {
 
-                    if (_self._contractorData.ErrorCode === _self.errorCode)
+                    if (_self._contractorData.ErrorCode === _self.errorCode) {
+
+                        _deferred.reject({IsInserted: false, Table: 'CONTRACTOR', Status: -1000});
                         return;
+                    }
 
                     var _query = _self._contractorData.SQL;
 
@@ -289,6 +298,8 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 if (!_.isNull(_self._inspectorData) && !_.isUndefined(_self._inspectorData)) {
 
                     if (_self._inspectorData.ErrorCode === _self.errorCode) {
+
+                        _deferred.reject({IsInserted: false, Table: 'INSPECTOR', Status: -1000});
                         return;
                     }
 
@@ -323,8 +334,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._customerData) && !_.isUndefined(_self._customerData)) {
 
-                    if (_self._customerData.ErrorCode === _self.errorCode)
+                    if (_self._customerData.ErrorCode === _self.errorCode) {
+
+                        _deferred.reject({IsInserted: false, Table: 'CUSTOMER', Status: -1000});
                         return;
+                    }
 
                     var _query = _self._customerData.SQL;
 
@@ -357,8 +371,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._buildingData) && !_.isUndefined(_self._buildingData)) {
 
-                    if (_self._buildingData.ErrorCode === _self.errorCode)
+                    if (_self._buildingData.ErrorCode === _self.errorCode) {
+
+                        _deferred.reject({IsInserted: false, Table: 'BUILDING', Status: -1000});
                         return;
+                    }
 
                     var _query = _self._buildingData.SQL;
 
@@ -391,8 +408,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._defectedData) && !_.isUndefined(_self._defectedData)) {
 
-                    if (_self._defectedData.ErrorCode === _self.errorCode)
+                    if (_self._defectedData.ErrorCode === _self.errorCode) {
+
+                        _deferred.reject({IsInserted: false, Table: 'DEFECTED', Status: -1000});
                         return;
+                    }
 
                     var _query = _self._defectedData.SQL;
 
@@ -425,8 +445,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._projectData) && !_.isUndefined(_self._projectData)) {
 
-                    if (_self._projectData.ErrorCode === _self.errorCode)
+                    if (_self._projectData.ErrorCode === _self.errorCode) {
+
+                        _deferred.reject({IsInserted: false, Table: 'PROJECT', Status: -1000});
                         return;
+                    }
 
                     var _query = _self._projectData.SQL;
 
@@ -459,8 +482,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._statusData) && !_.isUndefined(_self._statusData)) {
 
-                    if (_self._statusData.ErrorCode === _self.errorCode)
+                    if (_self._statusData.ErrorCode === _self.errorCode) {
+
+                        _deferred.reject({IsInserted: false, Table: 'STATUS', Status: -1000});
                         return;
+                    }
 
                     var _query = _self._statusData.SQL;
 
@@ -493,8 +519,11 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._levelData) && !_.isUndefined(_self._levelData)) {
 
-                    if (_self._levelData.ErrorCode === _self.errorCode)
+                    if (_self._levelData.ErrorCode === _self.errorCode) {
+                        
+                        _deferred.reject({IsInserted: false, Table: 'LEVEL', Status: -1000});
                         return;
+                    }
 
                     var _query = _self._levelData.SQL;
 
@@ -527,9 +556,12 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._roomData) && !_.isUndefined(_self._roomData)) {
 
-                    if (_self._roomData.ErrorCode === _self.errorCode)
+                    if (_self._roomData.ErrorCode === _self.errorCode) {
+                        
+                        _deferred.reject({IsInserted: false, Table: 'ROOM', Status: -1000});
                         return;
-
+                    }
+                    
                     var _query = _self._roomData.SQL;
 
                     _self._cameraAppDB.transaction(function (tx) {
@@ -561,9 +593,12 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                 if (!_.isNull(_self._areaData) && !_.isUndefined(_self._areaData)) {
 
-                    if (_self._areaData.ErrorCode === _self.errorCode)
+                    if (_self._areaData.ErrorCode === _self.errorCode) {
+                        
+                        _deferred.reject({IsInserted: false, Table: 'AREA', Status: -1000});
                         return;
-
+                    }
+                    
                     var _query = _self._areaData.SQL;
 
                     _self._cameraAppDB.transaction(function (tx) {
@@ -1340,8 +1375,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
 //controller
 App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$location', 'toastr', function ($scope, webService, AppDB, _, $location, toastr) {
-
+        
         console.log('[DEV] : App Instantiated');
+
+        $.material.init();
 
         var openDBSucceed = function () {
             //create tables on initialized
@@ -1425,10 +1462,6 @@ App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$locati
         //function open database on initialized
         if (!_.isNull(AppDB) && !_.isUndefined(AppDB)) {
 
-//            toastr.success('Database Initialized!', 'Information', {
-//                timeOut: 5000
-//            });
-
             AppDB.openDataBase(openDBSucceed);
         }
     }]);
@@ -1468,6 +1501,6 @@ App.config(['$routeProvider', function ($routeProvider) {
                     templateUrl: 'activities_components/activity.html',
                     controller: 'ActivityCtrl'
                 });
-        //otherwise({redirectTo: '/projectView'});
+                //otherwise({redirectTo: '/setUpView'});
     }]);
 

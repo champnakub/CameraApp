@@ -10,7 +10,9 @@ Login.config(['$routeProvider', function ($routeProvider) {
     }]);
 
 Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User', function ($scope, $location, AppDB, toastr, User) {
-
+        
+        $.material.init();
+        
         //for test case scenrario
         $scope.getProjectData = function () {
 
@@ -40,7 +42,7 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
             var _userName = $scope.username;
 
             var _password = $scope.password;
-            
+
             //login success
             var _onQuerySuccess = function (tx, results) {
 
@@ -49,7 +51,7 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
                 if (_inspectorDatas.rows.length >= 1) {
 
                     var _inspectorData = _inspectorDatas.rows.item(0);
-                    
+
                     User.setFullName(_inspectorData.FullName);
 
                     User.setID(_inspectorData.ID);
@@ -58,6 +60,11 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
                     //change page to project view page
                     $scope.$apply(function () {
                         $location.path(_projectViewPath);
+                    });
+                } else {
+
+                    toastr.error('Authorize failed', 'Error', {
+                        timeOut: 5000
                     });
                 }
             };

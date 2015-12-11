@@ -10,7 +10,9 @@ Setup.config(['$routeProvider', function ($routeProvider) {
     }]);
 
 Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'WebService', '$http', 'cfpLoadingBar', function ($scope, $location, AppDB, _, toastr, webService, $http, cfpLoadingBar) {
-
+        
+        $.material.init();
+        
         $scope.onNWSetup = function () {
 
             var _nwAddress = $scope.nwAddress;

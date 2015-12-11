@@ -11,6 +11,8 @@ Activity.config(['$routeProvider', function ($routeProvider) {
 
 Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', function ($scope, $location, AppDB, toastr) {
 
+        $.material.init();
+
         //back to PROJECT view
         $scope.back = function () {
 
