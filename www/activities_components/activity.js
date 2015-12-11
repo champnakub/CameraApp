@@ -22,7 +22,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', f
         };
 
         //array of images taken from CAMERA or GALLERY
-        $scope.image = "";
+        $scope.image = "images/blank.png";
 
         //@ Take Picture
         $scope.takePicture = function () {

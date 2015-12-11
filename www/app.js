@@ -1501,6 +1501,6 @@ App.config(['$routeProvider', function ($routeProvider) {
                     templateUrl: 'activities_components/activity.html',
                     controller: 'ActivityCtrl'
                 });
-                //otherwise({redirectTo: '/setUpView'});
+                //otherwise({redirectTo: '/activityView'});
     }]);
 
