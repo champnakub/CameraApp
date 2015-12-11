@@ -16,7 +16,7 @@ WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar
 
         //web service url
         //$scope.WS_URL = webService.getUrl();
-        $scope.WS_URL = 'http://192.168.1.104:222/DataService/';
+        $scope.WS_URL = 'http://beau888.dyndns.org:222/DataService/';
 
         //function for calling POST method
         $scope.onPOST = function () {

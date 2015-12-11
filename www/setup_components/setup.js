@@ -10,9 +10,8 @@ Setup.config(['$routeProvider', function ($routeProvider) {
     }]);
 
 Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'WebService', '$http', 'cfpLoadingBar', function ($scope, $location, AppDB, _, toastr, webService, $http, cfpLoadingBar) {
-        
-        $.material.init();
-        
+
+
         $scope.onNWSetup = function () {
 
             var _nwAddress = $scope.nwAddress;
@@ -26,12 +25,14 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
                 });
 
                 return;
-            } else {
+            } else {                
                 //start the loading bar
                 cfpLoadingBar.start();
 
                 //set url in WebService instance
                 webService.setUrl(_nwAddress);
+
+                alert(webService.getUrl());
 
                 //insert data into TABLE [* SETUP]
                 var _onInsertSucceed = function (results) {
@@ -58,7 +59,7 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
                 var _isConnectUrl = webService.getUrl() + 'IsConnect';
 
                 var _response = $http.get(_isConnectUrl, {
-                    timeout: 30000
+                    timeout: 10000
                 });
 
                 //callback from web service [* success]

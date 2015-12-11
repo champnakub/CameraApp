@@ -19,9 +19,8 @@
                         <label class="col-xs-2 control-label">Building</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control">
-                                <option>Building A</option>
-                                <option>Building B</option>
+                            <select ng-options="defectedBuilding.Code for defectedBuilding in _defectedBuildings " ng-model="defectedBuilding" ng-change="defectedBuilding()" class="form-control">
+                                
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -35,6 +34,7 @@
                         <div class="col-xs-10">
                             <select class="form-control">
                                 <option>Level 1</option>
+                                <option>Level 2</option>
                             </select>
                         </div>
                         <span class="material-input"></span>

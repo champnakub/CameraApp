@@ -11,8 +11,6 @@ Login.config(['$routeProvider', function ($routeProvider) {
 
 Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User', function ($scope, $location, AppDB, toastr, User) {
         
-        $.material.init();
-        
         //for test case scenrario
         $scope.getProjectData = function () {
 

@@ -11,18 +11,17 @@ Activity.config(['$routeProvider', function ($routeProvider) {
 
 Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', function ($scope, $location, AppDB, toastr) {
 
-        $.material.init();
+        $scope._defectedBuildings = [];
 
-        //back to PROJECT view
+        $scope.image = "images/blank.png";
+
+        //@Back to PROJECT view
         $scope.back = function () {
 
             var _projectViewPath = '/projectView';
             //change page to project view page
             $location.path(_projectViewPath);
         };
-
-        //array of images taken from CAMERA or GALLERY
-        $scope.image = "images/blank.png";
 
         //@ Take Picture
         $scope.takePicture = function () {
@@ -64,6 +63,37 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', f
             //call the cordova camera plugin to open the device's gallery
             navigator.camera.getPicture(success, failure, cameraOptions);
         };
+
+        //@ Event on choosing defected builing
+        $scope.defectedBuilding = function () {
+            
+            alert(JSON.stringify(defectedBuilding));
+        };
+
+        AppDB._cameraAppDB.transaction(function (tx) {
+
+            var _onQuerySuccess = function (tx, results) {
+
+                var _buildingDatas = results;
+
+                for (var i = 0; i < _buildingDatas.rows.length; i++) {
+
+                    $scope.$apply(function () {
+                        $scope._defectedBuildings.push(_buildingDatas.rows.item(i));
+                    });
+                }
+                ;
+            };
+
+            var _onQueryFailed = function (error) {
+
+                toastr.error(error.message, 'Error', {
+                    timeOut: 5000
+                });
+            };
+
+            tx.executeSql('SELECT * FROM BUILDING', [], _onQuerySuccess, _onQueryFailed);
+        });
     }]);
 
 Activity.directive('showtab',

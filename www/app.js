@@ -1376,9 +1376,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 //controller
 App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$location', 'toastr', function ($scope, webService, AppDB, _, $location, toastr) {
         
-        console.log('[DEV] : App Instantiated');
-
-        $.material.init();
+       $scope.$on('$viewContentLoaded', function() {
+            
+            $.material.init();
+       });
 
         var openDBSucceed = function () {
             //create tables on initialized

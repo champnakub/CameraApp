@@ -10,20 +10,20 @@ Project.config(['$routeProvider', function ($routeProvider) {
     }]);
 
 Project.directive('projectClick', ['$location',
-        function ($location) {
-            return {
-                link: function (scope, element, attrs) {
-                    element.click(function (e) {
-                        
-                        var _activityViewPath = '/activityView';
-                        //change page to project view page
-                        scope.$apply(function () {
-                            $location.path(_activityViewPath);
-                        });
+    function ($location) {
+        return {
+            link: function (scope, element, attrs) {
+                element.click(function (e) {
+
+                    var _activityViewPath = '/activityView';
+                    //change page to project view page
+                    scope.$apply(function () {
+                        $location.path(_activityViewPath);
                     });
-                }
-            };
-        }]);
+                });
+            }
+        };
+    }]);
 
 Project.controller('ProjectCtrl', ['$scope', '$location', 'AppDB', 'toastr', function ($scope, $location, AppDB, toastr) {
 
@@ -32,18 +32,19 @@ Project.controller('ProjectCtrl', ['$scope', '$location', 'AppDB', 'toastr', fun
         var _onQuerySuccess = function (tx, results) {
 
             var _projectDatas = results;
-            
+
             for (var i = 0; i < _projectDatas.rows.length; i++) {
-                
+
                 var _projectData = {
                     ID: _projectDatas.rows.item(i).ID,
                     Description: _projectDatas.rows.item(i).Description
                 };
 
-                $scope._projectResults.push(_projectData);
+                $scope.$apply(function () {
+                    $scope._projectResults.push(_projectData);
+                });
             }
             ;
-            $scope.$apply();
         };
 
         var _onQueryFailed = function () {
