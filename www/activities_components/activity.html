@@ -11,9 +11,9 @@
             <!-- DEFECTED TAB -->
             <div id="defected" class="tab-pane fade in active">
 
-                <h1 class="header">Defected Item of Project : <span>{{projectData.Description}}</span> </h1>
+                <h3 class="header" style="font-size: 20px;">Defected Item of Project(<span style="font-size: 18px; color : #26C281;">{{projectData.Description}}</span>)</h3>
                 
-                <h2 class="header">Inspector by : <span>{{inspectorName}}</span> </h2>
+                <h4 class="header">Inspector by : <span style="color : #F27935;">{{inspectorName}}</span> </h4>
 
                 <form class="form-horizontal">
                     <!-- BUILDING -->
@@ -60,8 +60,8 @@
                         <label class="col-xs-2 control-label">Location</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control">
-                                <option>Wall</option>
+                            <select class="form-control" ng-model="defectedAreaSelected" ng-change="onDefectedArea(defectedAreaSelected)" 
+                                ng-options="defectedArea as defectedArea.Description for defectedArea in _defectedAreas">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -73,8 +73,8 @@
                         <label class="col-xs-2 control-label">Contractor</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control">
-                                <option>Contractor A</option>
+                            <select class="form-control" ng-model="contractorSelected" ng-change="onContractor(contractorSelected)" 
+                                ng-options="contractor as contractor.FullName for contractor in _contractors">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -112,7 +112,7 @@
                         <button style="font-size: 1.2em; background: #BF55EC; color: white;"  ng-click="back()" type="button" class="btn btn-raised btn-lg col-xs-6">
                             <span class="glyphicon glyphicon-chevron-left"></span> Back
                         </button> 
-                        <button style="font-size: 1.2em; background: #BF55EC; color: white;"  ng-click="back()" type="button" class="btn btn-raised btn-lg col-xs-6">
+                        <button ng-click="clearData()" style="font-size: 1.2em; background: #BF55EC; color: white;"  ng-click="back()" type="button" class="btn btn-raised btn-lg col-xs-6">
                             Clear Data<span class="glyphicon glyphicon-erase"></span>
                         </button> 
                     </div>

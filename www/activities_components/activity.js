@@ -20,7 +20,7 @@ Activity.directive('showtab', function () {
     };
 });
 
-Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', 'User', function ($scope, $location, AppDB, toastr, Project, User) {
+Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', 'User', '$route', function ($scope, $location, AppDB, toastr, Project, User, $route) {
 
         //@ selected defected building
         var _selectedDFBL = null;
@@ -36,20 +36,22 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
         //@ selected contractor
         var _selectedContractor = null;
-        
+
         $scope.projectData = Project.getProjectData();
-        
+
         $scope.inspectorName = User.getFullName();
-        
+
         $scope.image = "images/blank.png";
-        
+
         $scope._defectedBuildings = [];
 
         $scope._defectedLevels = [];
 
         $scope._defectedRooms = [];
 
-        $scope._defectedArea = [];
+        $scope._defectedAreas = [];
+
+        $scope._contractors = [];
 
         //@Back to PROJECT view
         $scope.back = function () {
@@ -113,13 +115,9 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
                     $scope._defectedRooms = [];
 
-                    $scope._defectedArea = [];
-
                     _selectedDFLV = null;
 
                     _selectedDFRM = null;
-
-                    _selectedDFAR = null;
 
                     var _levelDatas = results;
 
@@ -180,6 +178,22 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             _selectedDFRM = defectedRoom;
         };
 
+        //@Event on choosing defected area
+        $scope.onDefectedArea = function (defectedArea) {
+
+            _selectedDFAR = defectedArea;
+        };
+
+        //@Event on clear page data
+        $scope.clearData = function () {
+
+            $route.reload();
+
+            toastr.info('Data cleared!', 'Information', {
+                timeOut: 5000
+            });
+        };
+
         //@Event get Building data on start up
         AppDB._cameraAppDB.transaction(function (tx) {
 
@@ -204,5 +218,57 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             };
 
             tx.executeSql('SELECT ID, Description FROM BUILDING Where Project = ?;', [$scope.projectData.ID], _onQuerySuccess, _onQueryFailed);
+        });
+
+        //@Event get Location data on start up
+        AppDB._cameraAppDB.transaction(function (tx) {
+
+            var _onQuerySuccess = function (tx, results) {
+
+                var _basedAreaDatas = results;
+
+                for (var i = 0; i < _basedAreaDatas.rows.length; i++) {
+
+                    $scope.$apply(function () {
+                        $scope._defectedAreas.push(_basedAreaDatas.rows.item(i));
+                    });
+                }
+                ;
+            };
+
+            var _onQueryFailed = function (error) {
+
+                toastr.error(error.message, 'Error', {
+                    timeOut: 5000
+                });
+            };
+
+            tx.executeSql('SELECT ID, Description FROM BASEDAREA', [], _onQuerySuccess, _onQueryFailed);
+        });
+        
+        //@Event get Contractor data on start up
+        AppDB._cameraAppDB.transaction(function (tx) {
+
+            var _onQuerySuccess = function (tx, results) {
+
+                var _contractorDatas = results;
+
+                for (var i = 0; i < _contractorDatas.rows.length; i++) {
+
+                    $scope.$apply(function () {
+                        $scope._contractors.push(_contractorDatas.rows.item(i));
+                    });
+                }
+                ;
+            };
+
+            var _onQueryFailed = function (error) {
+
+                toastr.error(error.message, 'Error', {
+                    timeOut: 5000
+                });
+            };
+
+            tx.executeSql('SELECT ID, FullName FROM CONTRACTOR', [], _onQuerySuccess, _onQueryFailed);
         });
     }]);
