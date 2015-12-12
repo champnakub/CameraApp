@@ -20,7 +20,7 @@
 
                         <div class="col-xs-10">
                             <select class="form-control" ng-model="defectedBuildingSelected" ng-change="onDefectedBuilding(defectedBuildingSelected)" 
-                                ng-options="defectedBuilding as defectedBuilding.Code for defectedBuilding in _defectedBuildings">
+                                ng-options="defectedBuilding as defectedBuilding.Description for defectedBuilding in _defectedBuildings">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -32,9 +32,8 @@
                         <label class="col-xs-2 control-label">Level</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control">
-                                <option>Level 1</option>
-                                <option>Level 2</option>
+                            <select class="form-control" ng-model="defectedLevelSelected" ng-change="onDefectedLevel(defectedLevelSelected)" 
+                                ng-options="defectedLevel as defectedLevel.Description for defectedLevel in _defectedLevels">
                             </select>
                         </div>
                         <span class="material-input"></span>

@@ -32,8 +32,6 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
                 //set url in WebService instance
                 webService.setUrl(_nwAddress);
 
-                alert(webService.getUrl());
-
                 //insert data into TABLE [* SETUP]
                 var _onInsertSucceed = function (results) {
 

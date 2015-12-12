@@ -9,25 +9,19 @@ Project.config(['$routeProvider', function ($routeProvider) {
         });
     }]);
 
-Project.directive('projectClick', ['$location',
-    function ($location) {
-        return {
-            link: function (scope, element, attrs) {
-                element.click(function (e) {
-
-                    var _activityViewPath = '/activityView';
-                    //change page to project view page
-                    scope.$apply(function () {
-                        $location.path(_activityViewPath);
-                    });
-                });
-            }
-        };
-    }]);
-
-Project.controller('ProjectCtrl', ['$scope', '$location', 'AppDB', 'toastr', function ($scope, $location, AppDB, toastr) {
+Project.controller('ProjectCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', function ($scope, $location, AppDB, toastr, Project) {
 
         $scope._projectResults = [];
+
+        $scope.onProjectData = function (selectedProject) {
+
+            Project.setProjectData(selectedProject);
+
+            var _activityViewPath = '/activityView';
+            //change page to project view path
+            $location.path(_activityViewPath);
+        };
+
 
         var _onQuerySuccess = function (tx, results) {
 

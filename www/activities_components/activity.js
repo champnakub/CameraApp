@@ -9,9 +9,28 @@ Activity.config(['$routeProvider', function ($routeProvider) {
         });
     }]);
 
-Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', function ($scope, $location, AppDB, toastr) {
+Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', function ($scope, $location, AppDB, toastr, Project) {
+
+        var _projectData = Project.getProjectData();
+        
+        //@ selected defected building
+        var _selectedDFBL = null;
+        
+        //@ selected defected level
+        var _selectedDFLV = null;
+        
+        //@ selected defected room
+        var _selectedDFRM = null;
+        
+        //@ selected defected location
+        var _selectedDFLC = null;
+        
+        //@ selected contractor
+        var _selectedContractor = null;
 
         $scope._defectedBuildings = [];
+        
+        $scope._defectedLevels = [];
 
         $scope.image = "images/blank.png";
 
@@ -67,9 +86,45 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', f
         //@ Event on choosing defected builing
         $scope.onDefectedBuilding = function (defectedBuilding) {
             
-            alert(JSON.stringify(defectedBuilding));
-        };
+            _selectedDFBL = defectedBuilding;
+            
+            AppDB._cameraAppDB.transaction(function (tx) {
 
+                var _onQuerySuccess = function (tx, results) {
+                    
+                    $scope._defectedLevels = [];
+                    
+                    var _levelDatas = results;
+
+                    for (var i = 0; i < _levelDatas.rows.length; i++) {
+
+                        $scope.$apply(function () {
+                            $scope._defectedLevels.push(_levelDatas.rows.item(i));
+                        });
+                    }
+                    ;
+                };
+
+                var _onQueryFailed = function (error) {
+
+                    toastr.error(error.message, 'Error', {
+                        timeOut: 5000
+                    });
+                };
+
+                tx.executeSql('SELECT ID, Description FROM Level Where Building = ?;', [defectedBuilding.ID], _onQuerySuccess, _onQueryFailed);
+            });
+        };
+        
+        //@Event on choosing defected level
+        $scope.onDefectedLevel = function(defectedLevel) {
+            
+            _selectedDFLV = defectedLevel;
+            
+            //alert(JSON.stringify(defectedLevel));
+        };
+        
+        //@Event get Building data on start up
         AppDB._cameraAppDB.transaction(function (tx) {
 
             var _onQuerySuccess = function (tx, results) {
@@ -92,7 +147,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', f
                 });
             };
 
-            tx.executeSql('SELECT * FROM BUILDING', [], _onQuerySuccess, _onQueryFailed);
+            tx.executeSql('SELECT ID, Description FROM BUILDING Where Project = ?;', [_projectData.ID], _onQuerySuccess, _onQueryFailed);
         });
     }]);
 
