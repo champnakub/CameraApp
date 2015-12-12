@@ -11,7 +11,9 @@
             <!-- DEFECTED TAB -->
             <div id="defected" class="tab-pane fade in active">
 
-                <h1 class="header">Defected</h1>
+                <h1 class="header">Defected Item of Project : <span>{{projectData.Description}}</span> </h1>
+                
+                <h2 class="header">Inspector by : <span>{{inspectorName}}</span> </h2>
 
                 <form class="form-horizontal">
                     <!-- BUILDING -->
@@ -45,8 +47,8 @@
                         <label class="col-xs-2 control-label">Room</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control">
-                                <option>Room A</option>
+                            <select class="form-control" ng-model="defectedRoomSelected" ng-change="onDefectedRoom(defectedRoomSelected)" 
+                                ng-options="defectedRoom as defectedRoom.Description for defectedRoom in _defectedRooms">
                             </select>
                         </div>
                         <span class="material-input"></span>
