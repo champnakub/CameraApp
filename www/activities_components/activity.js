@@ -9,30 +9,47 @@ Activity.config(['$routeProvider', function ($routeProvider) {
         });
     }]);
 
-Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', function ($scope, $location, AppDB, toastr, Project) {
+Activity.directive('showtab', function () {
+    return {
+        link: function (scope, element, attrs) {
+            element.click(function (e) {
+                e.preventDefault();
+                $(element).tab('show');
+            });
+        }
+    };
+});
 
-        var _projectData = Project.getProjectData();
-        
+Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', 'User', function ($scope, $location, AppDB, toastr, Project, User) {
+
         //@ selected defected building
         var _selectedDFBL = null;
-        
+
         //@ selected defected level
         var _selectedDFLV = null;
-        
+
         //@ selected defected room
         var _selectedDFRM = null;
-        
-        //@ selected defected location
-        var _selectedDFLC = null;
-        
+
+        //@ selected defected based area
+        var _selectedDFAR = null;
+
         //@ selected contractor
         var _selectedContractor = null;
-
-        $scope._defectedBuildings = [];
         
+        $scope.projectData = Project.getProjectData();
+        
+        $scope.inspectorName = User.getFullName();
+        
+        $scope.image = "images/blank.png";
+        
+        $scope._defectedBuildings = [];
+
         $scope._defectedLevels = [];
 
-        $scope.image = "images/blank.png";
+        $scope._defectedRooms = [];
+
+        $scope._defectedArea = [];
 
         //@Back to PROJECT view
         $scope.back = function () {
@@ -85,15 +102,25 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
         //@ Event on choosing defected builing
         $scope.onDefectedBuilding = function (defectedBuilding) {
-            
+
             _selectedDFBL = defectedBuilding;
-            
+
             AppDB._cameraAppDB.transaction(function (tx) {
 
                 var _onQuerySuccess = function (tx, results) {
-                    
+
                     $scope._defectedLevels = [];
-                    
+
+                    $scope._defectedRooms = [];
+
+                    $scope._defectedArea = [];
+
+                    _selectedDFLV = null;
+
+                    _selectedDFRM = null;
+
+                    _selectedDFAR = null;
+
                     var _levelDatas = results;
 
                     for (var i = 0; i < _levelDatas.rows.length; i++) {
@@ -115,15 +142,44 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                 tx.executeSql('SELECT ID, Description FROM Level Where Building = ?;', [defectedBuilding.ID], _onQuerySuccess, _onQueryFailed);
             });
         };
-        
+
         //@Event on choosing defected level
-        $scope.onDefectedLevel = function(defectedLevel) {
-            
+        $scope.onDefectedLevel = function (defectedLevel) {
+
             _selectedDFLV = defectedLevel;
-            
-            //alert(JSON.stringify(defectedLevel));
+
+            AppDB._cameraAppDB.transaction(function (tx) {
+
+                var _onQuerySuccess = function (tx, results) {
+
+                    var _roomDatas = results;
+
+                    for (var i = 0; i < _roomDatas.rows.length; i++) {
+
+                        $scope.$apply(function () {
+                            $scope._defectedRooms.push(_roomDatas.rows.item(i));
+                        });
+                    }
+                    ;
+                };
+
+                var _onQueryFailed = function (error) {
+
+                    toastr.error(error.message, 'Error', {
+                        timeOut: 5000
+                    });
+                };
+
+                tx.executeSql('SELECT ID, Description FROM ROOM Where Level = ?;', [defectedLevel.ID], _onQuerySuccess, _onQueryFailed);
+            });
         };
-        
+
+        //@Event on choosing defected level
+        $scope.onDefectedRoom = function (defectedRoom) {
+
+            _selectedDFRM = defectedRoom;
+        };
+
         //@Event get Building data on start up
         AppDB._cameraAppDB.transaction(function (tx) {
 
@@ -147,18 +203,6 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                 });
             };
 
-            tx.executeSql('SELECT ID, Description FROM BUILDING Where Project = ?;', [_projectData.ID], _onQuerySuccess, _onQueryFailed);
+            tx.executeSql('SELECT ID, Description FROM BUILDING Where Project = ?;', [$scope.projectData.ID], _onQuerySuccess, _onQueryFailed);
         });
     }]);
-
-Activity.directive('showtab',
-        function () {
-            return {
-                link: function (scope, element, attrs) {
-                    element.click(function (e) {
-                        e.preventDefault();
-                        $(element).tab('show');
-                    });
-                }
-            };
-        });
