@@ -228,6 +228,10 @@
 #activity-view .image * {
     vertical-align: middle;
 }
+
+#activity-view tr:nth-child(even)  {
+    background: #A17917; color: white;
+}
 /* END OF ACTIVITY PAGE VIEW */
 
 /* CAMERA PAGE VIEW */

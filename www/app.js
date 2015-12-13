@@ -19,8 +19,8 @@ var App = angular.module('myApp', [
     //ANGULAR LIBRARY SECTION
     'toastr',
     'cfp.loadingBar',
-    'angular-websql',
-    'angular-carousel'
+    'angular-websql'
+    //'angular-carousel'
 ]);
 
 //constant for underscore.js

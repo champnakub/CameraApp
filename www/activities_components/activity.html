@@ -12,7 +12,7 @@
             <div id="defected" class="tab-pane fade in active">
 
                 <h3 class="header" style="font-size: 20px;">Defected Item of Project(<span style="font-size: 18px; color : #26C281;">{{projectData.Description}}</span>)</h3>
-                
+
                 <h4 class="header">Inspector by : <span style="color : #F27935;">{{inspectorName}}</span> </h4>
 
                 <form class="form-horizontal">
@@ -21,8 +21,8 @@
                         <label class="col-xs-2 control-label">Building</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control" ng-model="defectedBuildingSelected" ng-change="onDefectedBuilding(defectedBuildingSelected)" 
-                                ng-options="defectedBuilding as defectedBuilding.Description for defectedBuilding in _defectedBuildings">
+                            <select class="form-control" ng-model="defectedBuildingSelected" ng-change="onDefectedBuilding()" 
+                                    ng-options="defectedBuilding as defectedBuilding.Description for defectedBuilding in _defectedBuildings">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -34,8 +34,8 @@
                         <label class="col-xs-2 control-label">Level</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control" ng-model="defectedLevelSelected" ng-change="onDefectedLevel(defectedLevelSelected)" 
-                                ng-options="defectedLevel as defectedLevel.Description for defectedLevel in _defectedLevels">
+                            <select class="form-control" ng-model="defectedLevelSelected" ng-change="onDefectedLevel()" 
+                                    ng-options="defectedLevel as defectedLevel.Description for defectedLevel in _defectedLevels">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -47,8 +47,8 @@
                         <label class="col-xs-2 control-label">Room</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control" ng-model="defectedRoomSelected" ng-change="onDefectedRoom(defectedRoomSelected)" 
-                                ng-options="defectedRoom as defectedRoom.Description for defectedRoom in _defectedRooms">
+                            <select class="form-control" ng-model="defectedRoomSelected" ng-change="onDefectedRoom()" 
+                                    ng-options="defectedRoom as defectedRoom.Description for defectedRoom in _defectedRooms">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -60,8 +60,8 @@
                         <label class="col-xs-2 control-label">Location</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control" ng-model="defectedAreaSelected" ng-change="onDefectedArea(defectedAreaSelected)" 
-                                ng-options="defectedArea as defectedArea.Description for defectedArea in _defectedAreas">
+                            <select class="form-control" ng-model="defectedAreaSelected" ng-change="onDefectedArea()" 
+                                    ng-options="defectedArea as defectedArea.Description for defectedArea in _defectedAreas">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -73,8 +73,8 @@
                         <label class="col-xs-2 control-label">Contractor</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control" ng-model="contractorSelected" ng-change="onContractor(contractorSelected)" 
-                                ng-options="contractor as contractor.FullName for contractor in _contractors">
+                            <select class="form-control" ng-model="contractorSelected" ng-change="onContractor()" 
+                                    ng-options="contractor as contractor.FullName for contractor in _contractors">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -97,22 +97,22 @@
 
                 <div class="form-group has-success label-floating is-empty">
                     <label for="defected-comment" class="control-label">Defected Comment</label>
-                    <textarea maxlength="400" class="form-control" id="defected-comment"></textarea>
+                    <textarea ng-model="defectedComment" maxlength="400" class="form-control" id="defected-comment"></textarea>
                     <span class="material-input"></span>
                 </div>
 
                 <div class="row" style="margin: 0;">
-                    <button style="font-size: 1.2em; background: #F62459; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
+                    <button ng-click="onSave()" style="font-size: 1.2em; background: #F62459; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
                         Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                     </button> 
                 </div>
-                
+
                 <div class="row" style="margin: 0;">
                     <div class="btn-group col-xs-12" style="padding: 0;">
                         <button style="font-size: 1.2em; background: #BF55EC; color: white;"  ng-click="back()" type="button" class="btn btn-raised btn-lg col-xs-6">
                             <span class="glyphicon glyphicon-chevron-left"></span> Back
                         </button> 
-                        <button ng-click="clearData()" style="font-size: 1.2em; background: #BF55EC; color: white;"  ng-click="back()" type="button" class="btn btn-raised btn-lg col-xs-6">
+                        <button ng-click="clearData()" style="font-size: 1.2em; background: #BF55EC; color: white;"   type="button" class="btn btn-raised btn-lg col-xs-6">
                             Clear Data<span class="glyphicon glyphicon-erase"></span>
                         </button> 
                     </div>
@@ -123,7 +123,7 @@
             <!-- DEFECTED RESULT -->
             <div id="defected-result" class="tab-pane fade">
 
-                <h1 class="header">Defected Result</h1>
+                <h3 class="header" style="font-size: 20px;">Defected Result of Project(<span style="font-size: 18px; color : #26C281;">{{projectData.Description}}</span>)</h3>
 
                 <form class="form-horizontal">
                     <!-- BUILDING -->
@@ -131,9 +131,8 @@
                         <label class="col-xs-2 control-label">Building</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control">
-                                <option>Building A</option>
-                                <option>Building B</option>
+                            <select class="form-control" ng-model="defectedResultBuildingSelected" ng-change="onDefectedResultBuilding()" 
+                                    ng-options="defectedResultBuilding as defectedResultBuilding.Description for defectedResultBuilding in _defectedBuildings">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -145,8 +144,8 @@
                         <label class="col-xs-2 control-label">Level</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control">
-                                <option>Level 1</option>
+                            <select class="form-control" ng-model="defectedResultLevelSelected" ng-change="onDefectedResultLevel()" 
+                                    ng-options="defectedResultLevel as defectedResultLevel.Description for defectedResultLevel in _defectedResultLevels">
                             </select>
                         </div>
                         <span class="material-input"></span>
@@ -158,14 +157,55 @@
                         <label class="col-xs-2 control-label">Room</label>
 
                         <div class="col-xs-10">
-                            <select class="form-control">
-                                <option>Room A</option>
+                            <select class="form-control" ng-model="defectedResultRoomSelected" ng-change="onDefectedResultRoom()" 
+                                    ng-options="defectedResultRoom as defectedResultRoom.Description for defectedResultRoom in _defectedResultRooms">
                             </select>
                         </div>
                         <span class="material-input"></span>
                     </div>
                     <!-- ROOM -->
                 </form>
+
+                <!-- DEFECTED RESULT GRID -->
+
+                <form>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                            <input type="text" class="form-control" placeholder="Search da Fish" ng-model="searchFish">
+
+                        </div>      
+                    </div>
+                </form>
+
+                <div style="height: 350px; overflow-y: scroll">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr style="color :#93c54b; font-size: 16px; font-weight: bold;">
+                                <td>
+                                    Sushi Roll 
+                                </td>
+                                <td>
+                                    Fish Type 
+                                </td>
+                                <td>
+                                    Taste Level 
+                                </td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="roll in sushi| filter:searchFish">
+                                <td>{{ roll.name}}</td>
+                                <td>{{ roll.fish}}</td>
+                                <td>{{ roll.tastiness}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- DEFECTED RESULT GRID -->
             </div>    
         </div> 
     </div>

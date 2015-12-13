@@ -20,22 +20,27 @@ Activity.directive('showtab', function () {
     };
 });
 
-Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', 'User', '$route', function ($scope, $location, AppDB, toastr, Project, User, $route) {
+Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', 'User', '$route', '_', function ($scope, $location, AppDB, toastr, Project, User, $route, _) {
 
-        //@ selected defected building
-        var _selectedDFBL = null;
+        $scope.sortType = 'name'; // set the default sort type
+        $scope.sortReverse = false;  // set the default sort order
+        $scope.searchFish = '';     // set the default search/filter term
 
-        //@ selected defected level
-        var _selectedDFLV = null;
-
-        //@ selected defected room
-        var _selectedDFRM = null;
-
-        //@ selected defected based area
-        var _selectedDFAR = null;
-
-        //@ selected contractor
-        var _selectedContractor = null;
+        // create the list of sushi rolls 
+        $scope.sushi = [
+            {name: 'Cali Roll', fish: 'Crab', tastiness: 2},
+            {name: 'Philly', fish: 'Tuna', tastiness: 4},
+            {name: 'Tiger', fish: 'Eel', tastiness: 7},
+            {name: 'Rainbow', fish: 'Variety', tastiness: 6},
+            {name: 'Cali Roll', fish: 'Crab', tastiness: 2},
+            {name: 'Philly', fish: 'Tuna', tastiness: 4},
+            {name: 'Tiger', fish: 'Eel', tastiness: 7},
+            {name: 'Rainbow', fish: 'Variety', tastiness: 6},
+            {name: 'Cali Roll', fish: 'Crab', tastiness: 2},
+            {name: 'Philly', fish: 'Tuna', tastiness: 4},
+            {name: 'Tiger', fish: 'Eel', tastiness: 7},
+            {name: 'Rainbow', fish: 'Variety', tastiness: 6}
+        ];
 
         $scope.projectData = Project.getProjectData();
 
@@ -50,6 +55,10 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
         $scope._defectedRooms = [];
 
         $scope._defectedAreas = [];
+
+        $scope._defectedResultLevels = [];
+
+        $scope._defectedResultRooms = [];
 
         $scope._contractors = [];
 
@@ -103,9 +112,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
         };
 
         //@ Event on choosing defected builing
-        $scope.onDefectedBuilding = function (defectedBuilding) {
-
-            _selectedDFBL = defectedBuilding;
+        $scope.onDefectedBuilding = function () {
 
             AppDB._cameraAppDB.transaction(function (tx) {
 
@@ -114,10 +121,6 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                     $scope._defectedLevels = [];
 
                     $scope._defectedRooms = [];
-
-                    _selectedDFLV = null;
-
-                    _selectedDFRM = null;
 
                     var _levelDatas = results;
 
@@ -137,14 +140,12 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                     });
                 };
 
-                tx.executeSql('SELECT ID, Description FROM Level Where Building = ?;', [defectedBuilding.ID], _onQuerySuccess, _onQueryFailed);
+                tx.executeSql('SELECT ID, Description FROM Level Where Building = ?;', [$scope.defectedBuildingSelected.ID], _onQuerySuccess, _onQueryFailed);
             });
         };
 
         //@Event on choosing defected level
-        $scope.onDefectedLevel = function (defectedLevel) {
-
-            _selectedDFLV = defectedLevel;
+        $scope.onDefectedLevel = function () {
 
             AppDB._cameraAppDB.transaction(function (tx) {
 
@@ -168,20 +169,83 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                     });
                 };
 
-                tx.executeSql('SELECT ID, Description FROM ROOM Where Level = ?;', [defectedLevel.ID], _onQuerySuccess, _onQueryFailed);
+                tx.executeSql('SELECT ID, Description FROM ROOM Where Level = ?;', [$scope.defectedLevelSelected.ID], _onQuerySuccess, _onQueryFailed);
             });
         };
 
         //@Event on choosing defected level
-        $scope.onDefectedRoom = function (defectedRoom) {
-
-            _selectedDFRM = defectedRoom;
+        $scope.onDefectedRoom = function () {
         };
 
         //@Event on choosing defected area
-        $scope.onDefectedArea = function (defectedArea) {
+        $scope.onDefectedArea = function () {
+        };
 
-            _selectedDFAR = defectedArea;
+        //@Event on choosing defected result building
+        $scope.onDefectedResultBuilding = function () {
+
+            AppDB._cameraAppDB.transaction(function (tx) {
+
+                var _onQuerySuccess = function (tx, results) {
+
+                    $scope._defectedResultLevels = [];
+
+                    $scope._defectedResultRooms = [];
+
+                    var _levelDatas = results;
+
+                    for (var i = 0; i < _levelDatas.rows.length; i++) {
+
+                        $scope.$apply(function () {
+                            $scope._defectedResultLevels.push(_levelDatas.rows.item(i));
+                        });
+                    }
+                    ;
+                };
+
+                var _onQueryFailed = function (error) {
+
+                    toastr.error(error.message, 'Error', {
+                        timeOut: 5000
+                    });
+                };
+
+                tx.executeSql('SELECT ID, Description FROM Level Where Building = ?;', [$scope.defectedResultBuildingSelected.ID], _onQuerySuccess, _onQueryFailed);
+            });
+        };
+
+        //@Event on choosing defected result level
+        $scope.onDefectedResultLevel = function () {
+
+            AppDB._cameraAppDB.transaction(function (tx) {
+
+                var _onQuerySuccess = function (tx, results) {
+
+                    var _roomDatas = results;
+
+                    for (var i = 0; i < _roomDatas.rows.length; i++) {
+
+                        $scope.$apply(function () {
+                            $scope._defectedResultRooms.push(_roomDatas.rows.item(i));
+                        });
+                    }
+                    ;
+                };
+
+                var _onQueryFailed = function (error) {
+
+                    toastr.error(error.message, 'Error', {
+                        timeOut: 5000
+                    });
+                };
+
+                tx.executeSql('SELECT ID, Description FROM ROOM Where Level = ?;', [$scope.defectedResultLevelSelected.ID], _onQuerySuccess, _onQueryFailed);
+            });
+        };
+
+        //@Event on choosing defected room level
+        $scope.onDefectedResultRoom = function () {
+
         };
 
         //@Event on clear page data
@@ -192,6 +256,68 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             toastr.info('Data cleared!', 'Information', {
                 timeOut: 5000
             });
+        };
+
+        //@Event on save page data [defected]
+        $scope.onSave = function () {
+
+            if (_.isNull($scope.defectedBuildingSelected) || _.isUndefined($scope.defectedBuildingSelected)
+                    || _.isNull($scope.defectedLevelSelected) || _.isUndefined($scope.defectedLevelSelected)
+                    || _.isNull($scope.defectedRoomSelected) || _.isUndefined($scope.defectedRoomSelected)
+                    || _.isNull($scope.defectedAreaSelected) || _.isUndefined($scope.defectedAreaSelected)
+                    || _.isNull($scope.contractorSelected) || _.isUndefined($scope.contractorSelected)
+                    || _.isNull($scope.defectedComment) || _.isUndefined($scope.defectedComment)) {
+
+                toastr.warning('Please complete all the fields.', 'Warning', {
+                    timeOut: 5000
+                });
+            } else {
+                AppDB._cameraAppDB.transaction(function (tx) {
+
+                    var _onQuerySuccess = function (tx, results) {
+
+                        toastr.success('Saved Complete.', 'Information', {
+                            timeOut: 5000
+                        });
+
+                        $scope.$apply(function () {
+                            $scope.clearData();
+                        });
+                    };
+
+                    var _onQueryFailed = function (error) {
+
+                        toastr.error(error.message, 'Error', {
+                            timeOut: 5000
+                        });
+                    };
+
+                    var _query = 'INSERT INTO DEFECTED (ID, Code, DateCreated, Project, Building, Level, Room, Area, Inspector, Contractor, Imei, DefectedImage, Status, Closed, Comment, NewRecord) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+                    var _dateCreated = new Date();
+
+                    var _queryValues = [
+                        null,
+                        null,
+                        _dateCreated.getTime(),
+                        $scope.projectData.ID,
+                        $scope.defectedBuildingSelected.ID,
+                        $scope.defectedLevelSelected.ID,
+                        $scope.defectedRoomSelected.ID,
+                        $scope.defectedAreaSelected.ID,
+                        User.getID(),
+                        $scope.contractorSelected.ID,
+                        window.device.uuid,
+                        $scope.image,
+                        0,
+                        0,
+                        $scope.defectedComment,
+                        1
+                    ];
+
+                    tx.executeSql(_query, _queryValues, _onQuerySuccess, _onQueryFailed);
+                });
+            }
         };
 
         //@Event get Building data on start up
@@ -245,7 +371,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
             tx.executeSql('SELECT ID, Description FROM BASEDAREA', [], _onQuerySuccess, _onQueryFailed);
         });
-        
+
         //@Event get Contractor data on start up
         AppDB._cameraAppDB.transaction(function (tx) {
 
