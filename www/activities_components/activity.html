@@ -165,7 +165,7 @@
                     </div>
                     <!-- ROOM -->
 
-                    <button ng-mousedown="getDefectedResults()" style="font-size: 1.2em; background: #3f51b5; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
+                    <button ng-mousedown="getDefectedResults()" style="font-size: 1.2em; background: #00897B; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
                         <i class="fa fa-download"></i> Get Result
                     </button>      
                 </form>
@@ -205,10 +205,10 @@
 
                     <tbody>
                         <tr ng-repeat="roll in _defectedResults| filter: searhDefectedResult">
-                            <td class="col-xs-3">{{ roll.Description}}</td>
-                            <td class="col-xs-3">{{ roll.ID}}</td>
-                            <td class="col-xs-3">{{ roll.DateCreatedString}}</td>
-                            <td class="col-xs-3">{{ roll.Comment}}</td>
+                            <td>{{ roll.Description}}</td>
+                            <td>{{ roll.ID}}</td>
+                            <td>{{ roll.DateCreatedString}}</td>
+                            <td>{{ roll.Comment}}</td>
                         </tr>
                     </tbody>
                 </table>
