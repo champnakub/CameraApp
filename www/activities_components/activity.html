@@ -164,6 +164,10 @@
                         <span class="material-input"></span>
                     </div>
                     <!-- ROOM -->
+                    
+                    <button ng-click="getDefectedResults()" style="font-size: 1.2em; background: #3f51b5; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
+                        <i class="fa fa-download"></i> Get Result
+                    </button>      
                 </form>
 
                 <!-- DEFECTED RESULT GRID -->
@@ -173,7 +177,7 @@
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-search"></i></div>
 
-                            <input type="text" class="form-control" placeholder="Search da Fish" ng-model="searchFish">
+                            <input type="text" class="form-control" placeholder="Search Result" ng-model="searhDefectedResult">
 
                         </div>      
                     </div>
@@ -184,22 +188,26 @@
                         <thead>
                             <tr style="color :#93c54b; font-size: 16px; font-weight: bold;">
                                 <td>
-                                    Sushi Roll 
+                                    Location
                                 </td>
                                 <td>
-                                    Fish Type 
+                                    Defect ID
                                 </td>
                                 <td>
-                                    Taste Level 
+                                    Created
+                                </td>
+                                <td>
+                                    Description
                                 </td>
                             </tr>
                         </thead>
 
                         <tbody>
-                            <tr ng-repeat="roll in sushi| filter:searchFish">
-                                <td>{{ roll.name}}</td>
-                                <td>{{ roll.fish}}</td>
-                                <td>{{ roll.tastiness}}</td>
+                            <tr ng-repeat="roll in _defectedResults| filter: searhDefectedResult">
+                                <td>{{ roll.Area}}</td>
+                                <td>{{ roll.ID}}</td>
+                                <td>{{ roll.DateCreated}}</td>
+                                <td>{{ roll.Description}}</td>
                             </tr>
                         </tbody>
                     </table>

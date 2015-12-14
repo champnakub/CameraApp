@@ -22,31 +22,13 @@ Activity.directive('showtab', function () {
 
 Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', 'User', '$route', '_', function ($scope, $location, AppDB, toastr, Project, User, $route, _) {
 
-        $scope.sortType = 'name'; // set the default sort type
-        $scope.sortReverse = false;  // set the default sort order
-        $scope.searchFish = '';     // set the default search/filter term
-
-        // create the list of sushi rolls 
-        $scope.sushi = [
-            {name: 'Cali Roll', fish: 'Crab', tastiness: 2},
-            {name: 'Philly', fish: 'Tuna', tastiness: 4},
-            {name: 'Tiger', fish: 'Eel', tastiness: 7},
-            {name: 'Rainbow', fish: 'Variety', tastiness: 6},
-            {name: 'Cali Roll', fish: 'Crab', tastiness: 2},
-            {name: 'Philly', fish: 'Tuna', tastiness: 4},
-            {name: 'Tiger', fish: 'Eel', tastiness: 7},
-            {name: 'Rainbow', fish: 'Variety', tastiness: 6},
-            {name: 'Cali Roll', fish: 'Crab', tastiness: 2},
-            {name: 'Philly', fish: 'Tuna', tastiness: 4},
-            {name: 'Tiger', fish: 'Eel', tastiness: 7},
-            {name: 'Rainbow', fish: 'Variety', tastiness: 6}
-        ];
-
         $scope.projectData = Project.getProjectData();
 
         $scope.inspectorName = User.getFullName();
 
         $scope.image = "images/blank.png";
+
+        $scope.searhDefectedResult = '';
 
         $scope._defectedBuildings = [];
 
@@ -56,11 +38,14 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
         $scope._defectedAreas = [];
 
+        $scope._defectedResults = [];
+
         $scope._defectedResultLevels = [];
 
         $scope._defectedResultRooms = [];
 
         $scope._contractors = [];
+
 
         //@Back to PROJECT view
         $scope.back = function () {
@@ -140,7 +125,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                     });
                 };
 
-                tx.executeSql('SELECT ID, Description FROM Level Where Building = ?;', [$scope.defectedBuildingSelected.ID], _onQuerySuccess, _onQueryFailed);
+                tx.executeSql('SELECT ID, Description FROM Level Where Building = ? Order By Code;', [$scope.defectedBuildingSelected.ID], _onQuerySuccess, _onQueryFailed);
             });
         };
 
@@ -210,7 +195,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                     });
                 };
 
-                tx.executeSql('SELECT ID, Description FROM Level Where Building = ?;', [$scope.defectedResultBuildingSelected.ID], _onQuerySuccess, _onQueryFailed);
+                tx.executeSql('SELECT ID, Description FROM Level Where Building = ? Order By Code;', [$scope.defectedResultBuildingSelected.ID], _onQuerySuccess, _onQueryFailed);
             });
         };
 
@@ -320,6 +305,41 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             }
         };
 
+        //@Event on get defected results to show in grid
+        $scope.getDefectedResults = function () {
+
+            var _query = "SELECT BasedArea.Description, Defected.Code, Defected.DateCreated , Defected.Comment , Contractor.FullName FROM Defected Inner join Contractor On Defected.Contractor = Contractor.ID Inner Join Inspector On Defected.Inspector = Inspector.ID Inner Join BasedArea On Defected.Area = BasedArea.ID Where Defected.Room = ?;";
+
+            AppDB._cameraAppDB.transaction(function (tx) {
+
+                var _onQuerySuccess = function (tx, results) {
+
+                    $scope._defectedResults = [];
+
+                    var _defectedResults = results;
+
+                    for (var i = 0; i < _defectedResults.rows.length; i++) {
+
+                        $scope.$apply(function () {
+                            $scope._defectedResults.push(_defectedResults.rows.item);
+                        });
+                    }
+                    ;
+                    
+                    console.log($scope._defectedResults);
+                };
+
+                var _onQueryFailed = function (error) {
+
+                    toastr.error(error.message, 'Error', {
+                        timeOut: 5000
+                    });
+                };
+
+                tx.executeSql(_query, [$scope.defectedResultRoomSelected.ID], _onQuerySuccess, _onQueryFailed);
+            });
+        };
+
         //@Event get Building data on start up
         AppDB._cameraAppDB.transaction(function (tx) {
 
@@ -396,5 +416,23 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             };
 
             tx.executeSql('SELECT ID, FullName FROM CONTRACTOR', [], _onQuerySuccess, _onQueryFailed);
+        });
+
+        //test get data from Defected table
+        AppDB._cameraAppDB.transaction(function (tx) {
+
+            var _onQuerySuccess = function (tx, results) {
+
+                alert(JSON.stringify(results));
+            };
+
+            var _onQueryFailed = function (error) {
+
+                toastr.error(error.message, 'Error', {
+                    timeOut: 5000
+                });
+            };
+
+            tx.executeSql('SELECT * FROM DEFECTED', [], _onQuerySuccess, _onQueryFailed);
         });
     }]);
