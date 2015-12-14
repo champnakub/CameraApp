@@ -9,8 +9,8 @@ Login.config(['$routeProvider', function ($routeProvider) {
         });
     }]);
 
-Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User', function ($scope, $location, AppDB, toastr, User) {
-        
+Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User', 'WebService', '_', '$http', function ($scope, $location, AppDB, toastr, User, WebService, _, $http) {
+
         //for test case scenrario
         $scope.getProjectData = function () {
 
@@ -31,6 +31,59 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
             AppDB._cameraAppDB.transaction(function (tx) {
 
                 tx.executeSql('SELECT * FROM PROJECT', [], _onQuerySuccess, _onQueryFailed);
+            });
+        };
+
+        //for test case scenario
+        $scope.getDefectedData = function () {
+
+            if (_.isNull(WebService.getUrl()) || _.isUndefined(WebService.getUrl()))
+                return;
+
+            var _pushDefectedUrl = WebService.getUrl() + 'PushDefected';
+
+            var _onQuerySuccess = function (tx, results) {
+                
+                var _defectedResults = [];
+                
+                for(var i = 0; i < results.rows.length; i++) {
+                    _defectedResults.push(results.rows.item(i));
+                }
+                
+                alert(JSON.stringify(_defectedResults));
+                
+                var req = {
+                    method: 'POST',
+                    url: _pushDefectedUrl,
+                    data: {_JsonData: JSON.stringify(_defectedResults)}
+                };
+                
+                $http(req).then(function () {
+                    
+                    //success callback after calling webservice
+                    toastr.success('Post to server complete!', 'Information', {
+                        timeOut: 5000
+                    });
+
+                }, function () {
+                    
+                    //error callback after calling webservice
+                    toastr.success('Post to server failed!', 'Information', {
+                        timeOut: 5000
+                    });
+                });
+            };
+
+            var _onQueryFailed = function (error) {
+
+                toastr.error(error.message, 'Error', {
+                    timeOut: 5000
+                });
+            };
+
+            AppDB._cameraAppDB.transaction(function (tx) {
+
+                tx.executeSql('SELECT * FROM Defected Where NewRecord = ?;', [1], _onQuerySuccess, _onQueryFailed);
             });
         };
 
