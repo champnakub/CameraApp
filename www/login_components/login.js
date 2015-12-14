@@ -35,11 +35,10 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
         };
 
         //for test case scenario
-        $scope.getDefectedData = function () {
-
-            if (_.isNull(WebService.getUrl()) || _.isUndefined(WebService.getUrl()))
-                return;
-
+        $scope.pushDefectedData = function () {
+            
+            WebService.setUrl('beau888.dyndns.org');
+            
             var _pushDefectedUrl = WebService.getUrl() + 'PushDefected';
 
             var _onQuerySuccess = function (tx, results) {
@@ -50,7 +49,7 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
                     _defectedResults.push(results.rows.item(i));
                 }
                 
-                alert(JSON.stringify(_defectedResults));
+                //alert(JSON.stringify(_defectedResults));
                 
                 var req = {
                     method: 'POST',
