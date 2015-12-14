@@ -1,6 +1,6 @@
 'use strict';
 
-var Project = angular.module('myApp.ProjectView', ['ngRoute']);
+var Project = angular.module('myApp.ProjectView', ['ngRoute', 'ngTouch']);
 
 Project.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/projectView', {

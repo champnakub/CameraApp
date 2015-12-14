@@ -18,6 +18,7 @@ var App = angular.module('myApp', [
     'myApp.ActivityView',
     //ANGULAR LIBRARY SECTION
     'toastr',
+    'ngTouch',
     'cfp.loadingBar',
     'angular-websql'
     //'angular-carousel'

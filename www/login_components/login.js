@@ -1,6 +1,6 @@
 'use strict';
 
-var Login = angular.module('myApp.LoginView', ['ngRoute']);
+var Login = angular.module('myApp.LoginView', ['ngRoute', 'ngTouch']);
 
 Login.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/loginView', {
@@ -36,38 +36,36 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
 
         //for test case scenario
         $scope.pushDefectedData = function () {
-            
+
             WebService.setUrl('beau888.dyndns.org');
-            
+
             var _pushDefectedUrl = WebService.getUrl() + 'PushDefected';
 
             var _onQuerySuccess = function (tx, results) {
-                
+
                 var _defectedResults = [];
-                
-                for(var i = 0; i < results.rows.length; i++) {
+
+                for (var i = 0; i < results.rows.length; i++) {
                     _defectedResults.push(results.rows.item(i));
                 }
-                
+
                 //alert(JSON.stringify(_defectedResults));
-                
-                var req = {
-                    method: 'POST',
-                    url: _pushDefectedUrl,
-                    data: {_JsonData: JSON.stringify(_defectedResults)}
+
+                var _data = {
+                    _JsonData: JSON.stringify(_defectedResults)
                 };
-                
-                $http(req).then(function () {
-                    
+
+                $http.post(_pushDefectedUrl, _data).then(function () {
+
                     //success callback after calling webservice
                     toastr.success('Post to server complete!', 'Information', {
                         timeOut: 5000
                     });
 
                 }, function () {
-                    
+
                     //error callback after calling webservice
-                    toastr.success('Post to server failed!', 'Information', {
+                    toastr.error('Post to server failed!', 'Information', {
                         timeOut: 5000
                     });
                 });
