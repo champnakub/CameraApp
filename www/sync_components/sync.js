@@ -1,6 +1,6 @@
 'use strict';
 
-var Sync = angular.module('myApp.SyncView', ['ngTouch']);
+var Sync = angular.module('myApp.SyncView', []);
 
 Sync.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/syncView', {

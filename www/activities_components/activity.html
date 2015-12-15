@@ -164,11 +164,11 @@
                         <span class="material-input"></span>
                     </div>
                     <!-- ROOM -->
-
-                    <button ng-mousedown="getDefectedResults()" style="font-size: 1.2em; background: #00897B; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
-                        <i class="fa fa-download"></i> Get Result
-                    </button>      
                 </form>
+
+                <button ng-mousedown="getDefectedResults()" style="font-size: 1.2em; background: #00897B; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
+                    <i class="fa fa-download"></i> Get Result
+                </button>      
 
                 <!-- DEFECTED RESULT GRID -->
 
@@ -204,7 +204,7 @@
                     </thead>
 
                     <tbody>
-                        <tr ng-repeat="roll in _defectedResults| filter: searhDefectedResult">
+                        <tr data-toggle="modal" data-target="#defected-info-dialog" ng-click="onGridItem()" ng-repeat="roll in _defectedResults| filter: searhDefectedResult">
                             <td>{{ roll.Description}}</td>
                             <td>{{ roll.ID}}</td>
                             <td>{{ roll.DateCreatedString}}</td>
@@ -212,8 +212,95 @@
                         </tr>
                     </tbody>
                 </table>
-
                 <!-- DEFECTED RESULT GRID -->
+
+                <!-- For test scenario -->
+                <!-- MODAL SECTION -->
+                <div id="defected-info-dialog" class="modal fade" tabindex="-1" style="display: none;">
+                    <div class="modal-dialog" style="height: 100%; overflow-y: scroll;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Dialog</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!-- BUILDING MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="building-modal-label" class="control-label">Building</label>
+                                    <input disabled value="Building A" type="text" class="form-control" id="building-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- BUILDING MODAL LABEL -->
+
+                                <!-- LEVEL MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="level-modal-label" class="control-label">Level</label>
+                                    <input disabled value="Level A" type="text" class="form-control" id="level-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- LEVEL MODAL LABEL -->
+
+                                <!-- ROOM MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="room-modal-label" class="control-label">Room</label>
+                                    <input disabled value="Room A" type="text" class="form-control" id="room-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- ROOM MODAL LABEL -->
+
+                                <!-- LOCATION MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="location-modal-label" class="control-label">Location</label>
+                                    <input disabled value="Location A" type="text" class="form-control" id="location-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- LOCATION MODAL LABEL -->
+
+                                <!-- CONTRACTOR MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="contractor-modal-label" class="control-label">Room</label>
+                                    <input disabled value="Contractor A" type="text" class="form-control" id="contractor-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- CONTRACTOR MODAL LABEL --> 
+
+                                <!-- IMAGE MODAL -->
+                                <div class="defected-img-container" style="border : none;">
+                                    <div class="image"><span></span><img src="images/login_image.png"></div>
+                                </div>
+                                <!-- IMAGE MODAL -->
+
+                                <!-- DEFECTED COMMENT MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="defected-comment-modal-label" class="control-label">Defected Comment</label>
+                                    <input disabled value="Wall broken" type="text" class="form-control" id="defected-comment-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- DEFECTED COMMENT MODAL LABEL --> 
+
+                                <!-- STATUS MODAL -->
+                                <div class="form-group" style="margin: 0;">
+                                    <label class="col-xs-2 control-label">Status</label>
+
+                                    <div class="col-xs-10">
+                                        <select class="form-control">
+                                            <option>Cleared</option>
+                                            <option>Not Clear</option>
+                                        </select>
+                                    </div>
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- STATUS MODAL -->
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Dismiss<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 43.6563px; top: 26px; transform: scale(10.875); background-color: rgb(0, 150, 136);"></div></div></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MODAL SECTION -->
+
             </div>    
         </div> 
     </div>

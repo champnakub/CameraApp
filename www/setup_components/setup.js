@@ -1,6 +1,6 @@
 'use strict';
 
-var Setup = angular.module('myApp.SetupView', ['ngTouch']);
+var Setup = angular.module('myApp.SetupView', []);
 
 Setup.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/setupView', {

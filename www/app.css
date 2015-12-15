@@ -202,6 +202,25 @@
     left : 5px;
     position: absolute;
 }
+
+#login-view .login-img-container {
+    display: table;
+    width: 100%;
+}
+
+#login-view .image {
+    height: 300px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    position: relative;
+}
+
+#login-view .image img {
+    max-width: 99%;
+    max-height: 99%;
+}
 /* END OF LOGIN PAGE VIEW */
 
 /* ACTIVITY PAGE VIEW */

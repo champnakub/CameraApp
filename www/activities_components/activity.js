@@ -1,6 +1,6 @@
 'use strict';
 
-var Activity = angular.module('myApp.ActivityView', ['ngRoute', 'ngTouch']);
+var Activity = angular.module('myApp.ActivityView', ['ngRoute']);
 
 Activity.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/activityView', {
@@ -46,7 +46,8 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
         $scope._contractors = [];
 
-
+        $scope._isPictureTaken = false;
+        
         //@Back to PROJECT view
         $scope.back = function () {
 
@@ -63,7 +64,11 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                 destinationType: Camera.DestinationType.DATA_URL
             };
             var success = function (data) {
+
                 $scope.$apply(function () {
+                    
+                    $scope._isPictureTaken = true;
+                    
                     var pic = "data:image/jpeg;base64," + data;
                     $scope.image = pic;
                 });
@@ -84,7 +89,11 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                 sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM
             };
             var success = function (data) {
+                
                 $scope.$apply(function () {
+                    
+                    $scope._isPictureTaken = true;
+                    
                     var pic = "data:image/jpeg;base64," + data;
                     $scope.image = pic;
                 });
@@ -251,7 +260,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                     || _.isNull($scope.defectedRoomSelected) || _.isUndefined($scope.defectedRoomSelected)
                     || _.isNull($scope.defectedAreaSelected) || _.isUndefined($scope.defectedAreaSelected)
                     || _.isNull($scope.contractorSelected) || _.isUndefined($scope.contractorSelected)
-                    || _.isNull($scope.defectedComment) || _.isUndefined($scope.defectedComment)) {
+                    || _.isNull($scope.defectedComment) || _.isUndefined($scope.defectedComment) || $scope._isPictureTaken === false) {
 
                 toastr.warning('Please complete all the fields.', 'Warning', {
                     timeOut: 5000
@@ -267,7 +276,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
                         $scope.$apply(function () {
                             
-                            $scope._defectedAreas = [];
+                            $scope._isPictureTaken = false;
                             
                             $scope._contractors = [];
                             
@@ -350,6 +359,12 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                 //$scope.defectedResultRoomSelected.ID
                 tx.executeSql(_query, [], _onQuerySuccess, _onQueryFailed);
             });
+        };
+        
+        //@Event on grid item click
+        $scope.onGridItem = function() {
+          
+            
         };
 
         //@Event get Building data on start up

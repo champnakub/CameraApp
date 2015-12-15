@@ -1,6 +1,6 @@
 'use strict';
 
-var Login = angular.module('myApp.LoginView', ['ngRoute', 'ngTouch']);
+var Login = angular.module('myApp.LoginView', ['ngRoute']);
 
 Login.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/loginView', {
@@ -83,7 +83,7 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
                 tx.executeSql('SELECT * FROM Defected Where NewRecord = ?;', [1], _onQuerySuccess, _onQueryFailed);
             });
         };
-
+        
         //@ Authentication
         $scope.authenticate = function () {
 
