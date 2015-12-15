@@ -62,6 +62,9 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                     }, function (res) {
 
                         cfpLoadingBar.complete();
+                        
+                        //drop ALL TABLES 
+                        AppDB.dropAllTables();
 
                         toastr.error('Synced Falied at TABLE : ' + res.Table, 'Error', {
                             timeOut: 5000

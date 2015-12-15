@@ -144,7 +144,9 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             AppDB._cameraAppDB.transaction(function (tx) {
 
                 var _onQuerySuccess = function (tx, results) {
-
+                    
+                    $scope._defectedRooms = [];
+                    
                     var _roomDatas = results;
 
                     for (var i = 0; i < _roomDatas.rows.length; i++) {
@@ -214,7 +216,9 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             AppDB._cameraAppDB.transaction(function (tx) {
 
                 var _onQuerySuccess = function (tx, results) {
-
+                    
+                    $scope._defectedResultRooms = [];
+                    
                     var _roomDatas = results;
 
                     for (var i = 0; i < _roomDatas.rows.length; i++) {
