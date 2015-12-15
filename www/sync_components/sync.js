@@ -64,6 +64,7 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                         cfpLoadingBar.complete();
                         
                         //drop ALL TABLES 
+                        AppDB.dropSetupTable();
                         AppDB.dropAllTables();
 
                         toastr.error('Synced Falied at TABLE : ' + res.Table, 'Error', {
@@ -76,6 +77,7 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                     cfpLoadingBar.complete();
                     
                     //drop ALL TABLES 
+                    AppDB.dropSetupTable();
                     AppDB.dropAllTables();
 
                     toastr.error('Could not connect to ' + result.config.url, 'Error', {
