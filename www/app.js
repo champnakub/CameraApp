@@ -475,8 +475,6 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                         return;
                     }
                     
-                    alert(JSON.stringify(_self._defectedData.SQL));
-
                     var _query = _self._defectedData.SQL;
 
                     _self._cameraAppDB.transaction(function (tx) {
