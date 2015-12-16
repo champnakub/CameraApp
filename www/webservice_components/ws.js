@@ -54,9 +54,11 @@ WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar
             //callback from web service [* success]
             _response.success(function (data) {
                 //parse to JSON format
-                var _inspectorData = JSON.parse(data);
+                //var _inspectorData = JSON.parse(data);
                 //fill up the data 
-                $scope._inspectorData.push(_inspectorData);
+                //$scope._inspectorData.push(_inspectorData);
+                
+                console.log(data);
             });
 
             //callback from web service [* error]

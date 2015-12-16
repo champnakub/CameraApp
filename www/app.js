@@ -171,7 +171,9 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                     var _buildingUrl = webService.getUrl() + 'GetBuildingData';
 
-                    var _defectedUrl = webService.getUrl() + 'GetDefectedData';
+                    //var _defectedUrl = webService.getUrl() + 'GetDefectedData';
+                    
+                    var _defectedUrl = webService.getUrl() + 'DownloadFile';
 
                     var _statusUrl = webService.getUrl() + 'GetStatusData';
 
@@ -475,8 +477,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                         return;
                     }
                     
-                    var _query = _self._defectedData.SQL;
-
+                    //var _query = _self._defectedData.SQL;
+                    
+                    var _query = _self._defectedData;
+                    
                     _self._cameraAppDB.transaction(function (tx) {
 
                         tx.executeSql(_query, [], function () {
@@ -698,7 +702,7 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
             _self._buildingData = JSON.parse(data[6].data);
 
-            _self._defectedData = JSON.parse(data[7].data);
+            _self._defectedData = data[7].data; //JSON.parse(data[7].data);
 
             _self._projectData = JSON.parse(data[8].data);
 
