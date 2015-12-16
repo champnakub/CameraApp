@@ -172,8 +172,8 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                     var _buildingUrl = webService.getUrl() + 'GetBuildingData';
 
                     //var _defectedUrl = webService.getUrl() + 'GetDefectedData';
-                    
-                    var _defectedUrl = webService.getUrl() + 'DownloadFile';
+
+                    //var _defectedUrl = webService.getUrl() + 'DownloadFile';
 
                     var _statusUrl = webService.getUrl() + 'GetStatusData';
 
@@ -183,23 +183,67 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
                     var _areaUrl = webService.getUrl() + 'GetAreaData';
 
+                    var _download1Url = webService.getUrl() + 'downloadfile1';
+
+                    var _download2Url = webService.getUrl() + 'downloadfile2';
+
+                    var _download3Url = webService.getUrl() + 'downloadfile3';
+
+                    var _download4Url = webService.getUrl() + 'downloadfile4';
+
+                    var _download5Url = webService.getUrl() + 'downloadfile5';
+
                     return $q.all([
-                        $http.get(_defectedResultUrl),
-                        $http.get(_areaContractorUrl),
-                        $http.get(_contractorUrl),
-                        $http.get(_basedAreaUrl),
-                        $http.get(_inspectorUrl),
-                        $http.get(_customerUrl),
-                        $http.get(_buildingUrl),
-                        $http.get(_defectedUrl),
-                        $http.get(_projectUrl),
-                        $http.get(_statusUrl),
-                        $http.get(_levelUrl),
-                        $http.get(_roomUrl),
-                        $http.get(_areaUrl)
+                        $http.get(_defectedResultUrl), //0
+                        $http.get(_areaContractorUrl), //1
+                        $http.get(_contractorUrl), //2
+                        $http.get(_basedAreaUrl), //3
+                        $http.get(_inspectorUrl), //4
+                        $http.get(_customerUrl), //5
+                        $http.get(_buildingUrl), //6
+                        //$http.get(_defectedUrl), //7
+                        $http.get(_projectUrl), //8
+                        $http.get(_statusUrl), //9
+                        $http.get(_levelUrl), //10
+                        $http.get(_roomUrl), //11
+                        $http.get(_areaUrl),
+                        $http.get(_download1Url).then(function (data) {
+                            
+                            _self.insertDefectedData(data);
+                        }),
+                        $http.get(_download2Url).then(function (data) {
+                            
+                            _self.insertDefectedData(data);
+                        }),
+                        $http.get(_download3Url).then(function (data) {
+                            
+                            _self.insertDefectedData(data);
+                        }),
+                        $http.get(_download4Url).then(function (data) {
+                            
+                            _self.insertDefectedData(data);
+                        }),
+                        $http.get(_download5Url).then(function (data) {
+                            
+                            _self.insertDefectedData(data);
+                        })
                     ]);
                 }
             }
+        };
+
+        _self.insertDefectedData = function (data) {
+            
+            _self._cameraAppDB.transaction(function (tx) {
+
+                tx.executeSql(data, [], function () {
+
+                }, function () {
+                    toastr.error('INSERT FAILED : DEFECTED TABLE', 'Error', {
+                        timeOut: 5000
+                    });
+                });
+            });
         };
 
         //data into tables
@@ -468,19 +512,19 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
             var insertDefectedData = function () {
                 // Set up the $q deferred object.
                 var _deferred = $q.defer();
-                
+
                 if (!_.isNull(_self._defectedData) && !_.isUndefined(_self._defectedData)) {
 
-                    if (_self._defectedData.ErrorCode === _self.errorCode) {
+//                    if (_self._defectedData.ErrorCode === _self.errorCode) {
+//
+//                        _deferred.reject({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+//                        return;
+//                    }
 
-                        _deferred.reject({IsInserted: false, Table: 'DEFECTED', Status: -1000});
-                        return;
-                    }
-                    
                     //var _query = _self._defectedData.SQL;
-                    
+
                     var _query = _self._defectedData;
-                    
+
                     _self._cameraAppDB.transaction(function (tx) {
 
                         tx.executeSql(_query, [], function () {
@@ -702,17 +746,17 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
 
             _self._buildingData = JSON.parse(data[6].data);
 
-            _self._defectedData = data[7].data; //JSON.parse(data[7].data);
+            //_self._defectedData = data[7].data; //JSON.parse(data[7].data);
 
-            _self._projectData = JSON.parse(data[8].data);
+            _self._projectData = JSON.parse(data[7].data);
 
-            _self._statusData = JSON.parse(data[9].data);
+            _self._statusData = JSON.parse(data[8].data);
 
-            _self._levelData = JSON.parse(data[10].data);
+            _self._levelData = JSON.parse(data[9].data);
 
-            _self._roomData = JSON.parse(data[11].data);
+            _self._roomData = JSON.parse(data[10].data);
 
-            _self._areaData = JSON.parse(data[12].data);
+            _self._areaData = JSON.parse(data[11].data);
 
             return $q.all([
                 insertDefectedResultData(),
@@ -722,7 +766,7 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 insertInspectorData(),
                 insertCustomerData(),
                 insertBuildingData(),
-                insertDefectedData(),
+                //insertDefectedData(),
                 insertProjectData(),
                 insertStatusData(),
                 insertLevelData(),
