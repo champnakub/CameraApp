@@ -147,6 +147,16 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
         _self._roomData = null;
 
         _self._areaData = null;
+        
+        _self._download1Data = null;
+        
+        _self._download2Data = null;
+        
+        _self._download3Data = null;
+        
+        _self._download4Data = null;
+        
+        _self._download5Data = null;
 
         //sync data from service
         _self.syncData = function () {
@@ -201,49 +211,20 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                         $http.get(_inspectorUrl), //4
                         $http.get(_customerUrl), //5
                         $http.get(_buildingUrl), //6
-                        //$http.get(_defectedUrl), //7
-                        $http.get(_projectUrl), //8
-                        $http.get(_statusUrl), //9
-                        $http.get(_levelUrl), //10
-                        $http.get(_roomUrl), //11
-                        $http.get(_areaUrl),
-                        $http.get(_download1Url).then(function (data) {
-                            
-                            _self.insertDefectedData(data);
-                        }),
-                        $http.get(_download2Url).then(function (data) {
-                            
-                            _self.insertDefectedData(data.data);
-                        }),
-                        $http.get(_download3Url).then(function (data) {
-                            
-                            _self.insertDefectedData(data.data);
-                        }),
-                        $http.get(_download4Url).then(function (data) {
-                            
-                            _self.insertDefectedData(data.data);
-                        }),
-                        $http.get(_download5Url).then(function (data) {
-                            
-                            _self.insertDefectedData(data.data);
-                        })
+                        //$http.get(_defectedUrl), // -- lost track
+                        $http.get(_projectUrl), //7
+                        $http.get(_statusUrl), //8
+                        $http.get(_levelUrl), //9
+                        $http.get(_roomUrl), //10
+                        $http.get(_areaUrl), //11
+                        $http.get(_download1Url),//12
+                        $http.get(_download2Url),//13
+                        $http.get(_download3Url),//14
+                        $http.get(_download4Url),//15
+                        $http.get(_download5Url)//16
                     ]);
                 }
             }
-        };
-
-        _self.insertDefectedData = function (data) {
-            
-            _self._cameraAppDB.transaction(function (tx) {
-
-                tx.executeSql(data, [], function () {
-
-                }, function () {
-                    toastr.error('INSERT FAILED : DEFECTED TABLE', 'Error', {
-                        timeOut: 5000
-                    });
-                });
-            });
         };
 
         //data into tables
@@ -731,6 +712,146 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
+            
+            //DEFECTED TABLE [downloadfile1]
+            var insertDownload1Data = function() {
+                
+                // Set up the $q deferred object.
+                var _deferred = $q.defer();
+
+                if (!_.isNull(_self._download1Data) && !_.isUndefined(_self._download1Data)) {
+
+                    var _query = _self._download1Data;
+
+                    _self._cameraAppDB.transaction(function (tx) {
+
+                        tx.executeSql(_query, [], function () {
+                            // resolve the promise with the results
+                            _deferred.resolve({IsInserted: true, Table: 'DEFECTED', Status: 200});
+                        }, function () {
+                            // reject the promise
+                            _deferred.reject({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                        });
+                    });
+                } else {
+                    _deferred.resolve({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                }
+                
+                // Return the deferred's promise.
+                return _deferred.promise;        
+            };
+            
+            //DEFECTED TABLE [downloadfile2]
+            var insertDownload2Data = function() {
+                
+                // Set up the $q deferred object.
+                var _deferred = $q.defer();
+
+                if (!_.isNull(_self._download2Data) && !_.isUndefined(_self._download2Data)) {
+
+                    var _query = _self._download2Data;
+
+                    _self._cameraAppDB.transaction(function (tx) {
+
+                        tx.executeSql(_query, [], function () {
+                            // resolve the promise with the results
+                            _deferred.resolve({IsInserted: true, Table: 'DEFECTED', Status: 200});
+                        }, function () {
+                            // reject the promise
+                            _deferred.reject({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                        });
+                    });
+                } else {
+                    _deferred.resolve({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                }
+                
+                // Return the deferred's promise.
+                return _deferred.promise;        
+            };
+            
+            //DEFECTED TABLE [downloadfile3]
+            var insertDownload3Data = function() {
+                
+                // Set up the $q deferred object.
+                var _deferred = $q.defer();
+
+                if (!_.isNull(_self._download3Data) && !_.isUndefined(_self._download3Data)) {
+
+                    var _query = _self._download3Data;
+
+                    _self._cameraAppDB.transaction(function (tx) {
+
+                        tx.executeSql(_query, [], function () {
+                            // resolve the promise with the results
+                            _deferred.resolve({IsInserted: true, Table: 'DEFECTED', Status: 200});
+                        }, function () {
+                            // reject the promise
+                            _deferred.reject({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                        });
+                    });
+                } else {
+                    _deferred.resolve({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                }
+                
+                // Return the deferred's promise.
+                return _deferred.promise;        
+            };
+            
+            //DEFECTED TABLE [downloadfile4]
+            var insertDownload4Data = function() {
+                
+                // Set up the $q deferred object.
+                var _deferred = $q.defer();
+
+                if (!_.isNull(_self._download4Data) && !_.isUndefined(_self._download4Data)) {
+
+                    var _query = _self._download4Data;
+
+                    _self._cameraAppDB.transaction(function (tx) {
+
+                        tx.executeSql(_query, [], function () {
+                            // resolve the promise with the results
+                            _deferred.resolve({IsInserted: true, Table: 'DEFECTED', Status: 200});
+                        }, function () {
+                            // reject the promise
+                            _deferred.reject({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                        });
+                    });
+                } else {
+                    _deferred.resolve({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                }
+                
+                // Return the deferred's promise.
+                return _deferred.promise;        
+            };
+            
+            //DEFECTED TABLE [downloadfile5]
+            var insertDownload5Data = function() {
+                
+                // Set up the $q deferred object.
+                var _deferred = $q.defer();
+
+                if (!_.isNull(_self._download5Data) && !_.isUndefined(_self._download5Data)) {
+
+                    var _query = _self._download5Data;
+
+                    _self._cameraAppDB.transaction(function (tx) {
+
+                        tx.executeSql(_query, [], function () {
+                            // resolve the promise with the results
+                            _deferred.resolve({IsInserted: true, Table: 'DEFECTED', Status: 200});
+                        }, function () {
+                            // reject the promise
+                            _deferred.reject({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                        });
+                    });
+                } else {
+                    _deferred.resolve({IsInserted: false, Table: 'DEFECTED', Status: -1000});
+                }
+                
+                // Return the deferred's promise.
+                return _deferred.promise;        
+            };
 
             _self._defectedResultData = JSON.parse(data[0].data);
 
@@ -757,6 +878,16 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
             _self._roomData = JSON.parse(data[10].data);
 
             _self._areaData = JSON.parse(data[11].data);
+            
+            _self._download1Data = data[12].data;
+                    
+            _self._download2Data = data[13].data;
+            
+            _self._download3Data = data[14].data;
+            
+            _self._download4Data = data[15].data;
+            
+            _self._download5Data = data[16].data;
 
             return $q.all([
                 insertDefectedResultData(),
@@ -771,7 +902,12 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 insertStatusData(),
                 insertLevelData(),
                 insertRoomData(),
-                insertAreaData()
+                insertAreaData(),
+                insertDownload1Data(),
+                insertDownload2Data(),
+                insertDownload3Data(),
+                insertDownload4Data(),
+                insertDownload5Data()
             ]);
         };
 
