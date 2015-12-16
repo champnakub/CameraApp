@@ -58,9 +58,7 @@ WebService.controller('WSCtrl', ['$scope', 'WebService', '$http', 'cfpLoadingBar
                 //fill up the data 
                 //$scope._inspectorData.push(_inspectorData);
                 
-                var x = data;
-                
-                console.log(x);
+                console.log(data);
             });
 
             //callback from web service [* error]

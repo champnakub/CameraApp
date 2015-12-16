@@ -213,19 +213,19 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                         }),
                         $http.get(_download2Url).then(function (data) {
                             
-                            _self.insertDefectedData(data);
+                            _self.insertDefectedData(data.data);
                         }),
                         $http.get(_download3Url).then(function (data) {
                             
-                            _self.insertDefectedData(data);
+                            _self.insertDefectedData(data.data);
                         }),
                         $http.get(_download4Url).then(function (data) {
                             
-                            _self.insertDefectedData(data);
+                            _self.insertDefectedData(data.data);
                         }),
                         $http.get(_download5Url).then(function (data) {
                             
-                            _self.insertDefectedData(data);
+                            _self.insertDefectedData(data.data);
                         })
                     ]);
                 }
