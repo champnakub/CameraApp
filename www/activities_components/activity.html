@@ -204,7 +204,7 @@
                     </thead>
 
                     <tbody>
-                        <tr data-toggle="modal" data-target="#defected-info-dialog" ng-click="onGridItem()" ng-repeat="roll in _defectedResults| filter: searhDefectedResult">
+                        <tr data-toggle="modal" data-target="#defected-info-dialog" ng-click="onGridItem(roll)" ng-repeat="roll in _defectedResults| filter: searhDefectedResult">
                             <td>{{ roll.Description}}</td>
                             <td>{{ roll.ID}}</td>
                             <td>{{ roll.DateCreatedString}}</td>
@@ -220,13 +220,13 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title">Dialog</h4>
+                                <h4 class="modal-title">Defected Information</h4>
                             </div>
                             <div class="modal-body">
                                 <!-- BUILDING MODAL LABEL -->
                                 <div class="form-group label-floating is-empty isFocus is-focused">
                                     <label for="building-modal-label" class="control-label">Building</label>
-                                    <input disabled value="Building A" type="text" class="form-control" id="building-modal-label">
+                                    <input disabled value="{{_currentGridDefectedItem.Building}}" type="text" class="form-control" id="building-modal-label">
                                     <span class="material-input"></span>
                                 </div>
                                 <!-- BUILDING MODAL LABEL -->
@@ -234,7 +234,7 @@
                                 <!-- LEVEL MODAL LABEL -->
                                 <div class="form-group label-floating is-empty isFocus is-focused">
                                     <label for="level-modal-label" class="control-label">Level</label>
-                                    <input disabled value="Level A" type="text" class="form-control" id="level-modal-label">
+                                    <input disabled value="{{_currentGridDefectedItem.Level}}" type="text" class="form-control" id="level-modal-label">
                                     <span class="material-input"></span>
                                 </div>
                                 <!-- LEVEL MODAL LABEL -->
@@ -242,7 +242,7 @@
                                 <!-- ROOM MODAL LABEL -->
                                 <div class="form-group label-floating is-empty isFocus is-focused">
                                     <label for="room-modal-label" class="control-label">Room</label>
-                                    <input disabled value="Room A" type="text" class="form-control" id="room-modal-label">
+                                    <input disabled value="{{_currentGridDefectedItem.Room}}" type="text" class="form-control" id="room-modal-label">
                                     <span class="material-input"></span>
                                 </div>
                                 <!-- ROOM MODAL LABEL -->
@@ -250,29 +250,29 @@
                                 <!-- LOCATION MODAL LABEL -->
                                 <div class="form-group label-floating is-empty isFocus is-focused">
                                     <label for="location-modal-label" class="control-label">Location</label>
-                                    <input disabled value="Location A" type="text" class="form-control" id="location-modal-label">
+                                    <input disabled value="{{_currentGridDefectedItem.Description}}" type="text" class="form-control" id="location-modal-label">
                                     <span class="material-input"></span>
                                 </div>
                                 <!-- LOCATION MODAL LABEL -->
 
                                 <!-- CONTRACTOR MODAL LABEL -->
                                 <div class="form-group label-floating is-empty isFocus is-focused">
-                                    <label for="contractor-modal-label" class="control-label">Room</label>
-                                    <input disabled value="Contractor A" type="text" class="form-control" id="contractor-modal-label">
+                                    <label for="contractor-modal-label" class="control-label">Contractor</label>
+                                    <input disabled value="{{_currentGridDefectedItem.FullName}}" type="text" class="form-control" id="contractor-modal-label">
                                     <span class="material-input"></span>
                                 </div>
                                 <!-- CONTRACTOR MODAL LABEL --> 
 
                                 <!-- IMAGE MODAL -->
                                 <div class="defected-img-container" style="border : none;">
-                                    <div class="image"><span></span><img src="images/login_image.png"></div>
+                                    <div class="image"><span></span><img ng-src="{{_currentGridDefectedItem.DefectedImage}}"></div>
                                 </div>
                                 <!-- IMAGE MODAL -->
 
                                 <!-- DEFECTED COMMENT MODAL LABEL -->
                                 <div class="form-group label-floating is-empty isFocus is-focused">
                                     <label for="defected-comment-modal-label" class="control-label">Defected Comment</label>
-                                    <input disabled value="Wall broken" type="text" class="form-control" id="defected-comment-modal-label">
+                                    <input disabled value="{{_currentGridDefectedItem.Comment}}" type="text" class="form-control" id="defected-comment-modal-label">
                                     <span class="material-input"></span>
                                 </div>
                                 <!-- DEFECTED COMMENT MODAL LABEL --> 

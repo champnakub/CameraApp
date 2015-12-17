@@ -80,7 +80,6 @@ App.factory('Project', ['_', function (_) {
         return _self; // assumes underscore has already been loaded on the page
     }]);
 
-
 //constant for webservice
 App.factory('WebService', ['_', function (_) {
 
@@ -88,12 +87,15 @@ App.factory('WebService', ['_', function (_) {
         //'http://beau888.dyndns.org:222/DataService/'
 
         var _self = this;
-
+        
         _self.url = null;
 
         //service port
         _self.port = 222;
-
+        
+        //synced date
+        _self.lastSync = null;
+        
         //service name
         _self.name = 'DataService';
 
@@ -102,7 +104,18 @@ App.factory('WebService', ['_', function (_) {
 
             _self.url = 'http://' + url + ':' + _self.port + '/' + _self.name + '/';
         };
-
+        
+        _self.setLastSync = function(lastSync) {
+            
+            _self.lastSync = lastSync;
+        };
+        
+        _self.getLastSync = function() {
+            
+            if (!_.isNull(_self.lastSync) && !_.isUndefined(_self.lastSync))
+                return parseFloat(_self.lastSync);
+        };
+        
         //function getUrl
         _self.getUrl = function () {
 
@@ -1777,11 +1790,7 @@ App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$locati
                 var _onInspectorSuccess = function (tx, results) {
 
                     if (results.rows.length > 0) {
-
-//                        toastr.success('Inspector data detected', 'Information', {
-//                            timeOut: 5000
-//                        });
-
+                        
                         var _loginViewPath = '/loginView';
                         //change page to login view page
                         $location.path(_loginViewPath).replace();

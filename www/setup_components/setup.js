@@ -9,7 +9,7 @@ Setup.config(['$routeProvider', function ($routeProvider) {
         });
     }]);
 
-Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'WebService', '$http', 'cfpLoadingBar', function ($scope, $location, AppDB, _, toastr, webService, $http, cfpLoadingBar) {
+Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'WebService', '$http', 'cfpLoadingBar', function ($scope, $location, AppDB, _, toastr, WebService, $http, cfpLoadingBar) {
 
         $scope.onNWSetup = function () {
 
@@ -29,7 +29,9 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
                 cfpLoadingBar.start();
 
                 //set url in WebService instance
-                webService.setUrl(_nwAddress);
+                WebService.setUrl(_nwAddress);
+                
+                WebService.setLastSync(_lastSync.getTime());
 
                 //insert data into TABLE [* SETUP]
                 var _onInsertSucceed = function (results) {
@@ -53,7 +55,7 @@ Setup.controller('SetupCtrl', ['$scope', '$location', 'AppDB', '_', 'toastr', 'W
                 //sync view path
                 var _syncViewPath = '/syncView';
 
-                var _isConnectUrl = webService.getUrl() + 'IsConnect';
+                var _isConnectUrl = WebService.getUrl() + 'IsConnect';
 
                 var _response = $http.get(_isConnectUrl, {
                     timeout: 10000

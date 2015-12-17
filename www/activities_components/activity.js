@@ -328,7 +328,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
         //@Event on get defected results to show in grid
         $scope.getDefectedResults = function () {
 
-            var _query = "SELECT BasedArea.Description, Defected.Code, Defected.DateCreated , Defected.Comment , Contractor.FullName FROM Defected Inner join Contractor On Defected.Contractor = Contractor.ID Inner Join Inspector On Defected.Inspector = Inspector.ID Inner Join BasedArea On Defected.Area = BasedArea.ID";
+            var _query = "SELECT BasedArea.Description, Defected.DefectedImage, Defected.Code, Defected.Building, Defected.Level, Defected.Room, Defected.DateCreated , Defected.Comment , Contractor.FullName FROM Defected Inner join Contractor On Defected.Contractor = Contractor.ID Inner Join Inspector On Defected.Inspector = Inspector.ID Inner Join BasedArea On Defected.Area = BasedArea.ID";
 
             AppDB._cameraAppDB.transaction(function (tx) {
 
@@ -340,17 +340,15 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
                     for (var i = 0; i < _defectedResults.rows.length; i++) {
                         
-                        var _date = new Date(parseInt(_defectedResults.rows.item(i).DateCreated));
+                        var _date = new Date(parseFloat(_defectedResults.rows.item(i).DateCreated));
                         
-                        _defectedResults.rows.item(i).DateCreatedString  = _date.getDate() + '/' + parseInt(_date.getMonth()) + 1 + '/' + _date.getFullYear();
+                        _defectedResults.rows.item(i).DateCreatedString  = _date.toDateString() + " [" + _date.toLocaleTimeString() + "]";
                         
                         $scope.$apply(function () {
                             $scope._defectedResults.push(_defectedResults.rows.item(i));
                         });
                     }
                     ;
-                    
-                    console.log($scope._defectedResults);
                 };
 
                 var _onQueryFailed = function (error) {
@@ -366,9 +364,9 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
         };
         
         //@Event on grid item click
-        $scope.onGridItem = function() {
+        $scope.onGridItem = function(_defectedItem) {
           
-            
+            $scope._currentGridDefectedItem = _defectedItem;
         };
 
         //@Event get Building data on start up

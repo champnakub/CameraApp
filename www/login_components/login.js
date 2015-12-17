@@ -30,7 +30,7 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
 
             AppDB._cameraAppDB.transaction(function (tx) {
 
-                tx.executeSql('SELECT * FROM PROJECT', [], _onQuerySuccess, _onQueryFailed);
+                tx.executeSql('SELECT * FROM DEFECTED', [], _onQuerySuccess, _onQueryFailed);
             });
         };
 
@@ -83,10 +83,10 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
                 tx.executeSql('SELECT * FROM Defected Where NewRecord = ?;', [1], _onQuerySuccess, _onQueryFailed);
             });
         };
-        
+
         //@ Authentication
         $scope.authenticate = function () {
-
+            
             var _userName = $scope.username;
 
             var _password = $scope.password;
@@ -130,4 +130,31 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
                 tx.executeSql('SELECT ID , FULLNAME FROM INSPECTOR Where UserName = ? And Password = ?;', [_userName, _password], _onQuerySuccess, _onQueryFailed);
             });
         };
+
+        //get setup config
+        AppDB._cameraAppDB.transaction(function (tx) {
+
+            var _onQuerySuccess = function (tx, results) {
+
+                var _setupData = results.rows.item(0);
+
+                WebService.setUrl(_setupData.NetworkAddr);
+
+                WebService.setLastSync(_setupData.LastSync);
+
+                var _lastSynced = new Date(WebService.getLastSync());
+
+                $scope.$apply(function () {
+                    $scope._lastSynced = _lastSynced.toDateString() + " [" + _lastSynced.toLocaleTimeString() + "]";
+                });
+            };
+            var _onQueryFailed = function () {
+
+                toastr.error('Get Setup data failed', 'Error', {
+                    timeOut: 5000
+                });
+            };
+
+            tx.executeSql('SELECT * FROM SETUP', [], _onQuerySuccess, _onQueryFailed);
+        });
     }]);
