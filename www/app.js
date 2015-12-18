@@ -87,15 +87,15 @@ App.factory('WebService', ['_', function (_) {
         //'http://beau888.dyndns.org:222/DataService/'
 
         var _self = this;
-        
+
         _self.url = null;
 
         //service port
         _self.port = 222;
-        
+
         //synced date
         _self.lastSync = null;
-        
+
         //service name
         _self.name = 'DataService';
 
@@ -104,18 +104,18 @@ App.factory('WebService', ['_', function (_) {
 
             _self.url = 'http://' + url + ':' + _self.port + '/' + _self.name + '/';
         };
-        
-        _self.setLastSync = function(lastSync) {
-            
+
+        _self.setLastSync = function (lastSync) {
+
             _self.lastSync = lastSync;
         };
-        
-        _self.getLastSync = function() {
-            
+
+        _self.getLastSync = function () {
+
             if (!_.isNull(_self.lastSync) && !_.isUndefined(_self.lastSync))
                 return parseFloat(_self.lastSync);
         };
-        
+
         //function getUrl
         _self.getUrl = function () {
 
@@ -160,15 +160,15 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
         _self._roomData = null;
 
         _self._areaData = null;
-        
+
         _self._download1Data = null;
-        
+
         _self._download2Data = null;
-        
+
         _self._download3Data = null;
-        
+
         _self._download4Data = null;
-        
+
         _self._download5Data = null;
 
         //sync data from service
@@ -230,10 +230,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                         $http.get(_levelUrl), //9
                         $http.get(_roomUrl), //10
                         $http.get(_areaUrl), //11
-                        $http.get(_download1Url),//12
-                        $http.get(_download2Url),//13
-                        $http.get(_download3Url),//14
-                        $http.get(_download4Url),//15
+                        $http.get(_download1Url), //12
+                        $http.get(_download2Url), //13
+                        $http.get(_download3Url), //14
+                        $http.get(_download4Url), //15
                         $http.get(_download5Url)//16
                     ]);
                 }
@@ -725,10 +725,10 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 // Return the deferred's promise.
                 return _deferred.promise;
             };
-            
+
             //DEFECTED TABLE [downloadfile1]
-            var insertDownload1Data = function() {
-                
+            var insertDownload1Data = function () {
+
                 // Set up the $q deferred object.
                 var _deferred = $q.defer();
 
@@ -749,14 +749,14 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 } else {
                     _deferred.resolve({IsInserted: false, Table: 'DEFECTED', Status: -1000});
                 }
-                
+
                 // Return the deferred's promise.
-                return _deferred.promise;        
+                return _deferred.promise;
             };
-            
+
             //DEFECTED TABLE [downloadfile2]
-            var insertDownload2Data = function() {
-                
+            var insertDownload2Data = function () {
+
                 // Set up the $q deferred object.
                 var _deferred = $q.defer();
 
@@ -777,14 +777,14 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 } else {
                     _deferred.resolve({IsInserted: false, Table: 'DEFECTED', Status: -1000});
                 }
-                
+
                 // Return the deferred's promise.
-                return _deferred.promise;        
+                return _deferred.promise;
             };
-            
+
             //DEFECTED TABLE [downloadfile3]
-            var insertDownload3Data = function() {
-                
+            var insertDownload3Data = function () {
+
                 // Set up the $q deferred object.
                 var _deferred = $q.defer();
 
@@ -805,14 +805,14 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 } else {
                     _deferred.resolve({IsInserted: false, Table: 'DEFECTED', Status: -1000});
                 }
-                
+
                 // Return the deferred's promise.
-                return _deferred.promise;        
+                return _deferred.promise;
             };
-            
+
             //DEFECTED TABLE [downloadfile4]
-            var insertDownload4Data = function() {
-                
+            var insertDownload4Data = function () {
+
                 // Set up the $q deferred object.
                 var _deferred = $q.defer();
 
@@ -833,14 +833,14 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 } else {
                     _deferred.resolve({IsInserted: false, Table: 'DEFECTED', Status: -1000});
                 }
-                
+
                 // Return the deferred's promise.
-                return _deferred.promise;        
+                return _deferred.promise;
             };
-            
+
             //DEFECTED TABLE [downloadfile5]
-            var insertDownload5Data = function() {
-                
+            var insertDownload5Data = function () {
+
                 // Set up the $q deferred object.
                 var _deferred = $q.defer();
 
@@ -861,9 +861,9 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
                 } else {
                     _deferred.resolve({IsInserted: false, Table: 'DEFECTED', Status: -1000});
                 }
-                
+
                 // Return the deferred's promise.
-                return _deferred.promise;        
+                return _deferred.promise;
             };
 
             _self._defectedResultData = JSON.parse(data[0].data);
@@ -891,15 +891,15 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
             _self._roomData = JSON.parse(data[10].data);
 
             _self._areaData = JSON.parse(data[11].data);
-            
+
             _self._download1Data = data[12].data;
-                    
+
             _self._download2Data = data[13].data;
-            
+
             _self._download3Data = data[14].data;
-            
+
             _self._download4Data = data[15].data;
-            
+
             _self._download5Data = data[16].data;
 
             return $q.all([
@@ -928,7 +928,6 @@ App.factory('AppDB', ['_', 'toastr', '$q', '$http', 'WebService', function (_, t
         _self.openDataBase = function (callBack) {
             // Cordova is ready
             var onDeviceReady = function () {
-
                 var _onCreateDBSuccess = function () {
 
                     _self._cameraAppDB.executeSql("PRAGMA synchronous=OFF");
@@ -1790,7 +1789,7 @@ App.controller('MainController', ['$scope', 'WebService', 'AppDB', '_', '$locati
                 var _onInspectorSuccess = function (tx, results) {
 
                     if (results.rows.length > 0) {
-                        
+
                         var _loginViewPath = '/loginView';
                         //change page to login view page
                         $location.path(_loginViewPath).replace();

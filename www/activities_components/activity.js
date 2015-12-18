@@ -46,8 +46,12 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
         $scope._contractors = [];
 
+        $scope._status = [];
+
+        $scope._statusColor = [{color: '#F44336'}, {color: '#76FF03'}, {color: '#FFCA28'}];
+
         $scope._isPictureTaken = false;
-        
+
         //@Back to PROJECT view
         $scope.back = function () {
 
@@ -66,9 +70,9 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             var success = function (data) {
 
                 $scope.$apply(function () {
-                    
+
                     $scope._isPictureTaken = true;
-                    
+
                     var pic = "data:image/jpeg;base64," + data;
                     $scope.image = pic;
                 });
@@ -89,11 +93,11 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                 sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM
             };
             var success = function (data) {
-                
+
                 $scope.$apply(function () {
-                    
+
                     $scope._isPictureTaken = true;
-                    
+
                     var pic = "data:image/jpeg;base64," + data;
                     $scope.image = pic;
                 });
@@ -144,9 +148,9 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             AppDB._cameraAppDB.transaction(function (tx) {
 
                 var _onQuerySuccess = function (tx, results) {
-                    
+
                     $scope._defectedRooms = [];
-                    
+
                     var _roomDatas = results;
 
                     for (var i = 0; i < _roomDatas.rows.length; i++) {
@@ -216,9 +220,9 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             AppDB._cameraAppDB.transaction(function (tx) {
 
                 var _onQuerySuccess = function (tx, results) {
-                    
+
                     $scope._defectedResultRooms = [];
-                    
+
                     var _roomDatas = results;
 
                     for (var i = 0; i < _roomDatas.rows.length; i++) {
@@ -279,13 +283,13 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                         });
 
                         $scope.$apply(function () {
-                            
+
                             $scope._isPictureTaken = false;
-                            
+
                             $scope._contractors = [];
-                            
+
                             $scope.image = "images/blank.png";
-                            
+
                             $scope.defectedComment = null;
                         });
                     };
@@ -328,7 +332,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
         //@Event on get defected results to show in grid
         $scope.getDefectedResults = function () {
 
-            var _query = "SELECT BasedArea.Description, Defected.DefectedImage, Defected.Code, Defected.Building, Defected.Level, Defected.Room, Defected.DateCreated , Defected.Comment , Contractor.FullName FROM Defected Inner join Contractor On Defected.Contractor = Contractor.ID Inner Join Inspector On Defected.Inspector = Inspector.ID Inner Join BasedArea On Defected.Area = BasedArea.ID";
+            var _query = "SELECT BasedArea.Description, Defected.DefectedImage, Defected.Code, Building.Code as [Building], Level.Code as [Level], Room.Code as [Room], Defected.DateCreated , Defected.Comment , Contractor.FullName FROM Defected Inner join Contractor On Lower(Defected.Contractor) = Contractor.ID Inner Join Inspector On Lower(Defected.Inspector) = Inspector.ID Inner Join BasedArea On Lower(Defected.Area) = BasedArea.ID Inner Join Building On Lower(Defected.Building) = Building.ID Inner Join Level On Lower(Defected.Level) = Level.ID Inner Join Room On Lower(Defected.Room) = Room.ID Where Room.ID = ?  ";
 
             AppDB._cameraAppDB.transaction(function (tx) {
 
@@ -339,11 +343,11 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                     var _defectedResults = results;
 
                     for (var i = 0; i < _defectedResults.rows.length; i++) {
-                        
+
                         var _date = new Date(parseFloat(_defectedResults.rows.item(i).DateCreated));
-                        
-                        _defectedResults.rows.item(i).DateCreatedString  = _date.toDateString() + " [" + _date.toLocaleTimeString() + "]";
-                        
+
+                        _defectedResults.rows.item(i).DateCreatedString = _date.toDateString() + " [" + _date.toLocaleTimeString() + "]";
+
                         $scope.$apply(function () {
                             $scope._defectedResults.push(_defectedResults.rows.item(i));
                         });
@@ -357,16 +361,59 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                         timeOut: 5000
                     });
                 };
-                
-                //$scope.defectedResultRoomSelected.ID
-                tx.executeSql(_query, [], _onQuerySuccess, _onQueryFailed);
+
+                tx.executeSql(_query, [$scope.defectedResultRoomSelected.ID], _onQuerySuccess, _onQueryFailed);
             });
         };
-        
+
         //@Event on grid item click
-        $scope.onGridItem = function(_defectedItem) {
-          
+        $scope.onGridItem = function (_defectedItem) {
+
+            getStatusData();
+
             $scope._currentGridDefectedItem = _defectedItem;
+        };
+
+        //@Event on choosing status
+        $scope.onStatus = function (_status) {
+
+            var _color = $scope._statusColor[_status.ID].color;
+
+            angular.element('.status').css({
+                'background-image': 'linear-gradient(' + _color + ',' + _color + '),linear-gradient(#D2D2D2,#D2D2D2)'
+            });
+        };
+
+        //@Event om get status data
+        var getStatusData = function () {
+
+            //@Event get Status data on start up
+            AppDB._cameraAppDB.transaction(function (tx) {
+
+                var _onQuerySuccess = function (tx, results) {
+
+                    $scope._status = [];
+
+                    var _statusDatas = results;
+
+                    for (var i = 0; i < _statusDatas.rows.length; i++) {
+
+                        $scope.$apply(function () {
+                            $scope._status.push(_statusDatas.rows.item(i));
+                        });
+                    }
+                    ;
+                };
+
+                var _onQueryFailed = function (error) {
+
+                    toastr.error(error.message, 'Error', {
+                        timeOut: 5000
+                    });
+                };
+
+                tx.executeSql('SELECT * FROM STATUS', [], _onQuerySuccess, _onQueryFailed);
+            });
         };
 
         //@Event get Building data on start up
@@ -446,4 +493,6 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
             tx.executeSql('SELECT ID, FullName FROM CONTRACTOR', [], _onQuerySuccess, _onQueryFailed);
         });
+
+        getStatusData();
     }]);
