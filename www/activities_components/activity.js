@@ -22,6 +22,22 @@ Activity.directive('showtab', function () {
 
 Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', 'User', '$route', '_', function ($scope, $location, AppDB, toastr, Project, User, $route, _) {
 
+        document.addEventListener('backbutton', function (e) {
+
+            var _modal = angular.element('#defected-info-dialog');
+
+            if (_modal.is(':visible'))
+            {
+                e.preventDefault();
+            } else
+                navigator.app.backHistory();
+
+        }, false);
+
+        var _currentDefectedStatus = null;
+
+        var _selectedStatus = null;
+
         $scope.projectData = Project.getProjectData();
 
         $scope.inspectorName = User.getFullName();
@@ -286,8 +302,6 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
                             $scope._isPictureTaken = false;
 
-                            $scope._contractors = [];
-
                             $scope.image = "images/blank.png";
 
                             $scope.defectedComment = null;
@@ -318,7 +332,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                         $scope.contractorSelected.ID,
                         window.device.uuid,
                         $scope.image,
-                        0,
+                        0, // 0 not cleared, 1 as designed, 2 cleared
                         0,
                         $scope.defectedComment,
                         1
@@ -329,10 +343,87 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             }
         };
 
+        //@Event on save in popup
+        $scope.onModalSave = function () {
+
+            if (!_.isNull(_currentDefectedStatus) && !_.isUndefined(_currentDefectedStatus))
+            {
+                //check if the defected status has changed or not
+                if (!_.isNull(_selectedStatus) && !_.isUndefined(_selectedStatus))
+                {
+                    if (_currentDefectedStatus !== _selectedStatus)
+                    {
+                        //update
+                        AppDB._cameraAppDB.transaction(function (tx) {
+
+                            var _onQuerySuccess = function (tx, results) {
+                                
+                                //insert
+                                AppDB._cameraAppDB.transaction(function (tx) {
+
+                                    var _onInsertSuccess = function (tx, results) {
+
+                                        $scope.$apply(function () {
+                                            // perform any model changes or method invocations here on angular app.
+                                            $scope.getDefectedResults();
+                                        });
+
+                                        toastr.success('Saved complete!', 'Information', {
+                                            timeOut: 5000
+                                        });
+
+                                        $("[data-dismiss=modal]").trigger({type: "click"});
+                                    };
+
+                                    var _onInsertFailed = function (error) {
+
+                                        toastr.error('Could not save!', 'Error', {
+                                            timeOut: 5000
+                                        });
+
+                                        return;
+                                    };
+
+                                    var _now = new Date().getTime();
+
+                                    var _query = 'INSERT INTO DEFECTED_RESULT (Defected, ResultedBy, ResultDate, Result, Imei, Comment, NewRecord) VALUES (?, ?, ?, ?, ?, ? ,?);';
+                                              
+                                    var _queryValues = [
+                                        $scope._currentGridDefectedItem.DF_ID, //defected
+                                        User.getID(), // resulted bym,
+                                        _now, //result date
+                                        _selectedStatus, //status
+                                        window.device.uuid, // Imei,
+                                        $scope.remark, //comment
+                                        1 // new record
+                                    ];
+
+                                    tx.executeSql(_query, [_queryValues], _onInsertSuccess, _onInsertFailed);
+                                });
+                            };
+
+                            var _onQueryFailed = function (error) {
+
+                                toastr.error(error.message, 'Error', {
+                                    timeOut: 5000
+                                });
+
+                                return;
+                            };
+
+                            var _query = 'UPDATE DEFECTED SET Status = ? Where DF_ID = ?;';
+
+                            tx.executeSql(_query, [_selectedStatus, $scope._currentGridDefectedItem.DF_ID], _onQuerySuccess, _onQueryFailed);
+                        });
+                    }
+                }
+            }
+        };
+
         //@Event on get defected results to show in grid
         $scope.getDefectedResults = function () {
 
-            var _query = "SELECT BasedArea.Description, Defected.DefectedImage, Defected.Code, Building.Code as [Building], Level.Code as [Level], Room.Code as [Room], Defected.DateCreated , Defected.Comment , Contractor.FullName FROM Defected Inner join Contractor On Lower(Defected.Contractor) = Contractor.ID Inner Join Inspector On Lower(Defected.Inspector) = Inspector.ID Inner Join BasedArea On Lower(Defected.Area) = BasedArea.ID Inner Join Building On Lower(Defected.Building) = Building.ID Inner Join Level On Lower(Defected.Level) = Level.ID Inner Join Room On Lower(Defected.Room) = Room.ID Where Room.ID = ?  ";
+            var _query = "SELECT BasedArea.Description, Defected.DF_ID, Defected.Status, Defected.DefectedImage, Defected.Code, Building.Code as [Building], Level.Code as [Level], Room.Code as [Room], Defected.DateCreated , Defected.Comment , Contractor.FullName FROM Defected Inner join Contractor On Lower(Defected.Contractor) = Contractor.ID Inner Join Inspector On Lower(Defected.Inspector) = Inspector.ID Inner Join BasedArea On Lower(Defected.Area) = BasedArea.ID Inner Join Building On Lower(Defected.Building) = Building.ID Inner Join Level On Lower(Defected.Level) = Level.ID Inner Join Room On Lower(Defected.Room) = Room.ID Where Room.ID = ?  ";
 
             AppDB._cameraAppDB.transaction(function (tx) {
 
@@ -372,12 +463,16 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             getStatusData();
 
             $scope._currentGridDefectedItem = _defectedItem;
+
+            _currentDefectedStatus = $scope._currentGridDefectedItem.Status;
         };
 
         //@Event on choosing status
         $scope.onStatus = function (_status) {
 
             var _color = $scope._statusColor[_status.ID].color;
+
+            _selectedStatus = _status.ID;
 
             angular.element('.status').css({
                 'background-image': 'linear-gradient(' + _color + ',' + _color + '),linear-gradient(#D2D2D2,#D2D2D2)'
