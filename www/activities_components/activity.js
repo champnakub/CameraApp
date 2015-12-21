@@ -357,7 +357,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                         AppDB._cameraAppDB.transaction(function (tx) {
 
                             var _onQuerySuccess = function (tx, results) {
-                                
+
                                 //insert
                                 AppDB._cameraAppDB.transaction(function (tx) {
 
@@ -387,7 +387,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
                                     var _now = new Date().getTime();
 
                                     var _query = 'INSERT INTO DEFECTED_RESULT (Defected, ResultedBy, ResultDate, Result, Imei, Comment, NewRecord) VALUES (?, ?, ?, ?, ?, ? ,?);';
-                                              
+
                                     var _queryValues = [
                                         $scope._currentGridDefectedItem.DF_ID, //defected
                                         User.getID(), // resulted bym,
@@ -415,8 +415,10 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
                             tx.executeSql(_query, [_selectedStatus, $scope._currentGridDefectedItem.DF_ID], _onQuerySuccess, _onQueryFailed);
                         });
-                    }
-                }
+                    } else
+                        $("[data-dismiss=modal]").trigger({type: "click"});
+                } else
+                    $("[data-dismiss=modal]").trigger({type: "click"});
             }
         };
 
