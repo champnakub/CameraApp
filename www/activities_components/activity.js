@@ -64,7 +64,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
         $scope._status = [];
 
-        $scope._statusColor = [{color: '#F44336'}, {color: '#76FF03'}, {color: '#FFCA28'}];
+        $scope._statusColor = [{color: '#ebccd1'}, {color: 'rgb(250, 255, 140)'}, {color: '#dff0d8'}];
 
         $scope._isPictureTaken = false;
 
