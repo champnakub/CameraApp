@@ -53,9 +53,9 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
             };
 
             var _onQueryFailed = function (error) {
-                
+
                 _deferred.resolve();
-                
+
                 toastr.error(error.message, 'Error', {
                     timeOut: 5000
                 });
@@ -112,9 +112,9 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
             };
 
             var _onQueryFailed = function (error) {
-                
+
                 _deferred.resolve();
-                
+
                 toastr.error(error.message, 'Error', {
                     timeOut: 5000
                 });
@@ -159,58 +159,45 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                     $scope.pushDefectedResultData()
                 ]).then(function (results) {
 
-                    var _callBackDefected = JSON.parse(results[0].data);
+                    //var _callBackDefected = JSON.parse(results[0].data);
 
-                    var _callBackDefectedResult = JSON.parse(results[1].data);
+                    //var _callBackDefectedResult = JSON.parse(results[1].data);
                     // call back from push Defected data and DefectedResults;
 
 //                    alert(JSON.stringify(_callBackDefected));
 //                    
 //                    alert(JSON.stringify(_callBackDefectedResult));
 
-                    if (_callBackDefected.ErrorCode === _success
-                            && _callBackDefectedResult.ErrorCode === _success)
-                    {
-                        //drop ALL TABLES 
-                        AppDB.dropAllTables();
+                    //if (_callBackDefected.ErrorCode === _success
+                    //       && _callBackDefectedResult.ErrorCode === _success)
+                    //{
+                    //drop ALL TABLES 
+                    AppDB.dropAllTables();
 
-                        //create ALL TABLES
-                        AppDB.createAllTables();
+                    //create ALL TABLES
+                    AppDB.createAllTables();
 
-                        //sync data from service
-                        AppDB.syncData().then(function (result) {
+                    //sync data from service
+                    AppDB.syncData().then(function (result) {
 
-                            toastr.success('Webservice Called Complete!', 'Information', {
-                                timeOut: 10000
+                        toastr.success('Webservice Called Complete!', 'Information', {
+                            timeOut: 10000
+                        });
+
+                        //insert data into tables 
+                        AppDB.insertData(result).then(function () {
+
+                            cfpLoadingBar.complete();
+
+                            toastr.success('Synced Complete!', 'Information', {
+                                timeOut: 5000
                             });
 
-                            //insert data into tables 
-                            AppDB.insertData(result).then(function () {
+                            var _loginViewPath = '/loginView';
+                            //change page to login view page
+                            $location.path(_loginViewPath).replace();
 
-                                cfpLoadingBar.complete();
-
-                                toastr.success('Synced Complete!', 'Information', {
-                                    timeOut: 5000
-                                });
-
-                                var _loginViewPath = '/loginView';
-                                //change page to login view page
-                                $location.path(_loginViewPath).replace();
-
-                            }, function (res) {
-
-                                cfpLoadingBar.complete();
-
-                                //drop ALL TABLES 
-                                AppDB.dropSetupTable();
-                                AppDB.dropAllTables();
-
-                                toastr.error('Synced Falied at TABLE : ' + res.Table, 'Error', {
-                                    timeOut: 5000
-                                });
-                            });
-
-                        }, function (result) {
+                        }, function (res) {
 
                             cfpLoadingBar.complete();
 
@@ -218,11 +205,24 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                             AppDB.dropSetupTable();
                             AppDB.dropAllTables();
 
-                            toastr.error('Could not connect to ' + result.config.url, 'Error', {
+                            toastr.error('Synced Falied at TABLE : ' + res.Table, 'Error', {
                                 timeOut: 5000
                             });
                         });
-                    }
+
+                    }, function (result) {
+
+                        cfpLoadingBar.complete();
+
+                        //drop ALL TABLES 
+                        AppDB.dropSetupTable();
+                        AppDB.dropAllTables();
+
+                        toastr.error('Could not connect to ' + result.config.url, 'Error', {
+                            timeOut: 5000
+                        });
+                    });
+                    //}
                 }, function (results) {
 
                     cfpLoadingBar.complete();
