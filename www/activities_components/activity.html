@@ -183,11 +183,14 @@
                 </form>
 
                 <div class="defected-result-list">
-                    <div class="panel" ng-class="roll.Status === '0' ? 'panel-danger' : roll.Status === '2' ? 'panel-success' : 'panel-warning'" data-toggle="modal" data-target="#defected-info-dialog" ng-click="onGridItem(roll)" ng-repeat="roll in _defectedResults| filter: searhDefectedResult"> 
+                    <div class="panel" ng-class="roll.Status === '0' ? 'panel-danger' : roll.Status === '2' ? 'panel-success' : 'panel-warning'" ng-repeat="roll in _defectedResults| filter: searhDefectedResult"> 
                         <div class="panel-heading"> 
-                            <h3 class="panel-title">{{roll.Description}}</h3> 
+                            <h3 style="display: inline;" class="panel-title">{{roll.Description}}</h3>
+                            <div ng-if="roll.NewRecord === 1" style="display: inline; color: black; font-size: 20px;">
+                                <span ng-click="onDelete(roll)" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </div>
                         </div> 
-                        <div class="panel-body"> 
+                        <div class="panel-body" data-toggle="modal" data-target="#defected-info-dialog" ng-click="onGridItem(roll)"> 
                             Defect ID : {{ roll.ID}} - {{roll.DateCreatedString}} : {{roll.Comment}}
                         </div> 
                     </div>
@@ -253,7 +256,7 @@
 
                                         <div class="col-xs-10">
                                             <select class="form-control status" ng-model="statusSelected" ng-change="onStatus(statusSelected)" 
-                                                    ng-options="status as status.Description for status in _status">
+                                                    ng-options="status as status.Description for status in _status track by status.ID">
                                             </select>
                                         </div>
                                         <span class="material-input"></span>

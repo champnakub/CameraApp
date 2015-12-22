@@ -230,9 +230,20 @@
     width: 100%;
 }
 
-#activity-view .defected-result-list {
-    height: 400px;
-    overflow-y: scroll;
+/**Extra Small Devices**/
+@media only screen and (max-width : 400px) {
+    #activity-view .defected-result-list {
+        height: 400px;
+        overflow-y: scroll;
+    }
+}
+
+/**Medium Devices**/
+@media (min-width: 768px) {
+    #activity-view .defected-result-list {
+        height: 700px;
+        overflow-y: scroll;
+    }
 }
 
 #activity-view .panel-warning>.panel-heading {

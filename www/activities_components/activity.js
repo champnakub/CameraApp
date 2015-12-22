@@ -30,7 +30,13 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             {
                 e.preventDefault();
             } else
-                navigator.app.backHistory();
+            {
+                var _projectViewPath = '/projectView';
+                //change page to project view page
+                $scope.$apply(function () {
+                    $location.path(_projectViewPath).replace();
+                });
+            }
 
         }, false);
 
@@ -425,7 +431,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
         //@Event on get defected results to show in grid
         $scope.getDefectedResults = function () {
 
-            var _query = "SELECT BasedArea.Description, Defected.DF_ID, Defected.Status, Defected.DefectedImage, Defected.Code, Building.Code as [Building], Level.Code as [Level], Room.Code as [Room], Defected.DateCreated , Defected.Comment , Contractor.FullName FROM Defected Inner join Contractor On Lower(Defected.Contractor) = Contractor.ID Inner Join Inspector On Lower(Defected.Inspector) = Inspector.ID Inner Join BasedArea On Lower(Defected.Area) = BasedArea.ID Inner Join Building On Lower(Defected.Building) = Building.ID Inner Join Level On Lower(Defected.Level) = Level.ID Inner Join Room On Lower(Defected.Room) = Room.ID Where Room.ID = ?  ";
+            var _query = "SELECT BasedArea.Description, Defected.DF_ID, Defected.Status, Defected.DefectedImage, Defected.NewRecord, Defected.Code, Building.Code as [Building], Level.Code as [Level], Room.Code as [Room], Defected.DateCreated , Defected.Comment , Contractor.FullName FROM Defected Inner join Contractor On Lower(Defected.Contractor) = Contractor.ID Inner Join Inspector On Lower(Defected.Inspector) = Inspector.ID Inner Join BasedArea On Lower(Defected.Area) = BasedArea.ID Inner Join Building On Lower(Defected.Building) = Building.ID Inner Join Level On Lower(Defected.Level) = Level.ID Inner Join Room On Lower(Defected.Room) = Room.ID Where Room.ID = ? ORDER BY DF_ID DESC;";
 
             AppDB._cameraAppDB.transaction(function (tx) {
 
@@ -461,12 +467,16 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
         //@Event on grid item click
         $scope.onGridItem = function (_defectedItem) {
-            
+
             $scope.remark = '';
-            
+
             getStatusData();
 
             $scope._currentGridDefectedItem = _defectedItem;
+
+            $scope.statusSelected = $scope._status[parseInt($scope._currentGridDefectedItem.Status)];
+
+            $scope.onStatus($scope.statusSelected);
 
             _currentDefectedStatus = $scope._currentGridDefectedItem.Status;
         };
@@ -480,6 +490,34 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
             angular.element('.status').css({
                 'background-image': 'linear-gradient(' + _color + ',' + _color + '),linear-gradient(#D2D2D2,#D2D2D2)'
+            });
+        };
+
+        //@Event on delete defected item [Where NewRecord = 1]
+        $scope.onDelete = function (_defectedItem) {
+
+            //@Event get Status data on start up
+            AppDB._cameraAppDB.transaction(function (tx) {
+
+                var _onQuerySuccess = function (tx, results) {
+
+                    $scope.$apply(function () {
+
+                        $scope.getDefectedResults();
+                    });
+
+                    toastr.success('Delete complete!', 'Information', {
+                        timeOut: 5000
+                    });
+                };
+                var _onQueryFailed = function (error) {
+
+                    toastr.error('Error : TABLE DEFECTED', 'Error', {
+                        timeOut: 5000
+                    });
+                };
+
+                tx.executeSql('DELETE FROM DEFECTED WHERE DF_ID = ?;', [_defectedItem.DF_ID], _onQuerySuccess, _onQueryFailed);
             });
         };
 

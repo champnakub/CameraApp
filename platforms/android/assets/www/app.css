@@ -1,4 +1,118 @@
 /* app css stylesheet */
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Regular-webfont.eot');
+    src: url('Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto-Regular-webfont.woff') format('woff'),
+        url('Roboto-Regular-webfont.ttf') format('truetype'),
+        url('Roboto-Regular-webfont.svg#RobotoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Italic-webfont.eot');
+    src: url('Roboto-Italic-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto-Italic-webfont.woff') format('woff'),
+        url('Roboto-Italic-webfont.ttf') format('truetype'),
+        url('Roboto-Italic-webfont.svg#RobotoItalic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Bold-webfont.eot');
+    src: url('Roboto-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto-Bold-webfont.woff') format('woff'),
+        url('Roboto-Bold-webfont.ttf') format('truetype'),
+        url('Roboto-Bold-webfont.svg#RobotoBold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-BoldItalic-webfont.eot');
+    src: url('Roboto-BoldItalic-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto-BoldItalic-webfont.woff') format('woff'),
+        url('Roboto-BoldItalic-webfont.ttf') format('truetype'),
+        url('Roboto-BoldItalic-webfont.svg#RobotoBoldItalic') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Thin-webfont.eot');
+    src: url('Roboto-Thin-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto-Thin-webfont.woff') format('woff'),
+        url('Roboto-Thin-webfont.ttf') format('truetype'),
+        url('Roboto-Thin-webfont.svg#RobotoThin') format('svg');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-ThinItalic-webfont.eot');
+    src: url('Roboto-ThinItalic-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto-ThinItalic-webfont.woff') format('woff'),
+        url('Roboto-ThinItalic-webfont.ttf') format('truetype'),
+        url('Roboto-ThinItalic-webfont.svg#RobotoThinItalic') format('svg'); 
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Light-webfont.eot');
+    src: url('Roboto-Light-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto-Light-webfont.woff') format('woff'),
+        url('Roboto-Light-webfont.ttf') format('truetype'),
+        url('Roboto-Light-webfont.svg#RobotoLight') format('svg');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-LightItalic-webfont.eot');
+    src: url('Roboto-LightItalic-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto-LightItalic-webfont.woff') format('woff'),
+        url('Roboto-LightItalic-webfont.ttf') format('truetype'),
+        url('Roboto-LightItalic-webfont.svg#RobotoLightItalic') format('svg');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Medium-webfont.eot');
+    src: url('Roboto-Medium-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto-Medium-webfont.woff') format('woff'),
+        url('Roboto-Medium-webfont.ttf') format('truetype'),
+        url('Roboto-Medium-webfont.svg#RobotoMedium') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-MediumItalic-webfont.eot');
+    src: url('Roboto-MediumItalic-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto-MediumItalic-webfont.woff') format('woff'),
+        url('Roboto-MediumItalic-webfont.ttf') format('truetype'),
+        url('Roboto-MediumItalic-webfont.svg#RobotoMediumItalic') format('svg');
+    font-weight: 300;
+    font-style: italic;
+}
+
+.header {
+    color : rgb(82, 101, 162);
+}
+
 .fright {
     float: right;
 }
@@ -88,24 +202,106 @@
     left : 5px;
     position: absolute;
 }
-/* END OF LOGIN PAGE VIEW */
 
-/* ACTIVITY PAGE VIEW */
-
-#activity-view .defected-img-container {
-    background-image: url('images/blank.png');
-    background-position: center center;
-    background-repeat: no-repeat;
-    border: solid 2px #337ab7;
-    background-size: auto;
-    height: 150px;
+#login-view .login-img-container {
+    display: table;
     width: 100%;
 }
 
+#login-view .image {
+    height: 300px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    position: relative;
+}
+
+#login-view .image img {
+    max-width: 99%;
+    max-height: 99%;
+}
+/* END OF LOGIN PAGE VIEW */
+
+/* ACTIVITY PAGE VIEW */
+#activity-view .defected-img-container {
+    border: solid 2px #446CB3;
+    display: table;
+    width: 100%;
+}
+
+/**Extra Small Devices**/
+@media only screen and (max-width : 400px) {
+    #activity-view .defected-result-list {
+        height: 400px;
+        overflow-y: scroll;
+    }
+}
+
+/**Medium Devices**/
+@media (min-width: 768px) {
+    #activity-view .defected-result-list {
+        height: 700px;
+        overflow-y: scroll;
+    }
+}
+
+#activity-view .panel-warning>.panel-heading {
+    background: rgb(250, 255, 140);
+    color: #8a6d3b;
+}
+
+#activity-view .panel-success>.panel-heading {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+#activity-view .panel-danger>.panel-heading {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+#activity-view .image {
+    height: 300px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    position: relative;
+}
+
+#activity-view .image img {
+    max-width: 99%;
+    max-height: 99%;
+}
+
+#activity-view .image * {
+    vertical-align: middle;
+}
+
+#activity-view .not-cleared  {
+    background : #FF5252;
+    color : white;
+}
+
+#activity-view .cleared  {
+    background : #2ecc71;
+    color : white;
+}
+
+#activity-view .as-designed  {
+    background: rgb(250, 255, 140);
+    color : white;
+}
+
+/*#activity-view tr:nth-child(even)  {
+    background: #00796B; color: white;
+}*/
 /* END OF ACTIVITY PAGE VIEW */
 
 /* CAMERA PAGE VIEW */
-
 #camera-container .content {
     position: relative;
     height: 100%;

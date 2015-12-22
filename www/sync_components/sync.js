@@ -164,9 +164,6 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                     //var _callBackDefectedResult = JSON.parse(results[1].data);
                     // call back from push Defected data and DefectedResults;
 
-//                    alert(JSON.stringify(_callBackDefected));
-//                    
-//                    alert(JSON.stringify(_callBackDefectedResult));
 
                     //if (_callBackDefected.ErrorCode === _success
                     //       && _callBackDefectedResult.ErrorCode === _success)

@@ -15,19 +15,20 @@
         <link rel="stylesheet" href="app.css">
         <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
-    <body>
+    <body style="background: rgb(255, 245, 225);">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        
+
         <!-- ng-view resize ng-style="style();" -->
-        <div ng-view class="container-fluid" style="padding: 0;"></div>
+        <div ng-view class="container-fluid" style="padding: 0; font-family:'roboto';"></div>
 
         <!-- In production use:
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
         -->
+        
         <script src="cordova.js"></script>
-
+        
         <!-- JQUERY -->
         <script src="lib/jquery/jquery.min.js"></script>
         <!-- JQUERY -->
@@ -37,8 +38,15 @@
         <script src="lib/bootstrap/js/bootstrap.min.js"></script>
         <!-- BOOTSTRAP -->
         
+        <!-- ANGULAR BOOTSTRAP MATERIAL -->
+        <link rel="stylesheet" href="lib/bootstrap-material-design-master/dist/css/bootstrap-material-design.min.css">
+        <link rel="stylesheet" href="lib/bootstrap-material-design-master/dist/css/ripples.min.css">
+        <script src="lib/bootstrap-material-design-master/dist/js/material.min.js"></script>
+        <script src="lib/bootstrap-material-design-master/dist/js/ripples.min.js"></script>
+        <!-- ANGULAR BOOTSTRAP MATERIAL -->
+
         <script src="bower_components/angular/angular.js"></script>
-        
+
         <!-- UNDERSCORE -->
         <script src="lib/underscore/underscore-min.js"></script>
         <!-- UNDERSCORE -->
@@ -47,32 +55,32 @@
         <link rel='stylesheet' href='lib/angular-loading-bar-master/build/loading-bar.min.css' type='text/css' media='all' />
         <script type='text/javascript' src='lib/angular-loading-bar-master/build/loading-bar.min.js'></script>   
         <!-- LOADING -->
-        
+
         <!-- ANGULAR WEB SQL -->
         <script src="lib/angular-websql/angular-websql.min.js"></script>
         <!-- ANGULAR WEB SQL -->
 
-        <!-- ANGULAR TOUCH -->
+        <!-- ANGULAR TOUCH
         <script src="lib/angular-touch/angular-touch.min.js"></script>
-        <!-- ANGULAR TOUCH --> 
-        
+        ANGULAR TOUCH -->
+
         <!-- ANGULAR TOAST -->
         <link rel="stylesheet" type="text/css" href="lib/angular-toastr/dist/angular-toastr.css" />
         <script type="text/javascript" src="lib/angular-toastr/dist/angular-toastr.tpls.js"></script>
         <!-- ANGULAR TOAST -->
 
-        <!-- ANGULAR CAROUSEL --> 
+        <!-- ANGULAR CAROUSEL 
         <link href="lib/angular-carousel/angular-carousel.min.css" rel="stylesheet" type="text/css" />
         <script src="lib/angular-carousel/angular-carousel.min.js"></script>
-        <!-- ANGULAR CAROUSEL --> 
-
+        ANGULAR CAROUSEL --> 
+        
         <!-- FONT AWESOME -->
         <link href="lib/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- FONT AWESOME -->
 
         <script src="bower_components/angular-route/angular-route.js"></script>
         <script src="app.js"></script>
-        
+
         <script src="item_components/item.js"></script>
         <script src="sync_components/sync.js"></script>
         <script src="setup_components/setup.js"></script>
@@ -81,7 +89,7 @@
         <script src="webservice_components/ws.js"></script>
         <script src="project_components/project.js"></script>
         <script src="activities_components/activity.js"></script>
-        
+
         <script src="components/version/version.js"></script>
         <script src="components/version/version-directive.js"></script>
         <script src="components/version/interpolate-filter.js"></script>

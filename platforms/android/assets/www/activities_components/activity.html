@@ -1,114 +1,308 @@
-<div id="activity-view" class="fill-dock core-flex-all-vertical" style="padding: 10px;">
+<div id="activity-view" class="fill-dock">
 
     <ul class="nav nav-tabs">
         <li class="active"><a showtab="" href="#defected">Defected</a></li>
         <li><a showtab="" href="#defected-result">Defected Result</a></li>
     </ul>
 
-    <div class="tab-content">
+    <div class="container">
+        <div class="tab-content">
 
-        <!-- DEFECTED TAB -->
-        <div id="defected" class="tab-pane fade in active">
-            <h1>Defected</h1>
-            <!-- BUILDING -->
-            <p>
-                <span> Building : </span> 
-                <select>
-                    <option>Building A</option>
-                </select>  
-            </p>
-            <!-- BUILDING -->
+            <!-- DEFECTED TAB -->
+            <div id="defected" class="tab-pane fade in active">
 
-            <!-- LEVEL -->
-            <p>
-                <span> Level : </span> 
-                <select>
-                    <option>Level 1</option>
-                </select>  
-            </p>
-            <!-- LEVEL -->
+                <h3 class="header" style="font-size: 20px;">Defected Item of Project(<span style="font-size: 18px; color : #26C281;">{{projectData.Description}}</span>)</h3>
 
-            <!-- ROOM -->
-            <p>
-                <span> Room/Area : </span> 
-                <select>
-                    <option>Room 49</option>
-                </select>  
-            </p>
-            <!-- ROOM -->
+                <h4 class="header">Inspector by : <span style="color : #F27935;">{{inspectorName}}</span> </h4>
 
-            <!-- LOCATION -->
-            <p>
-                <span> Location : </span> 
-                <select>
-                    <option>Wall</option>
-                </select>  
-            </p>
-            <!-- LOCATION -->
+                <form class="form-horizontal">
+                    <!-- BUILDING -->
+                    <div class="form-group" style="margin: 0;">
+                        <label class="col-xs-2 control-label">Building</label>
 
-            <!-- CONTRACTOR -->
-            <p>
-                <span> Contractor : </span> 
-                <select>
-                    <option>Contractor A</option>
-                </select>  
-            </p>
-            <!-- CONTRACTOR -->
+                        <div class="col-xs-10">
+                            <select class="form-control" ng-model="defectedBuildingSelected" ng-change="onDefectedBuilding()" 
+                                    ng-options="defectedBuilding as defectedBuilding.Description for defectedBuilding in _defectedBuildings">
+                            </select>
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+                    <!-- BUILDING -->
 
-            <div class="defected-img-container"></div>
+                    <!-- LEVEL -->
+                    <div class="form-group" style="margin: 0;">
+                        <label class="col-xs-2 control-label">Level</label>
 
-            <textarea style="width: 100%; margin-top: 5px; height: 55px;" placeholder="Comment"></textarea>
+                        <div class="col-xs-10">
+                            <select class="form-control" ng-model="defectedLevelSelected" ng-change="onDefectedLevel()" 
+                                    ng-options="defectedLevel as defectedLevel.Description for defectedLevel in _defectedLevels">
+                            </select>
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+                    <!-- LEVEL -->
 
-            <div class="btn-group col-xs-12">
-                <button style="font-size: 14px;" ng-click="takePicture()" ng-model='takePicture' type="button" class="btn btn-info btn-lg col-xs-6">
-                    <span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Take Picture
-                </button>
-                <button style="font-size: 14px;" ng-click="getPicture()" ng-model='getPicture' type="button" class="btn btn-info btn-lg col-xs-6">
-                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Browse Picture
-                </button>
+                    <!-- ROOM -->
+                    <div class="form-group" style="margin: 0;">
+                        <label class="col-xs-2 control-label">Room</label>
+
+                        <div class="col-xs-10">
+                            <select class="form-control" ng-model="defectedRoomSelected" ng-change="onDefectedRoom()" 
+                                    ng-options="defectedRoom as defectedRoom.Description for defectedRoom in _defectedRooms">
+                            </select>
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+                    <!-- ROOM -->
+
+                    <!-- LOCATION -->
+                    <div class="form-group" style="margin: 0;">
+                        <label class="col-xs-2 control-label">Location</label>
+
+                        <div class="col-xs-10">
+                            <select class="form-control" ng-model="defectedAreaSelected" ng-change="onDefectedArea()" 
+                                    ng-options="defectedArea as defectedArea.Description for defectedArea in _defectedAreas">
+                            </select>
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+                    <!-- LOCATION -->
+
+                    <!-- CONTRACTOR -->
+                    <div class="form-group" style="margin: 0;">
+                        <label class="col-xs-2 control-label">Contractor</label>
+
+                        <div class="col-xs-10">
+                            <select class="form-control" ng-model="contractorSelected" ng-change="onContractor()" 
+                                    ng-options="contractor as contractor.FullName for contractor in _contractors">
+                            </select>
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+                    <!-- CONTRACTOR -->
+                </form>
+
+                <div class="defected-img-container">
+                    <div class="image"><span></span><img ng-src="{{image}}"></div>
+                </div>
+
+                <div class="row" style="margin: 0;">
+                    <button style="font-size: 1.2em; background : #3f51b5; color: white;" ng-mousedown="takePicture()" ng-model='takePicture' type="button" class="btn btn-raised btn-lg col-xs-12">
+                        <span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Take Picture
+                    </button>
+                    <button style="font-size: 1.2em; background : #3f51b5; color: white;" ng-mousedown="getPicture()" ng-model='getPicture' type="button" class="btn btn-raised btn-lg col-xs-12">
+                        Browse Picture <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                    </button>
+                </div>
+
+                <div class="form-group has-success label-floating is-empty">
+                    <label for="defected-comment" class="control-label">Defected Comment</label>
+                    <textarea ng-model="defectedComment" maxlength="400" class="form-control" id="defected-comment"></textarea>
+                    <span class="material-input"></span>
+                </div>
+
+                <div class="row" style="margin: 0;">
+                    <button ng-mousedown="onSave()" style="font-size: 1.2em; background: #F62459; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
+                        Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                    </button> 
+                </div>
+
+                <div class="row" style="margin: 0;">
+                    <div class="btn-group col-xs-12" style="padding: 0;">
+                        <button style="font-size: 1.2em; background: #BF55EC; color: white;"  ng-click="back()" type="button" class="btn btn-raised btn-lg col-xs-6">
+                            <span class="glyphicon glyphicon-chevron-left"></span> Back
+                        </button> 
+                        <button ng-mousedown="clearData()" style="font-size: 1.2em; background: #BF55EC; color: white;"   type="button" class="btn btn-raised btn-lg col-xs-6">
+                            Clear Data<span class="glyphicon glyphicon-erase"></span>
+                        </button> 
+                    </div>
+                </div>
             </div>
-            
-            <div class="btn-group col-xs-12 navbar-fixed-bottom" style="margin-top: 5px; padding: 0px;">
-                <button style="font-size: 14px;"  ng-click="back()" type="button" class="btn btn-lg btn-primary col-xs-6">
-                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back
-                </button> 
-                <button style="font-size: 14px;" type="button" class="btn btn-lg btn-primary col-xs-6">
-                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
-                </button>
-            </div>
-        </div>
-        <!-- DEFECTED TAB -->
+            <!-- DEFECTED TAB -->
 
-        <!-- DEFECTED RESULT -->
-        <div id="defected-result" class="tab-pane fade">
-            <h1>Defected Result</h1>
-            <!-- BUILDING -->
-            <p>
-                <span> Building : </span> 
-                <select>
-                    <option>Building A</option>
-                </select>  
-            </p>
-            <!-- BUILDING -->
+            <!-- DEFECTED RESULT -->
+            <div id="defected-result" class="tab-pane fade">
 
-            <!-- LEVEL -->
-            <p>
-                <span> Level : </span> 
-                <select>
-                    <option>Level 1</option>
-                </select>  
-            </p>
-            <!-- LEVEL -->
+                <h3 class="header" style="font-size: 20px;">Defected Result of Project(<span style="font-size: 18px; color : #26C281;">{{projectData.Description}}</span>)</h3>
 
-            <!-- ROOM -->
-            <p>
-                <span> Room/Area : </span> 
-                <select>
-                    <option>Room 49</option>
-                </select>  
-            </p>
-            <!-- ROOM -->
-        </div>
-        <!-- DEFECTED RESULT -->
-    </div> 
+                <form class="form-horizontal">
+                    <!-- BUILDING -->
+                    <div class="form-group" style="margin: 0;">
+                        <label class="col-xs-2 control-label">Building</label>
+
+                        <div class="col-xs-10">
+                            <select class="form-control" ng-model="defectedResultBuildingSelected" ng-change="onDefectedResultBuilding()" 
+                                    ng-options="defectedResultBuilding as defectedResultBuilding.Description for defectedResultBuilding in _defectedBuildings">
+                            </select>
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+                    <!-- BUILDING -->
+
+                    <!-- LEVEL -->
+                    <div class="form-group" style="margin: 0;">
+                        <label class="col-xs-2 control-label">Level</label>
+
+                        <div class="col-xs-10">
+                            <select class="form-control" ng-model="defectedResultLevelSelected" ng-change="onDefectedResultLevel()" 
+                                    ng-options="defectedResultLevel as defectedResultLevel.Description for defectedResultLevel in _defectedResultLevels">
+                            </select>
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+                    <!-- LEVEL -->
+
+                    <!-- ROOM -->
+                    <div class="form-group" style="margin: 0;">
+                        <label class="col-xs-2 control-label">Room</label>
+
+                        <div class="col-xs-10">
+                            <select class="form-control" ng-model="defectedResultRoomSelected" ng-change="onDefectedResultRoom()" 
+                                    ng-options="defectedResultRoom as defectedResultRoom.Description for defectedResultRoom in _defectedResultRooms">
+                            </select>
+                        </div>
+                        <span class="material-input"></span>
+                    </div>
+                    <!-- ROOM -->
+                </form>
+
+                <button ng-mousedown="getDefectedResults()" style="font-size: 1.2em; background: #4DB6AC; color: white;" type="button" class="btn btn-raised btn-lg col-xs-12">
+                    <i class="fa fa-download"></i> Get Result
+                </button>      
+
+                <!-- DEFECTED RESULT GRID -->
+
+                <form>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                            <input type="text" class="form-control" placeholder="Search Result" ng-model="searhDefectedResult">
+                        </div>      
+                    </div>
+                </form>
+
+                <div class="defected-result-list">
+                    <div class="panel" ng-class="roll.Status === '0' ? 'panel-danger' : roll.Status === '2' ? 'panel-success' : 'panel-warning'" ng-repeat="roll in _defectedResults| filter: searhDefectedResult"> 
+                        <div class="panel-heading"> 
+                            <h3 style="display: inline;" class="panel-title">{{roll.Description}}</h3>
+                            <div ng-if="roll.NewRecord === 1" style="display: inline; color: black; font-size: 20px;">
+                                <span ng-click="onDelete(roll)" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </div>
+                        </div> 
+                        <div class="panel-body" data-toggle="modal" data-target="#defected-info-dialog" ng-click="onGridItem(roll)"> 
+                            Defect ID : {{ roll.ID}} - {{roll.DateCreatedString}} : {{roll.Comment}}
+                        </div> 
+                    </div>
+                </div>
+
+                <!-- MODAL SECTION -->
+                <div id="defected-info-dialog" class="modal fade" tabindex="-1" style="display: none;">
+                    <div class="modal-dialog" style="height: 100%; overflow-y: scroll;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Defected Information</h4>
+                                <blockquote style="text-align: right;">
+                                    <small>Created : <cite stlye="font-weight: bold;" title="Source Title">{{_currentGridDefectedItem.DateCreatedString}}</cite></small>
+                                </blockquote>
+                            </div>
+                            <div class="modal-body">
+
+                                <!-- LOCATION MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="location-modal-label" class="control-label">Location</label>
+                                    <input disabled value="{{_currentGridDefectedItem.Description}}" type="text" class="form-control" id="location-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- LOCATION MODAL LABEL -->
+
+                                <!-- ROOM MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="room-modal-label" class="control-label">Room</label>
+                                    <input disabled value="{{_currentGridDefectedItem.Room}}" type="text" class="form-control" id="room-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- ROOM MODAL LABEL -->
+
+                                <!-- LEVEL MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="level-modal-label" class="control-label">Level</label>
+                                    <input disabled value="{{_currentGridDefectedItem.Level}}" type="text" class="form-control" id="level-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- LEVEL MODAL LABEL -->
+
+                                <!-- BUILDING MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="building-modal-label" class="control-label">Building</label>
+                                    <input disabled value="{{_currentGridDefectedItem.Building}}" type="text" class="form-control" id="building-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- BUILDING MODAL LABEL -->
+
+                                <!-- PROJECT MODAL LABEL -->
+                                <!-- <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="project-modal-label" class="control-label">Project</label>
+                                    <input disabled value="{{projectData.Description}}" type="text" class="form-control" id="project-modal-label">
+                                    <span class="material-input"></span>
+                                </div>-->
+                                <!-- PROJECT MODAL LABEL -->
+
+                                <!-- STATUS MODAL -->
+                                <form class="form-horizontal">
+                                    <div class="form-group" style="margin: 0;">
+                                        <label class="col-xs-2 control-label">Status</label>
+
+                                        <div class="col-xs-10">
+                                            <select class="form-control status" ng-model="statusSelected" ng-change="onStatus(statusSelected)" 
+                                                    ng-options="status as status.Description for status in _status track by status.ID">
+                                            </select>
+                                        </div>
+                                        <span class="material-input"></span>
+                                    </div>
+                                </form>
+                                <!-- STATUS MODAL -->
+
+                                <!-- CONTRACTOR MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="contractor-modal-label" class="control-label">Contractor</label>
+                                    <input disabled value="{{_currentGridDefectedItem.FullName}}" type="text" class="form-control" id="contractor-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- CONTRACTOR MODAL LABEL --> 
+
+                                <!-- DEFECTED COMMENT MODAL LABEL -->
+                                <div class="form-group label-floating is-empty isFocus is-focused">
+                                    <label for="defected-comment-modal-label" class="control-label">Defected Comment</label>
+                                    <input disabled value="{{_currentGridDefectedItem.Comment}}" type="text" class="form-control" id="defected-comment-modal-label">
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- DEFECTED COMMENT MODAL LABEL --> 
+
+                                <!-- IMAGE MODAL -->
+                                <div class="defected-img-container" style="border : none;">
+                                    <div class="image"><span></span><img ng-src="{{_currentGridDefectedItem.DefectedImage}}"></div>
+                                </div>
+                                <!-- IMAGE MODAL -->
+
+                                <!-- REMARK MODAL -->
+                                <div class="form-group has-success label-floating is-empty">
+                                    <label for="remark" class="control-label">Remark</label>
+                                    <textarea ng-model="remark" maxlength="400" class="form-control" id="remark"></textarea>
+                                    <span class="material-input"></span>
+                                </div>
+                                <!-- REMARK MODAL -->
+                            </div>
+                            <div class="modal-footer" style="font-weight: bold;">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                                <button ng-click="onModalSave()" type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MODAL SECTION -->
+            </div>    
+        </div> 
+    </div>
 </div>
