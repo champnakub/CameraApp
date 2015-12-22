@@ -43,7 +43,7 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
 
                 }, function (data) {
 
-                    _deferred.reject(data);
+                    _deferred.resolve();
 
                     //error callback after calling webservice
                     toastr.error('Post to server failed!', 'Information', {
@@ -53,7 +53,9 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
             };
 
             var _onQueryFailed = function (error) {
-
+                
+                _deferred.resolve();
+                
                 toastr.error(error.message, 'Error', {
                     timeOut: 5000
                 });
@@ -100,7 +102,7 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
 
                 }, function (data) {
 
-                    _deferred.reject(data);
+                    _deferred.resolve();
 
                     //error callback after calling webservice
                     toastr.error('Post to server failed!', 'Information', {
@@ -110,7 +112,9 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
             };
 
             var _onQueryFailed = function (error) {
-
+                
+                _deferred.resolve();
+                
                 toastr.error(error.message, 'Error', {
                     timeOut: 5000
                 });
