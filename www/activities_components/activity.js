@@ -467,16 +467,14 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
         //@Event on grid item click
         $scope.onGridItem = function (_defectedItem) {
-
-            $scope.remark = '';
-
+            
             getStatusData();
+            
+            $scope.remark = '';
 
             $scope._currentGridDefectedItem = _defectedItem;
 
-            $scope.statusSelected = $scope._status[parseInt($scope._currentGridDefectedItem.Status)];
-
-            $scope.onStatus($scope.statusSelected);
+            //$scope.statusSelected = $scope._status[parseInt($scope._currentGridDefectedItem.Status)];
 
             _currentDefectedStatus = $scope._currentGridDefectedItem.Status;
         };
@@ -487,7 +485,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             var _color = $scope._statusColor[_status.ID].color;
 
             _selectedStatus = _status.ID;
-
+            
             angular.element('.status').css({
                 'background-image': 'linear-gradient(' + _color + ',' + _color + '),linear-gradient(#D2D2D2,#D2D2D2)'
             });
