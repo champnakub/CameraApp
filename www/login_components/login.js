@@ -84,9 +84,25 @@ Login.controller('LoginCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'User',
             });
         };
 
+        $scope.onSyncData = function () {
+            
+            var _syncViewPath = '/syncView';
+
+            //change page to login view page
+            $location.path(_syncViewPath);
+        };
+        
+        $scope.onEditConfig = function() {
+            
+            var _setupViewPath = '/setupView';
+            
+            //change page to login view page
+            $location.path(_setupViewPath);
+        };
+        
         //@ Authentication
         $scope.authenticate = function () {
-            
+
             var _userName = $scope.username;
 
             var _password = $scope.password;

@@ -9,12 +9,128 @@ Sync.config(['$routeProvider', function ($routeProvider) {
         });
     }]);
 
-Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', '$http', 'cfpLoadingBar', 'toastr', function ($scope, $location, AppDB, webService, _, $http, cfpLoadingBar, toastr) {
+Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', '$http', 'cfpLoadingBar', 'toastr', '$q', function ($scope, $location, AppDB, WebService, _, $http, cfpLoadingBar, toastr, $q) {
+
+        $scope.pushDefectedData = function () {
+
+            // Set up the $q deferred object.
+            var _deferred = $q.defer();
+
+            var _pushDefectedUrl = WebService.getUrl() + 'PushDefected';
+
+            var _onQuerySuccess = function (tx, results) {
+
+                var _defected = [];
+
+                for (var i = 0; i < results.rows.length; i++) {
+                    _defected.push(results.rows.item(i));
+                }
+
+                //alert(JSON.stringify(_defectedResults));
+
+                var _data = {
+                    _JsonData: JSON.stringify(_defected)
+                };
+
+                $http.post(_pushDefectedUrl, _data).then(function (data) {
+
+                    _deferred.resolve(data);
+
+                    //success callback after calling webservice
+                    toastr.success('Push Defected Data complete!', 'Information', {
+                        timeOut: 5000
+                    });
+
+                }, function (data) {
+
+                    _deferred.reject(data);
+
+                    //error callback after calling webservice
+                    toastr.error('Post to server failed!', 'Information', {
+                        timeOut: 5000
+                    });
+                });
+            };
+
+            var _onQueryFailed = function (error) {
+
+                toastr.error(error.message, 'Error', {
+                    timeOut: 5000
+                });
+            };
+
+            AppDB._cameraAppDB.transaction(function (tx) {
+
+                tx.executeSql('SELECT * FROM Defected Where NewRecord = ?;', [1], _onQuerySuccess, _onQueryFailed);
+            });
+
+            // Return the deferred's promise.
+            return _deferred.promise;
+        };
+
+        $scope.pushDefectedResultData = function () {
+
+            // Set up the $q deferred object.
+            var _deferred = $q.defer();
+
+            var _pushDefectedUrl = WebService.getUrl() + 'PushDefectedResult';
+
+            var _onQuerySuccess = function (tx, results) {
+
+                var _defectedResults = [];
+
+                for (var i = 0; i < results.rows.length; i++) {
+                    _defectedResults.push(results.rows.item(i));
+                }
+
+                //alert(JSON.stringify(_defectedResults));
+
+                var _data = {
+                    _JsonData: JSON.stringify(_defectedResults)
+                };
+
+                $http.post(_pushDefectedUrl, _data).then(function (data) {
+
+                    _deferred.resolve(data);
+
+                    //success callback after calling webservice
+                    toastr.success('Push Defected Results complete!', 'Information', {
+                        timeOut: 5000
+                    });
+
+                }, function (data) {
+
+                    _deferred.reject(data);
+
+                    //error callback after calling webservice
+                    toastr.error('Post to server failed!', 'Information', {
+                        timeOut: 5000
+                    });
+                });
+            };
+
+            var _onQueryFailed = function (error) {
+
+                toastr.error(error.message, 'Error', {
+                    timeOut: 5000
+                });
+            };
+
+            AppDB._cameraAppDB.transaction(function (tx) {
+
+                tx.executeSql('SELECT * FROM DEFECTED_RESULT Where NewRecord = ?;', [1], _onQuerySuccess, _onQueryFailed);
+            });
+
+            // Return the deferred's promise.
+            return _deferred.promise;
+        };
 
         //function on sync data from service
         $scope.onSyncData = function () {
 
-            var _webServiceUrl = webService.getUrl();
+            var _success = 0;
+
+            var _webServiceUrl = WebService.getUrl();
 
             //toastr.info('url : ' + _webServiceUrl, 'Network Information', {
             //    timeOut: 5000
@@ -33,54 +149,72 @@ Sync.controller('SyncCtrl', ['$scope', '$location', 'AppDB', 'WebService', '_', 
                 //show the loading bar
                 cfpLoadingBar.start();
 
-                //drop ALL TABLES 
-                AppDB.dropAllTables();
-
-                //create ALL TABLES
-                AppDB.createAllTables();
-
-                //sync data from service
-                AppDB.syncData().then(function (result) {
-
-                    toastr.success('Webservice Called Complete!', 'Information', {
-                        timeOut: 10000
-                    });
-
-                    //insert data into tables 
-                    AppDB.insertData(result).then(function () {
-
-                        cfpLoadingBar.complete();
-
-                        toastr.success('Synced Complete!', 'Information', {
-                            timeOut: 5000
-                        });
-
-                        var _loginViewPath = '/loginView';
-                        //change page to login view page
-                        $location.path(_loginViewPath).replace();
-
-                    }, function (res) {
-
-                        cfpLoadingBar.complete();
-                        
+                //start the sync task
+                $q.all([
+                    $scope.pushDefectedData(),
+                    $scope.pushDefectedResultData()
+                ]).then(function (results) {
+                    
+                    // call back from push Defected data and DefectedResults;
+                    if (results.data.ErrorCode === _success)
+                    {
                         //drop ALL TABLES 
-                        AppDB.dropSetupTable();
                         AppDB.dropAllTables();
 
-                        toastr.error('Synced Falied at TABLE : ' + res.Table, 'Error', {
-                            timeOut: 5000
+                        //create ALL TABLES
+                        AppDB.createAllTables();
+
+                        //sync data from service
+                        AppDB.syncData().then(function (result) {
+
+                            toastr.success('Webservice Called Complete!', 'Information', {
+                                timeOut: 10000
+                            });
+
+                            //insert data into tables 
+                            AppDB.insertData(result).then(function () {
+
+                                cfpLoadingBar.complete();
+
+                                toastr.success('Synced Complete!', 'Information', {
+                                    timeOut: 5000
+                                });
+
+                                var _loginViewPath = '/loginView';
+                                //change page to login view page
+                                $location.path(_loginViewPath).replace();
+
+                            }, function (res) {
+
+                                cfpLoadingBar.complete();
+
+                                //drop ALL TABLES 
+                                AppDB.dropSetupTable();
+                                AppDB.dropAllTables();
+
+                                toastr.error('Synced Falied at TABLE : ' + res.Table, 'Error', {
+                                    timeOut: 5000
+                                });
+                            });
+
+                        }, function (result) {
+
+                            cfpLoadingBar.complete();
+
+                            //drop ALL TABLES 
+                            AppDB.dropSetupTable();
+                            AppDB.dropAllTables();
+
+                            toastr.error('Could not connect to ' + result.config.url, 'Error', {
+                                timeOut: 5000
+                            });
                         });
-                    });
+                    }
+                }, function (results) {
 
-                }, function (result) {
-                    
                     cfpLoadingBar.complete();
-                    
-                    //drop ALL TABLES 
-                    AppDB.dropSetupTable();
-                    AppDB.dropAllTables();
 
-                    toastr.error('Could not connect to ' + result.config.url, 'Error', {
+                    toastr.error('Could not push data to server' + results.config.url, 'Error', {
                         timeOut: 5000
                     });
                 });

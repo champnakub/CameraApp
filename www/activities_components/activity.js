@@ -461,7 +461,9 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
         //@Event on grid item click
         $scope.onGridItem = function (_defectedItem) {
-
+            
+            $scope.remark = '';
+            
             getStatusData();
 
             $scope._currentGridDefectedItem = _defectedItem;
