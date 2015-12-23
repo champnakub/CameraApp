@@ -10,26 +10,31 @@ Project.config(['$routeProvider', function ($routeProvider) {
     }]);
 
 Project.controller('ProjectCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', function ($scope, $location, AppDB, toastr, Project) {
-
-        document.addEventListener('backbutton', function (e) {
+        
+        var toLogin = function (e) {
 
             var _loginViewPath = '/loginView';
 
             var _confirmDlg = confirm('Are you sure you want to log out?');
 
             if (_confirmDlg === true) {
-
+                
+                document.removeEventListener('backbutton', toLogin);
+                
                 //change page to login view page
                 $scope.$apply(function () {
                     $location.path(_loginViewPath).replace();
                 });
             }
-
-        }, false);
-
+        };
+        
+        document.addEventListener('backbutton', toLogin, false);
+        
         $scope._projectResults = [];
 
         $scope.onProjectData = function (selectedProject) {
+
+            document.removeEventListener('backbutton', toLogin);
 
             Project.setProjectData(selectedProject);
 
@@ -37,7 +42,6 @@ Project.controller('ProjectCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Pr
             //change page to project view path
             $location.path(_activityViewPath);
         };
-
 
         var _onQuerySuccess = function (tx, results) {
 

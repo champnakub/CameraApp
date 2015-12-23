@@ -22,27 +22,31 @@ Activity.directive('showtab', function () {
 
 Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', 'User', '$route', '_', function ($scope, $location, AppDB, toastr, Project, User, $route, _) {
 
-        document.addEventListener('backbutton', function (e) {
+        var _currentDefectedStatus = null;
+
+        var _selectedStatus = null;
+
+        var toProject = function (event) {
 
             var _modal = angular.element('#defected-info-dialog');
 
             if (_modal.is(':visible'))
             {
-                e.preventDefault();
+                event.preventDefault();
             } else
             {
+                
+                document.removeEventListener('backbutton', toProject);
+                
                 var _projectViewPath = '/projectView';
                 //change page to project view page
                 $scope.$apply(function () {
                     $location.path(_projectViewPath).replace();
                 });
             }
+        };
 
-        }, false);
-
-        var _currentDefectedStatus = null;
-
-        var _selectedStatus = null;
+        document.addEventListener('backbutton', toProject, false);
 
         $scope.projectData = Project.getProjectData();
 
@@ -475,9 +479,9 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             $scope._currentGridDefectedItem = _defectedItem;
 
             //$scope.statusSelected = $scope._status[parseInt($scope._currentGridDefectedItem.Status)];
- 
+
             _currentDefectedStatus = $scope._currentGridDefectedItem.Status;
-            
+
             angular.element('.status option').eq(parseInt($scope._currentGridDefectedItem.Status)).prop('selected', true);
         };
 
