@@ -11,6 +11,22 @@ Project.config(['$routeProvider', function ($routeProvider) {
 
 Project.controller('ProjectCtrl', ['$scope', '$location', 'AppDB', 'toastr', 'Project', function ($scope, $location, AppDB, toastr, Project) {
 
+        document.addEventListener('backbutton', function (e) {
+
+            var _loginViewPath = '/loginView';
+
+            var _confirmDlg = confirm('Are you sure you want to log out?');
+
+            if (_confirmDlg === true) {
+
+                //change page to login view page
+                $scope.$apply(function () {
+                    $location.path(_loginViewPath).replace();
+                });
+            }
+
+        }, false);
+
         $scope._projectResults = [];
 
         $scope.onProjectData = function (selectedProject) {

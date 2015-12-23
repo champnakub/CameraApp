@@ -467,16 +467,18 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
 
         //@Event on grid item click
         $scope.onGridItem = function (_defectedItem) {
-            
+
             getStatusData();
-            
+
             $scope.remark = '';
 
             $scope._currentGridDefectedItem = _defectedItem;
 
             //$scope.statusSelected = $scope._status[parseInt($scope._currentGridDefectedItem.Status)];
-
+ 
             _currentDefectedStatus = $scope._currentGridDefectedItem.Status;
+            
+            angular.element('.status option').eq(parseInt($scope._currentGridDefectedItem.Status)).prop('selected', true);
         };
 
         //@Event on choosing status
@@ -485,7 +487,7 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
             var _color = $scope._statusColor[_status.ID].color;
 
             _selectedStatus = _status.ID;
-            
+
             angular.element('.status').css({
                 'background-image': 'linear-gradient(' + _color + ',' + _color + '),linear-gradient(#D2D2D2,#D2D2D2)'
             });
@@ -494,29 +496,33 @@ Activity.controller('ActivityCtrl', ['$scope', '$location', 'AppDB', 'toastr', '
         //@Event on delete defected item [Where NewRecord = 1]
         $scope.onDelete = function (_defectedItem) {
 
-            //@Event get Status data on start up
-            AppDB._cameraAppDB.transaction(function (tx) {
+            var _confirmDlg = confirm('Would you like to delete item ?');
 
-                var _onQuerySuccess = function (tx, results) {
+            if (_confirmDlg === true) {
+                //@Event get Status data on start up
+                AppDB._cameraAppDB.transaction(function (tx) {
 
-                    $scope.$apply(function () {
+                    var _onQuerySuccess = function (tx, results) {
 
-                        $scope.getDefectedResults();
-                    });
+                        $scope.$apply(function () {
 
-                    toastr.success('Delete complete!', 'Information', {
-                        timeOut: 5000
-                    });
-                };
-                var _onQueryFailed = function (error) {
+                            $scope.getDefectedResults();
+                        });
 
-                    toastr.error('Error : TABLE DEFECTED', 'Error', {
-                        timeOut: 5000
-                    });
-                };
+                        toastr.success('Delete complete!', 'Information', {
+                            timeOut: 5000
+                        });
+                    };
+                    var _onQueryFailed = function (error) {
 
-                tx.executeSql('DELETE FROM DEFECTED WHERE DF_ID = ?;', [_defectedItem.DF_ID], _onQuerySuccess, _onQueryFailed);
-            });
+                        toastr.error('Error : TABLE DEFECTED', 'Error', {
+                            timeOut: 5000
+                        });
+                    };
+
+                    tx.executeSql('DELETE FROM DEFECTED WHERE DF_ID = ?;', [_defectedItem.DF_ID], _onQuerySuccess, _onQueryFailed);
+                });
+            }
         };
 
         //@Event om get status data
